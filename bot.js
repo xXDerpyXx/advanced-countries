@@ -1,4 +1,4 @@
-var token = "Mzg2Njg4NDE4MjI0Mjc1NDU2.DQTjLg.ZULZRhezhSx_rt0FWieF-VRAW58";
+var token = "meme";
 const Discord = require("discord.js");
 const client = new Discord.Client();
 var call = "!";
