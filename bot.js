@@ -685,9 +685,12 @@ client.on('message',msg =>{
 				if(x == null || y == null){
 					x=c.capital.x;
 					y=c.capital.y;
+				}else{
+					x = parseInt(content[1]);
+					y = parseInt(content[2]);
 				}
 				
-				canvasMap.makeImage(map,wars,x-10,y-10,x+10,y+10);
+				canvasMap.makeImage(map,wars,x-10,y-10,x+10,y+10,countries);
 				setTimeout(function(){
 					msg.channel.send('Map on ('+x+","+y+")",  {files: ["./img.png"]});
 				},500);
@@ -959,7 +962,7 @@ client.on('message',msg =>{
 			if(content[0] == call+"fullmap"){
 				save();
 				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				canvasMap.makeImage(map,wars,0,0,width,height);
+				canvasMap.makeImage(map,wars,0,0,width,height,countries);
 				setTimeout(function(){
 					msg.channel.send('The Whole Map!',  {files: ["./img.png"]});
 				},500);

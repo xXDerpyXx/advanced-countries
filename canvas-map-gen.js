@@ -7,7 +7,7 @@ const fs = require('fs');
 
 
 
-exports.makeImage = function(data,war,sx,sy,ex,ey){
+exports.makeImage = function(data,war,sx,sy,ex,ey,c){
 	 console.time('Time')
 	 canvas = new Canvas(WIDTH * (ex-sx), WIDTH * (ey-sy));
      ctx = canvas.getContext('2d');
@@ -47,17 +47,29 @@ exports.makeImage = function(data,war,sx,sy,ex,ey){
 
 				let color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
 				
+				for( k in c ){
+					if(x == c[k].capital.x && y == c[k].capital.y){
+						color = "rgb(255,255,0)";
+					}
+				}
+				var m = false;
+				
 				 if(war[x+"|"+y] != undefined){
 					color = "rgb(255,0,0)";
 				 }
-				
-				draw(e, x-sx, y-sy, colonised, color, border)
+				 
+				if(ex - x == (ex - sx) / 2 && ey - y == (ey - sy) / 2){
+					m = true;
+					console.log("centrist");
+				}
+				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
+				draw(e, y-sy, (((ex-x)-(ex-sx))+(ex-sx)), colonised, color, border,m)
 			}catch(err){
 				//console.log(err);
 			}
 		};
 	};
-	rotate270(canvas, ctx,(ey-sy)*WIDTH,(ex-sx)*WIDTH)
+	//rotate270(canvas, ctx,(ey-sy)*WIDTH,(ex-sx)*WIDTH)
 
 	fs.writeFile('./img.png', canvas.toBuffer(), (err) => { 
 		if(err) console.log(err) 
@@ -75,7 +87,7 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function draw(e, x, y, c, color, b) {
+function draw(e, x, y, c, color, b,m) {
 	
     ctx.fillStyle = b ?
         color // Border
@@ -90,6 +102,14 @@ function draw(e, x, y, c, color, b) {
         : rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
     if(color == "rgb(255,0,0)"){
 		ctx.fillStyle = color;
+	}
+	
+	if(color == "rgb(255,255,0)"){
+		ctx.fillStyle = color;
+	}
+	
+	if(m){
+		ctx.fillStyle = "#000000";
 	}
     ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH)
 }
