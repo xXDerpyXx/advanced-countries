@@ -53,9 +53,10 @@ exports.makeImage = function(data,war,sx,sy,ex,ey,c){
 					}
 				}
 				var m = false;
-				
+				var w = false;
 				 if(war[x+"|"+y] != undefined){
 					color = "rgb(255,0,0)";
+					w = true;
 				 }
 				 
 				if(ex - x == (ex - sx) / 2 && ey - y == (ey - sy) / 2){
@@ -63,7 +64,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey,c){
 					console.log("centrist");
 				}
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
-				draw(e, y-sy, (((ex-x)-(ex-sx))+(ex-sx)), colonised, color, border,m)
+				draw(e, y-sy, (((ex-x)-(ex-sx))+(ex-sx)), colonised, color, border,m,w)
 			}catch(err){
 				//console.log(err);
 			}
@@ -87,12 +88,10 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function draw(e, x, y, c, color, b,m) {
+function draw(e, x, y, c, color, b,m,w) {
 	
-    ctx.fillStyle = b ?
-        color // Border
-        : c ?
-        color : // Colonised
+    ctx.fillStyle =
+        //color // Border
         e < 7 && e > 0 ? 
         rgbToHex(0, (parseInt((e/7)*127)+127), 0) // Grass
         : e > 7 && e < 10 ? 
@@ -100,9 +99,7 @@ function draw(e, x, y, c, color, b,m) {
         : e > 10 ? 
         '#ffffff' // Snow
         : rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
-    if(color == "rgb(255,0,0)"){
-		ctx.fillStyle = color;
-	}
+    
 	
 	if(color == "rgb(255,255,0)"){
 		ctx.fillStyle = color;
@@ -112,6 +109,16 @@ function draw(e, x, y, c, color, b,m) {
 		ctx.fillStyle = "#000000";
 	}
     ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH)
+    
+    if(c || b){
+		ctx.fillStyle = color;
+		ctx.fillRect(((parseInt(x) + 1) * WIDTH)+1, ((parseInt(y) + 1) * WIDTH)+1, WIDTH-2, WIDTH-2)
+	}
+    
+    if(w){
+		ctx.fillStyle = color;
+		ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
+	}
 }
 
 function rotate270(canvas, ctx,height,width) {
