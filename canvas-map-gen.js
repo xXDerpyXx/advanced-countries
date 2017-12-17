@@ -5,9 +5,10 @@ const Canvas = require('canvas');
 const fs = require('fs');
 //    , data = JSON.parse(fs.readFileSync('./map.json', 'utf8'));
 
-console.time('Time')
+
 
 exports.makeImage = function(data,war,sx,sy,ex,ey){
+	 console.time('Time')
 	 canvas = new Canvas(WIDTH * (ex-sx), WIDTH * (ey-sy));
      ctx = canvas.getContext('2d');
 	
