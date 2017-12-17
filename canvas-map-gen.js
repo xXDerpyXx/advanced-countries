@@ -56,7 +56,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey){
 			}
 		};
 	};
-	rotate270(canvas, ctx,(ey-sy),(ex-sx))
+	rotate270(canvas, ctx,(ey-sy)*WIDTH,(ex-sx)*WIDTH)
 
 	fs.writeFile('./img.png', canvas.toBuffer(), (err) => { 
 		if(err) console.log(err) 
@@ -103,7 +103,7 @@ function rotate270(canvas, ctx,height,width) {
     
     
    //img.onload = function(){
-		ctx.drawImage(img, 0, 0,width,height)
+	ctx.drawImage(img, 0, 0,width,height)
 	//}
 }
 
