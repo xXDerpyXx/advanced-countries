@@ -8,7 +8,7 @@ const fs = require('fs');
 console.time('Time')
 
 exports.makeImage = function(data,war,sx,sy,ex,ey){
-	 canvas = new Canvas(WIDTH * (ex-sx), WIDTH * (sy-ey));
+	 canvas = new Canvas(WIDTH * (ex-sx), WIDTH * (ey-sy));
      ctx = canvas.getContext('2d');
 	
 	for(var x = sx; x < ex; x++){
