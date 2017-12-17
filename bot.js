@@ -953,7 +953,7 @@ client.on('message',msg =>{
 			if(content[0] == call+"fullmap"){
 				save();
 				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				canvasMap.makeImage(map,wars);
+				canvasMap.makeImage(map,wars,0,0,width,height);
 				setTimeout(function(){
 					msg.channel.send('The Whole Map!',  {files: ["./img.png"]});
 				},500);
