@@ -92,22 +92,22 @@ function draw(e, x, y, c, color, b) {
 
 function rotate270(canvas, ctx,height,width) {
     
-    let img = new Canvas.Image
-    img.src = canvas.toBuffer();
-    ctx.clearRect(0, 0, 1000, 1000);
+    //let img = new Canvas.Image
+    //img.src = canvas.toBuffer();
+    //ctx.clearRect(0, 0, 1000, 1000);
     
-    ctx.rotate(270 * Math.PI / 180);
+    //ctx.rotate(270 * Math.PI / 180);
     
     
    //img.onload = function(){
-	ctx.drawImage(img, 0, 0,width,height)
+	//ctx.drawImage(img, 0, 0,width,height)
 	
-	img.onload = function(){
+	//img.onload = function(){
 		fs.writeFile('./img.png', canvas.toBuffer(), (err) => { 
 			if(err) console.log(err) 
 			console.timeEnd('Time')
 		});
-	}
+	//}
 	//}
 }
 
