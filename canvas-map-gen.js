@@ -94,13 +94,13 @@ function draw(e, x, y, c, color, b) {
 
 function rotate270(canvas, ctx) {
     let img = new Canvas.Image
-    
-    img.src = canvas.toBuffer();
-    
     ctx.clearRect(0, 0, 1000, 1000);
     
     ctx.rotate(270 * Math.PI / 180);
-    setTimeout(function(){
+    img.src = canvas.toBuffer();
+    
+   
+    img.onload(function(){
 		ctx.drawImage(img, -img.width, 0)
 	},100);
 }
