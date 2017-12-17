@@ -14,7 +14,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey){
 	for(var x = sx; x < ex; x++){
 		for(var y = sy; y < ey; y++){
 			try{
-				//console.log(x+","+y);
+				console.log((x-sx)+","+(y-sy));
 				let e = data[x][y]['elevation']
 				let colonised = data[x][y]['owner'] !== 'none'
 
