@@ -191,7 +191,7 @@ class country{
 				this.capital = new location(Math.round(Math.random()*width),Math.round(Math.random()*height));
 				try{
 					owner = map[this.capital.x][this.capital.y].owner;
-					if(map[this.capital.x][this.capital.y].elevation > 3){
+					if(map[this.capital.x][this.capital.y].elevation > 3 && map[this.capital.x][this.capital.y].elevation < 0){
 						owner = "";
 					}
 				}catch(err){
@@ -206,7 +206,7 @@ class country{
 			for(var x = this.capital.x-2; x < this.capital.x+3; x++){
 				for(var y = this.capital.y-2; y < this.capital.y+3; y++){
 					try{
-						if(map[x][y].owner == "none"){
+						if(map[x][y].owner == "none" && map[x][y].elevation < 10 && map[x][y].elevation > 0){
 							map[x][y].owner = id;
 						}
 					}catch(err){
