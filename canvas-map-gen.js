@@ -12,7 +12,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey){
      ctx = canvas.getContext('2d');
 	
 	for(var x = sx; x < ex; x++){
-		for(var y = sy; y < sy; y++){
+		for(var y = sy; y < ey; y++){
 			try{
 				let e = data[x][y]['elevation']
 				let colonised = data[x][y]['owner'] !== 'none'
