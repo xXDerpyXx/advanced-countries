@@ -14,6 +14,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey){
 	for(var x = sx; x < ex; x++){
 		for(var y = sy; y < ey; y++){
 			try{
+				//console.log(x+","+y);
 				let e = data[x][y]['elevation']
 				let colonised = data[x][y]['owner'] !== 'none'
 
@@ -51,11 +52,11 @@ exports.makeImage = function(data,war,sx,sy,ex,ey){
 				
 				draw(e, x, y, colonised, color, border)
 			}catch(err){
-				
+				//console.log(err);
 			}
 		};
 	};
-	rotate270(canvas, ctx)
+	rotate270(canvas, ctx,(ey-sy),(ex-sx))
 
 	fs.writeFile('./img.png', canvas.toBuffer(), (err) => { 
 		if(err) console.log(err) 
@@ -92,15 +93,17 @@ function draw(e, x, y, c, color, b) {
     ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH)
 }
 
-function rotate270(canvas, ctx) {
+function rotate270(canvas, ctx,height,width) {
+    
     let img = new Canvas.Image
+    img.src = canvas.toBuffer();
     ctx.clearRect(0, 0, 1000, 1000);
     
     ctx.rotate(270 * Math.PI / 180);
-    img.src = canvas.toBuffer();
+    
     
    //img.onload = function(){
-		ctx.drawImage(img, 0, 0,canvas.width,canvas.height)
+		ctx.drawImage(img, 0, 0,width,height)
 	//}
 }
 
