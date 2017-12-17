@@ -686,8 +686,14 @@ client.on('message',msg =>{
 					x=c.capital.x;
 					y=c.capital.y;
 				}
-				msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
-				msg.channel.send("Center of ("+y+","+x+")");
+				
+				canvasMap.makeImage(map,wars,x-10,y-10,x+10,y+10);
+				setTimeout(function(){
+					msg.channel.send('Map on ('+x+","+y+")",  {files: ["./img.png"]});
+				},500);
+				
+				//msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
+				//msg.channel.send("Center of ("+y+","+x+")");
 			}
 			if(content[0] == call+"stats"){
 				var temp = "";
