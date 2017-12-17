@@ -3,8 +3,6 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var call = "!";
 const fs = require("fs");
-const canvasMap = require("./canvas-map-gen.js");
-
 
 var countries = {};
 var map = {};
@@ -19,46 +17,20 @@ class cell{
 		this.x = x;
 		this.y = y;
 		this.resource = Math.round(Math.random()*10);
-		this.elevation = Math.round(Math.random()*10);
-		/*
-		if(Math.round(Math.random()*10) >8){
-			this.elevation = 20;
-		}*/
+		this.elevation = 0;
 		this.climate = 0;
 		this.owner = "none";
 	}
 }
 
-class economy{
-	constructor(){
-		this.name;
-		this.loyaltyEffect = 0;
-		this.resourceEffect = 0;
-		this.warEffect = 0;
-		this.overpopulationEffect = 0;
-	}
-}
-
-class government{
-	constructor(){
-		this.name;
-		this.loyaltyEffect = 0;
-		this.resourceEffect = 0;
-		this.warEffect = 0;
-		this.overpopulationEffect = 0;
-	}
-}
-
-economies = {};
-governments = {};
 
 class war{
 	constructor(a,d,x,y){
-		this.attacker = a;Math.round(Math.random()*10);
+		this.attacker = a;
 		this.defender = d;
 		this.aForce = 0;
 		this.dForce = 0;
-		this.cell = map[x][y];
+		this.cell = map[(x+width)%width][(y+height)%height];
 		this.x = x;
 		this.y = y;
 	}
@@ -83,43 +55,9 @@ try{
 	for(var x = 0; x < width; x++){
 		map[x] = {};
 		for(var y = 0; y < height; y++){
-			map[x][y] = new cell(x,y);
+			map[(x+width)%width][(y+height)%height] = new cell(x,y);
 		}
 	} 
-	
-	for(var k = 0; k < 10; k++){
-		for(var x = 0; x < width; x++){
-			for(var y = 0; y < height; y++){
-				var total = 0;
-				var count = 0;
-				for(var i = x-1; i < x+2; i++){
-					for(var j = y-1; j < y+2; j++){
-						try{
-							total += map[i][j].elevation;
-							count++;
-							//console.log(count);
-						}catch(err){
-							//console.log(err);
-						}
-					}
-				}
-				if(count>0){
-					
-					map[x][y].elevation = (total/count)+(((Math.round(Math.random()*10))-5)/5);
-					if(map[x][y].elevation>7){
-						map[x][y].elevation = map[x][y].elevation+0.5;
-					}else if(map[x][y].elevation<3){
-						map[x][y].elevation = map[x][y].elevation-0.75;
-					}else{
-						
-					}
-					
-				}
-				console.log(map[x][y].elevation);
-			}
-		} 
-	}
-	
 	save();
 }
 
@@ -181,7 +119,6 @@ class country{
 		this.ownedCells = 0;
 		this.population.size = 1000;
 		this.population.loyalty = 1;
-		this.population.sway = 0;
 		this.population.manpower = 0.2;
 		this.capital = new location(Math.round(Math.random()*width),Math.round(Math.random()*height));
 		var tries = 0;
@@ -191,9 +128,6 @@ class country{
 				this.capital = new location(Math.round(Math.random()*width),Math.round(Math.random()*height));
 				try{
 					owner = map[this.capital.x][this.capital.y].owner;
-					if(map[this.capital.x][this.capital.y].elevation > 3){
-						owner = "";
-					}
 				}catch(err){
 					
 				}
@@ -206,8 +140,8 @@ class country{
 			for(var x = this.capital.x-2; x < this.capital.x+3; x++){
 				for(var y = this.capital.y-2; y < this.capital.y+3; y++){
 					try{
-						if(map[x][y].owner == "none"){
-							map[x][y].owner = id;
+						if(map[(x+width)%width][(y+height)%height].owner == "none"){
+							map[(x+width)%width][(y+height)%height].owner = id;
 						}
 					}catch(err){
 						
@@ -218,7 +152,7 @@ class country{
 			for(var x = this.capital.x-1; x < this.capital.x+2; x++){
 				for(var y = this.capital.y-1; y < this.capital.y+2; y++){
 					try{
-						map[x][y].owner = id;
+						map[(x+width)%width][(y+height)%height].owner = id;
 					}catch(err){
 						
 					}
@@ -251,29 +185,29 @@ function getOwnedCells(c){
 
 var wars = {};
 
-function getLocalMap(sx,sy,width,height,c){
+function getLocalMap(sx,sy,innerWidth,innerheight,c){
 	temp = "";
-	//console.log((sx-width)+","+(sx+width)+"|"+(sy-height)+","+(sy+height));
+	//console.log((sx-innerWidth)+","+(sx+innerWidth)+"|"+(sy-innerheight)+","+(sy+innerheight));
 	try{
-		for(var x = parseInt(sx)+parseInt(width); x > (sx-width)-1; x--){
-			for(var y = sy-height; y < parseInt(sy)+parseInt(height)+1; y++){
+		for(var x = parseInt(sx)+parseInt(innerWidth); x > (sx-innerWidth)-1; x--){
+			for(var y = sy-innerheight; y < parseInt(sy)+parseInt(innerheight)+1; y++){
 				try{
 					if(x == sx && y == sy){
 						temp+="+";
 					}else{
-						if(wars[x+"|"+y] != undefined){
+						if(wars[((x+width)%width)+"|"+((y+height)%height)] != undefined){
 							temp+="░";
 						}else{
 							
-							if(countries[map[x][y].owner] != undefined){
-								if(countries[map[x][y].owner].capital.x == x && countries[map[x][y].owner].capital.y == y){
+							if(countries[map[(x+width)%width][(y+height)%height].owner] != undefined){
+								if(countries[map[(x+width)%width][(y+height)%height].owner].capital.x == x && countries[map[(x+width)%width][(y+height)%height].owner].capital.y == y){
 									temp += "*";
 								}else{
 									try{
-										var o = map[x][y].owner;
-										if((map[x+1][y].owner != o || map[x-1][y].owner != o || map[x][y+1].owner != o || map[x][y-1].owner != o) && wars[x+"|"+y] == undefined){
+										var o = map[(x+width)%width][(y+height)%height].owner;
+										if((map[((x+width)%width)+1][(y+height)%height].owner != o || map[((x+width)%width)-1][(y+height)%height].owner != o || map[((x+width)%width)][((y+height)%height)+1].owner != o || map[((x+width)%width)][((y+height)%height)-1].owner != o) && wars[((x+width)%width)+"|"+((y+height)%height)] == undefined){
 											if(countries[o] != undefined){
-												if((countries[o].allies.includes(map[x+1][y].owner) && map[x+1][y].owner!=o) || (countries[o].allies.includes(map[x-1][y].owner)&& map[x-1][y].owner!=o) || (countries[o].allies.includes(map[x][y+1].owner)&& map[x][y+1].owner!=o) || (countries[o].allies.includes(map[x][y-1].owner)&& map[x][y-1].owner!=o)){ 
+												if((countries[o].allies.includes(map[((x+width)%width)+1][((y+height)%height)].owner) && map[((x+width)%width)+1][((y+height)%height)].owner!=o) || (countries[o].allies.includes(map[((x+width)%width)-1][((y+height)%height)].owner)&& map[((x+width)%width)-1][y].owner!=o) || (countries[o].allies.includes(map[((x+width)%width)][((y+height)%height)+1].owner)&& map[((x+width)%width)][((y+height)%height)+1].owner!=o) || (countries[o].allies.includes(map[((x+width)%width)][((y+height)%height)-1].owner)&& map[((x+width)%width)][((y+height)%height)-1].owner!=o)){ 
 													temp+="▓";
 												}else{
 													temp+="█";
@@ -282,35 +216,18 @@ function getLocalMap(sx,sy,width,height,c){
 												temp+="█";
 											}
 										}else{
-											temp += countries[map[x][y].owner].name.charAt(0);
+											temp += countries[map[(x+width)%width][(y+height)%height].owner].name.charAt(0);
 										}
 										
 										
 									}catch(err){
-										temp += countries[map[x][y].owner].name.charAt(0);
+										temp += countries[map[(x+width)%width][(y+height)%height].owner].name.charAt(0);
 										//console.log(err);
 									}
 								}
 							}else{
-								if(map[x][y].elevation > 5){
-									if(map[x][y].elevation > 7){
-										if(map[x][y].elevation > 9){
-											temp+="^";
-										}else{
-											temp+="x";
-										}
-									}else{
-										temp+=".";
-									}
-								}else{
-									if(map[x][y].elevation < 0){
-										temp+="~";
-									}else{
-										temp += " ";
-									}
-								}
-								
-								//map[x][y].own▓er = "none";
+								temp += " ";
+								//map[(x+width)%width][(y+height)%height].own▓er = "none";
 							}
 						}
 					}
@@ -340,15 +257,16 @@ function tick(repeat){
 	popGrowth = {};
 	for(c in countries){
 		countries[c].ownedCells = getOwnedCells(countries[c]);
+		console.log(countries[c]);
 		popGrowth[c] = {};
 		popGrowth[c]["start"] = countries[c].population.size;
 	}
 	for(x in map){
 		for(y in map[x]){
-			if(countries[map[x][y].owner] != undefined){
-				countries[map[x][y].owner].resource += map[x][y].resource;
-				if(countries[map[x][y].owner].population.size > countries[map[x][y].owner].ownedCells * 1000){
-					countries[map[x][y].owner].population.size = countries[map[x][y].owner].ownedCells * 1000
+			if(countries[map[(x+width)%width][(y+height)%height].owner] != undefined){
+				countries[map[(x+width)%width][(y+height)%height].owner].resource += map[(x+width)%width][(y+height)%height].resource;
+				if(countries[map[(x+width)%width][(y+height)%height].owner].population.size > countries[map[(x+width)%width][(y+height)%height].owner].ownedCells * 1000){
+					countries[map[(x+width)%width][(y+height)%height].owner].population.size = countries[map[(x+width)%width][(y+height)%height].owner].ownedCells * 1000
 				}
 			}
 		}
@@ -361,8 +279,8 @@ function tick(repeat){
 			//console.log(countries[c].name+" fell due to population concerns: "+countries[c].population.size);
 			for(x in map){
 				for(y in map[x]){
-					if(map[x][y].owner == c){
-						map[x][y].owner = "none";
+					if(map[(x+width)%width][(y+height)%height].owner == c){
+						map[(x+width)%width][(y+height)%height].owner = "none";
 					}
 				}
 			}
@@ -377,82 +295,82 @@ function tick(repeat){
 		}
 	}
 	var wcount = 0;
-	for(w in wars)
+	for(w in wars){
 		wcount++;
+		console.log(w);
+	}
 	console.log("===================================");
 	console.log("there are "+wcount+" wars currently");
 	for(w in wars){
 		try{
-			if(map[wars[w].x][wars[w].y].elevation > 0 && map[wars[w].x][wars[w].y].elevation < 10 && (countries[wars[w].attacker].population.manpower)*10 > (Math.random()*(map[wars[w].x][wars[w].y].elevation)) ){
-				if(map[wars[w].x][wars[w].y].owner == "none"){
-					if(Math.random() < 0.8){
-						map[wars[w].x][wars[w].y].owner = wars[w].attacker;
-					}
-				}else{
-						for(var x = parseInt(wars[w].x)-1;x<parseInt(wars[w].x)+2;x++){
-							for(var y = parseInt(wars[w].y)-1;y < parseInt(wars[w].y)+2;y++){
-								try{
-									if(map[x][y].owner == wars[w].attacker){
-										wars[w].aForce += ((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)*1.25)*(Math.random()*2);
-									}
-									if(wars[w].defender != "none"){
-										if(map[x][y].owner == wars[w].defender){
-											wars[w].dForce += ((countries[map[x][y].owner].population.size*countries[map[x][y].owner].population.manpower)/(countries[map[x][y].owner].ownedCells))*(Math.random()*2);
-										}
-									}
-								}catch(err){
-									
-								}
-							}
-						}
-						//client.channels.find("id","386688984845123587").send("War, "+wars[w].aForce+" force vs "+wars[w].dForce+" force");
-					if(wars[w].aForce > wars[w].dForce && Math.random() < 0.8){
-						//client.channels.find("id","386688984845123587").send("War won by "+countries[wars[w].attacker].name+", won with "+wars[w].aForce+" force");
-						if(warVictories[wars[w].attacker] == undefined){
-							warVictories[wars[w].attacker] = 1;
-						}else{
-							warVictories[wars[w].attacker] += 1;
-						}
-						map[wars[w].x][wars[w].y].owner = wars[w].attacker;
-						if(wars[w].defender != "none"){
-							countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
-							countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
-						}
-						if(wars[w].defender != "none"){
-							if(wars[w].x == countries[wars[w].defender].capital.x && wars[w].y == countries[wars[w].defender].capital.y){
-								//client.channels.find("id","386688984845123587").send(countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">");
-								for(x in map){
-									for(y in map[x]){
-										if(map[x][y].owner == wars[w].defender){
-											map[x][y].owner = "none";
-										}
-									}
-								}
-								report+=countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">\n";
-								delete countries[wars[w].defender];
-								if(countries[v].name != undefined){
-					tempCount++;
-					try{
-						report+=countries[v].name+" claimed "+warVictories[v]+" cells of land\n";
-					}catch(err){
-						
-					}
+			if(map[(wars[w].x+width)%width][(wars[w].y+height)/height].owner == "none"){
+				if(Math.random() < 0.8){
+					map[(wars[w].x+width)%width][(wars[w].y+height)/height].owner = wars[w].attacker;
 				}
-				//console.log(countries[wars[w].defender].name+" fell due to loosing a war");
+			}else{
+					for(var x = parseInt(wars[w].x)-1;x<parseInt(wars[w].x)+2;x++){
+						for(var y = parseInt(wars[w].y)-1;y < parseInt(wars[w].y)+2;y++){
+							try{
+								if(map[(x+width)%width][(y+height)%height].owner == wars[w].attacker){
+									wars[w].aForce += ((countries[map[(x+width)%width][(y+height)%height].owner].population.size * countries[map[(x+width)%width][(y+height)%height].owner].population.manpower) / (countries[map[(x+width)%width][(y+height)%height].owner].ownedCells)*1.25)*(Math.random()*2);
+								}
+								if(wars[w].defender != "none"){
+									if(map[(x+width)%width][(y+height)%height].owner == wars[w].defender){
+										wars[w].dForce += ((countries[map[(x+width)%width][(y+height)%height].owner].population.size*countries[map[(x+width)%width][(y+height)%height].owner].population.manpower)/(countries[map[(x+width)%width][(y+height)%height].owner].ownedCells))*(Math.random()*2);
+									}
+								}
+							}catch(err){
 								
 							}
 						}
-						var tempd = "none";
-						if(wars[w].defender != "none")
-							tempd = countries[wars[w].defender].name;
-						console.log(countries[wars[w].attacker].name+":"+wars[w].aForce+" captured "+wars[w].x+","+wars[w].y+" from "+tempd+":"+wars[w].dForce);
+					}
+					//client.channels.find("id","386688984845123587").send("War, "+wars[w].aForce+" force vs "+wars[w].dForce+" force");
+				if(wars[w].aForce > wars[w].dForce && Math.random() < 0.8){
+					//client.channels.find("id","386688984845123587").send("War won by "+countries[wars[w].attacker].name+", won with "+wars[w].aForce+" force");
+					if(warVictories[wars[w].attacker] == undefined){
+						warVictories[wars[w].attacker] = 1;
 					}else{
-						//client.channels.find("id","386688984845123587").send("War lost by "+countries[wars[w].attacker].name+", lost to "+wars[w].dForce+" force");
-						//console.log(countries[wars[w].defender].name+":"+wars[w].dForce+" defended "+wars[w].x+","+wars[w].y+" from "+countries[wars[w].attacker].name+":"+wars[w].aForce);
-						if(countries[wars[w].defender]!=undefined){
-							countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
-							countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
+						warVictories[wars[w].attacker] += 1;
+					}
+					map[(wars[w].x+width)%width][(wars[w].y+height)/height].owner = wars[w].attacker;
+					if(wars[w].defender != "none"){
+						countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
+						countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
+					}
+					if(wars[w].defender != "none"){
+						if(wars[w].x == countries[wars[w].defender].capital.x && wars[w].y == countries[wars[w].defender].capital.y){
+							//client.channels.find("id","386688984845123587").send(countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">");
+							for(x in map){
+								for(y in map[x]){
+									if(map[(x+width)%width][(y+height)%height].owner == wars[w].defender){
+										map[(x+width)%width][(y+height)%height].owner = "none";
+									}
+ 								}
+							}
+							report+=countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">\n";
+							delete countries[wars[w].defender];
+							if(countries[v].name != undefined){
+				tempCount++;
+				try{
+					report+=countries[v].name+" claimed "+warVictories[v]+" cells of land\n";
+				}catch(err){
+					
+				}
+			}
+			//console.log(countries[wars[w].defender].name+" fell due to loosing a war");
+							
 						}
+					}
+					var tempd = "none";
+					if(wars[w].defender != "none")
+						tempd = countries[wars[w].defender].name;
+					console.log(countries[wars[w].attacker].name+":"+wars[w].aForce+" captured "+wars[w].x+","+wars[w].y+" from "+tempd+":"+wars[w].dForce);
+				}else{
+					//client.channels.find("id","386688984845123587").send("War lost by "+countries[wars[w].attacker].name+", lost to "+wars[w].dForce+" force");
+					//console.log(countries[wars[w].defender].name+":"+wars[w].dForce+" defended "+wars[w].x+","+wars[w].y+" from "+countries[wars[w].attacker].name+":"+wars[w].aForce);
+					if(countries[wars[w].defender]!=undefined){
+						countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
+						countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
 					}
 				}
 			}
@@ -530,19 +448,19 @@ function tick(repeat){
 }
 
 function declareWar(x,y,a,d,warAll){
-	if(wars[x+"|"+y] == undefined){
-		if(map[x][y].owner == "none"){
-			if(wars[x+"|"+y] == undefined){
-				wars[x+"|"+y] = new war(a,"none",x,y);
+	if(wars[((x+width)%width)+"|"+((y+height)%height)] == undefined){
+		if(map[(x+width)%width][(y+height)%height].owner == "none"){
+			if(wars[((x+width)%width)+"|"+((y+height)%height)] == undefined){
+				wars[((x+width)%width)+"|"+((y+height)%height)] = new war(a,"none",x,y);
 				return null;
 			}
 		}
-		if(a != d && !(countries[a].allies.includes(d)) && (map[x][y].owner == d || warAll)){
+		if(a != d && !(countries[a].allies.includes(d)) && (map[(x+width)%width][(y+height)%height].owner == d || warAll)){
 			if(warAll){
-				d = map[x][y].owner;
+				d = map[(x+width)%width][(y+height)%height].owner;
 			}
-			if(wars[x+"|"+y] == undefined){
-				wars[x+"|"+y] = new war(a,d,x,y);
+			if(wars[((x+width)%width)+"|"+((y+height)%height)] == undefined){
+				wars[((x+width)%width)+"|"+((y+height)%height)] = new war(a,d,((x+width)%width),((y+height)%height));
 			}
 		}
 	}
@@ -659,8 +577,8 @@ client.on('message',msg =>{
 						for(var x = targetX-size; x<targetX+size+1; x++){
 							for(var y = targetY-size; y<targetY+size+1; y++){
 								try{
-									if(map[x][y].owner == id){
-										map[x][y].owner = target;
+									if(map[(x+width)%width][(y+height)%height].owner == id){
+										map[(x+width)%width][(y+height)%height].owner = target;
 										givenLand++;
 									}
 								}catch(err){
@@ -797,16 +715,16 @@ client.on('message',msg =>{
 						for(var x in map){
 							for(var y in map[x]){
 								var warable = false;
-								if(map[x][y].owner == target){
-									for(var i = parseInt(x) - left;i < parseInt(x) + right;i++){
-										for(var j = parseInt(y) - up;j < parseInt(y) + down;j++){
+								if(map[(x+width)%width][(y+height)%height].owner == target){
+									for(var i = parseInt((x+width)%width) - left;i < parseInt((x+width)%width) + (right);i++){
+										for(var j = parseInt((y+height)%height) - up;j < parseInt((y+height)%height) + (down);j++){
 											try{
-												if(map[i][j].owner == id){
+												if(map[(i+width)%width][(j+height)%height].owner == id){
 													warable = true;
 													break;
 												}
 											}catch(err){
-												
+												console.log(err)
 											}
 										}
 									}
@@ -824,23 +742,23 @@ client.on('message',msg =>{
 							for(var x in map){
 								for(var y in map[x]){
 									var warable = false;
-									if(map[x][y].owner != id){
-										for(var i = parseInt(x) - left;i < parseInt(x) + (right);i++){
-											for(var j = parseInt(y) - up;j < parseInt(y) + (down);j++){
+									if(map[(x+width)%width][(y+height)%height].owner != id){
+										for(var i = parseInt((x+width)%width) - left;i < parseInt((x+width)%width) + (right);i++){
+											for(var j = parseInt((y+height)%height) - up;j < parseInt((y+height)%height) + (down);j++){
 												try{
-													if(map[i][j].owner == id){
+													if(map[(i+width)%width][(j+height)%height].owner == id){
 														warable = true;
 														break;
 													}
 												}catch(err){
-													
+													console.log(err)
 												}
 											}
 										}
 									}
 									
 									if(warable){
-										declareWar(x,y,id,map[x][y].owner,false);
+										declareWar(x,y,id,map[(x+width)%width][(y+height)%height].owner,false);
 									}else{
 										
 									}
@@ -851,23 +769,23 @@ client.on('message',msg =>{
 							for(var x in map){
 								for(var y in map[x]){
 									var warable = false;
-									if(map[x][y].owner == "none"){
-										for(var i = parseInt(x) - left;i < parseInt(x) + (right);i++){
-											for(var j = parseInt(y) - up;j < parseInt(y) + (down);j++){
+									if(map[(x+width)%width][(y+height)%height].owner == "none"){
+										for(var i = parseInt((x+width)%width) - left;i < parseInt((x+width)%width) + (right);i++){
+											for(var j = parseInt((y+height)%height) - up;j < parseInt((y+height)%height) + (down);j++){
 												try{
-													if(map[i][j].owner == id){
+													if(map[(i+width)%width][(j+height)%height].owner == id){
 														warable = true;
 														break;
 													}
 												}catch(err){
-													
+													console.log(err)
 												}
 											}
 										}
 									}
 									
 									if(warable){
-										declareWar(x,y,id,map[x][y].owner,false);
+										declareWar(x,y,id,map[(x+width)%width][(y+height)%height].owner,false);
 									}else{
 										
 									}
@@ -898,11 +816,11 @@ client.on('message',msg =>{
 					x = c.capital.x;
 					y = c.capital.y;
 					var temp = Math.round(Math.random()*4);
-					while(wars[x+"|"+y] == undefined){
+					while(wars[((x+width)%width)+"|"+((y+height)%height)] == undefined){
 						x = parseInt(c.capital.x);
 						y = parseInt(c.capital.y);
 						var tries = 0;
-						while(map[x][y].owner == c.id && wars[x+"|"+y] == undefined && tries < 20000 && c.allies.includes(map[x][y].owner)){
+						while(map[(x+width)%width][(y+height)%height].owner == c.id && wars[((x+width)%width)+"|"+((y+height)%height)] == undefined && tries < 20000 && c.allies.includes(map[(x+width)%width][(y+height)%height].owner)){
 							//console.log(getLocalMap(x,y,3,3,c));
 							tries++;
 							if(temp == 1 && x < width-1)
@@ -927,10 +845,10 @@ client.on('message',msg =>{
 					if(temp == 4 && y > 1)
 						y++;
 						
-					//console.log(id+" vs "+map[x][y].owner);
-					if(!c.allies.includes(map[x][y].owner) && tries < 20000)
-						wars[x+"|"+y] = new war(id,map[x][y].owner,x,y);
-					//console.log(wars[x+"|"+y].attacker);
+					//console.log(id+" vs "+map[(x+width)%width][(y+height)%height].owner);
+					if(!c.allies.includes(map[(x+width)%width][(y+height)%height].owner) && tries < 20000)
+						wars[((x+width)%width)+"|"+((y+height)%height)] = new war(id,map[(x+width)%width][(y+height)%height].owner,x,y);
+					//console.log(wars[((x+width)%width)+"|"+((y+height)%height)].attacker);
 				}
 				msg.channel.send(
 "```markdown\n"+getLocalMap(x,y,5,5,c)+"```");
@@ -941,8 +859,8 @@ client.on('message',msg =>{
 			if(content[0] == call+"deletecountry"){
 				for(var x in map){
 					for(var y in map[x]){
-						if(map[x][y].owner == id){
-							map[x][y].owner = "none";
+						if(map[(x+width)%width][(y+height)%height].owner == id){
+							map[(x+width)%width][(y+height)%height].owner = "none";
 						}
 					}
 				}
@@ -952,11 +870,7 @@ client.on('message',msg =>{
 			
 			if(content[0] == call+"fullmap"){
 				save();
-				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				canvasMap.makeImage(map,wars);
-				setTimeout(function(){
-					msg.channel.send('The Whole Map!',  {files: ["./img.png"]});
-				},500);
+				msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
 				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
 			}
 			
@@ -993,8 +907,8 @@ client.on('message',msg =>{
 				msg.channel.send(countries[target].name+" got frickin' nuked");
 				for(var x in map){
 					for(var y in map[x]){
-						if(map[x][y].owner == target){
-							map[x][y].owner = "none";
+						if(map[(x+width)%width][(y+height)%height].owner == target){
+							map[(x+width)%width][(y+height)%height].owner = "none";
 						}
 					}
 				}
