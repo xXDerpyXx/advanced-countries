@@ -187,7 +187,7 @@ class country{
 		var tries = 0;
 		var owner = map[this.capital.x][this.capital.y].owner;
 		if(owner != "none"){
-			while(owner != "none" && tries < 200){
+			while(owner != "none"){ //&& tries < 200){
 				this.capital = new location(Math.round(Math.random()*width),Math.round(Math.random()*height));
 				try{
 					owner = map[this.capital.x][this.capital.y].owner;
@@ -200,7 +200,7 @@ class country{
 				tries++;
 			}
 		}
-		if(tries >199){
+		if(tries >1999){
 			this.population.size = 0;
 		}else{
 			for(var x = this.capital.x-2; x < this.capital.x+3; x++){
@@ -689,8 +689,14 @@ client.on('message',msg =>{
 					x = parseInt(content[1]);
 					y = parseInt(content[2]);
 				}
+				size = 10;
+				if(content[3] != undefined)
+					size = parseInt(content[3]);
+					
+				if(content[1] != undefined && content[2] == undefined)
+					size = parseInt(content[1]);
 				
-				canvasMap.makeImage(map,wars,x-10,y-10,x+10,y+10,countries);
+				canvasMap.makeImage(map,wars,x-size,y-size,x+size,y+size,countries);
 				setTimeout(function(){
 					msg.channel.send('Map on ('+x+","+y+")",  {files: ["./img.png"]});
 				},500);
