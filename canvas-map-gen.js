@@ -100,7 +100,7 @@ function rotate270(canvas, ctx) {
     img.src = canvas.toBuffer();
     
    
-    img.onload(function(){
+    setTimeout(function(){
 		ctx.drawImage(img, -img.width, 0)
 	},100);
 }
