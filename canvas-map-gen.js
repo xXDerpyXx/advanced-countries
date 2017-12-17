@@ -99,8 +99,9 @@ function rotate270(canvas, ctx) {
     ctx.rotate(270 * Math.PI / 180);
     img.src = canvas.toBuffer();
     
-   
-	ctx.drawImage(img, 0, 0,canvas.width,canvas.height)
+   img.onload = function(){
+		ctx.drawImage(img, 0, 0,canvas.width,canvas.height)
+	}
 }
 
 //makeImage();
