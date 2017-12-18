@@ -1,555 +1,269 @@
-var token = "Mzg2Njg4NDE4MjI0Mjc1NDU2.DQTjLg.ZULZRhezhSx_rt0FWieF-VRAW58";
+
+// Discord.js & fs
+
 const Discord = require("discord.js");
-const client = new Discord.Client();
-var call = "!";
-const fs = require("fs");
-const canvasMap = require("./canvas-map-gen.js");
+const client  =  new Discord.Client();
+const fs      = 	require("fs");
 
+// Functions and Config
 
-var countries = {};
-var map = {};
+const { formatMass, save, recursiveWait, getOwnedCells } = require('./modules/util.js')
+const { token, call, width, height, tickSpeed } = require('./config.js')
+const { generateMap, getLocalMap } = require('./modules/map.js')
+const { makeImage }   = require("./modules/canvas-map-gen.js");
+const { declareWar }   = require("./modules/war.js");
 
-var width = 100;
-var height = 100;
+// Classes
 
-var tickSpeed = 300000;
+const government = require('./struct/Government.js');
+const location   = require('./struct/Location.js');
+const economy    = require('./struct/Economy.js');
+const cell       = require('./struct/Cell.js');
+const war        = require('./struct/War.js');
 
-class cell{
-	constructor(x,y){
-		this.x = x;
-		this.y = y;
-		this.resource = Math.round(Math.random()*10);
-		this.elevation = Math.round(Math.random()*10);
-		/*
-		if(Math.round(Math.random()*10) >8){
-			this.elevation = 20;
-		}*/
-		this.climate = 0;
-		this.owner = "none";
-	}
-}
+let economies   = {};
+let governments = {};
 
-class economy{
-	constructor(){
-		this.name;
-		this.loyaltyEffect = 0;
-		this.resourceEffect = 0;
-		this.warEffect = 0;
-		this.overpopulationEffect = 0;
-	}
-}
+let countries = {};
+let map       = {};
 
-class government{
-	constructor(){
-		this.name;
-		this.loyaltyEffect = 0;
-		this.resourceEffect = 0;
-		this.warEffect = 0;
-		this.overpopulationEffect = 0;
-	}
-}
-
-economies = {};
-governments = {};
-
-class war{
-	constructor(a,d,x,y){
-		this.attacker = a;Math.round(Math.random()*10);
-		this.defender = d;
-		this.aForce = 0;
-		this.dForce = 0;
-		this.cell = map[x][y];
-		this.x = x;
-		this.y = y;
-	}
-}
-
-class location{
-	constructor(x,y){
-		this.x = x;
-		this.y = y;
-	}
-
-}
-
-try{
+try {
 	console.log("[LOADING DATA]");
-	countries = require("./data.json");
-	map = require("./map.json");
-}catch(err){
-	console.log("[FAILED TO LOAD!!! CREATING DATA]");
-	countries = {};
-	map = {};
-	for(var x = 0; x < width; x++){
-		map[x] = {};
-		for(var y = 0; y < height; y++){
-			map[x][y] = new cell(x,y);
-		}
-	} 
-	
-	for(var k = 0; k < 10; k++){
-		for(var x = 0; x < width; x++){
-			for(var y = 0; y < height; y++){
-				var total = 0;
-				var count = 0;
-				for(var i = x-1; i < x+2; i++){
-					for(var j = y-1; j < y+2; j++){
-						try{
-							total += map[i][j].elevation;
-							count++;
-							//console.log(count);
-						}catch(err){
-							//console.log(err);
-						}
-					}
-				}
-				if(count>0){
-					
-					map[x][y].elevation = (total/count)+(((Math.round(Math.random()*10))-5)/5);
-					if(map[x][y].elevation>7){
-						map[x][y].elevation = map[x][y].elevation+0.5;
-					}else if(map[x][y].elevation<3){
-						map[x][y].elevation = map[x][y].elevation-0.75;
-					}else{
-						
-					}
-					
-				}
-				console.log(map[x][y].elevation);
-			}
-		} 
-	}
-	
-	save();
-}
 
-function formatMass(val){
+	countries = require("./data/data.json");
+	map = require("./data/map.json");
+} catch(err) {
+	console.log("[FAILED TO LOAD, CREATING DATA]");
 	
-	if(Math.floor(val/1000)>1000){
-		var ton = Math.floor(val/(1000*1000));
-		var kg = Math.floor((val-ton)/1000);
-		var gram = Math.round((val-ton-kg)*10)/10;
-		var s = "";
-		if(ton>1){
-			s = "s";
-		}
-		return ton+" metric crap ton"+s+" "+kg+"kg "+gram+"g";
-	}else if(val>1000){
-		return Math.floor(val/1000)+"kg "+val%1000+"g";
-	}
-	return val+"g";
-}
-
-function save(){
-	temp = JSON.stringify(countries);
-	fs.writeFile('./data.json',temp,function(err) {
-		if(err) return console.error(err);
-	})
-	temp = JSON.stringify(map);
-	fs.writeFile('./map.json',temp,function(err) {
-		if(err) return console.error(err);
-	})
-	
-	fs.writeFile('./map.txt',getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"),function(err) {
-		if(err) return console.error(err);
-	})
-}
-
-function recursiveWait(p,time,total){
-	p.time = total-time;
-	if(time<total){
-		setTimeout(function(){
-			time++;
-			recursiveWait(p,time,total);
-		},1000);
-	}else{
-		people[p.id].canMine = true;
-	}
-}
-
-class country{
-	constructor(id,name){
-		this.id = id;
-		this.name = name;
-		this.owner = "Generic Ruler #"+Math.round(Math.random()*5000);
-		this.allies = [];
-		this.economyType = "capitalist";
-		this.governmentType = "dictatorship";
-		this.resource = 0;
-		this.allies[0] = id;
-		this.population = {};
-		this.ownedCells = 0;
-		this.population.size = 1000;
-		this.population.loyalty = 1;
-		this.population.sway = 0;
-		this.population.manpower = 0.2;
-		this.capital = new location(Math.round(Math.random()*width),Math.round(Math.random()*height));
-		var tries = 0;
-		var owner = map[this.capital.x][this.capital.y].owner;
-		if(owner != "none"){
-			while(owner != "none"){ //&& tries < 200){
-				this.capital = new location(Math.round(Math.random()*width),Math.round(Math.random()*height));
-				try{
-					owner = map[this.capital.x][this.capital.y].owner;
-					if(map[this.capital.x][this.capital.y].elevation > 3 && map[this.capital.x][this.capital.y].elevation < 0){
-						owner = "";
-					}
-				}catch(err){
-					
-				}
-				tries++;
-			}
-		}
-		if(tries >1999){
-			this.population.size = 0;
-		}else{
-			for(var x = this.capital.x-2; x < this.capital.x+3; x++){
-				for(var y = this.capital.y-2; y < this.capital.y+3; y++){
-					try{
-						if(map[x][y].owner == "none" && map[x][y].elevation < 10 && map[x][y].elevation > 0){
-							map[x][y].owner = id;
-						}
-					}catch(err){
-						
-					}
-				}
-			}
-			
-			for(var x = this.capital.x-1; x < this.capital.x+2; x++){
-				for(var y = this.capital.y-1; y < this.capital.y+2; y++){
-					try{
-						map[x][y].owner = id;
-					}catch(err){
-						
-					}
-				}
-			}
-			
-			map[this.capital.x][this.capital.y].owner = id;
-			save();
-		}
-		
-
-	}
-	
-	
-}
-
-function getOwnedCells(c){
-	var temp = 0
-	for(x in map){
-		for(y in map[x]){
-			if(countries[map[x][y].owner] != undefined){
-				if(map[x][y].owner == c.id){
-					temp++;
-				}
-			}
-		}
-	}
-	return temp;
+	map = generateMap()
+	save(countries, map);
 }
 
 var wars = {};
 
-function getLocalMap(sx,sy,width,height,c){
-	temp = "";
-	//console.log((sx-width)+","+(sx+width)+"|"+(sy-height)+","+(sy+height));
-	try{
-		for(var x = parseInt(sx)+parseInt(width); x > (sx-width)-1; x--){
-			for(var y = sy-height; y < parseInt(sy)+parseInt(height)+1; y++){
-				try{
-					if(x == sx && y == sy){
-						temp+="+";
-					}else{
-						if(wars[x+"|"+y] != undefined){
-							temp+="░";
-						}else{
-							
-							if(countries[map[x][y].owner] != undefined){
-								if(countries[map[x][y].owner].capital.x == x && countries[map[x][y].owner].capital.y == y){
-									temp += "*";
-								}else{
-									try{
-										var o = map[x][y].owner;
-										if((map[x+1][y].owner != o || map[x-1][y].owner != o || map[x][y+1].owner != o || map[x][y-1].owner != o) && wars[x+"|"+y] == undefined){
-											if(countries[o] != undefined){
-												if((countries[o].allies.includes(map[x+1][y].owner) && map[x+1][y].owner!=o) || (countries[o].allies.includes(map[x-1][y].owner)&& map[x-1][y].owner!=o) || (countries[o].allies.includes(map[x][y+1].owner)&& map[x][y+1].owner!=o) || (countries[o].allies.includes(map[x][y-1].owner)&& map[x][y-1].owner!=o)){ 
-													temp+="▓";
-												}else{
-													temp+="█";
-												}
-											}else{
-												temp+="█";
-											}
-										}else{
-											temp += countries[map[x][y].owner].name.charAt(0);
-										}
-										
-										
-									}catch(err){
-										temp += countries[map[x][y].owner].name.charAt(0);
-										//console.log(err);
-									}
-								}
-							}else{
-								if(map[x][y].elevation > 5){
-									if(map[x][y].elevation > 7){
-										if(map[x][y].elevation > 9){
-											temp+="^";
-										}else{
-											temp+="x";
-										}
-									}else{
-										temp+=".";
-									}
-								}else{
-									if(map[x][y].elevation < 0){
-										temp+="~";
-									}else{
-										temp += " ";
-									}
-								}
-								
-								//map[x][y].own▓er = "none";
-							}
-						}
-					}
-				}catch(err){
-					temp+="█";
-				}
-			}
-			temp+="\n";
-		}
-		//console.log(temp);
-		return temp;
-	}catch(err){
-		return "Error occured";
-	}
-}
-
-
-function tick(repeat){
+function tick(repeat) {
 	var report = "";
 	console.log("===================================");
 	console.log("   Today is a new day")
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
-	report+="========================\n";
-	report+="Daily news!\n";
-	report+="========================\n";
+	report += "========================\n";
+	report += "Daily news!\n";
+	report += "========================\n";
+
 	warVictories = {};
-	popGrowth = {};
-	for(c in countries){
-		countries[c].ownedCells = getOwnedCells(countries[c]);
+	popGrowth    = {};
+
+	for(c in countries) {
+		countries[c].ownedCells = getOwnedCells(countries[c], map, countries);
 		popGrowth[c] = {};
 		popGrowth[c]["start"] = countries[c].population.size;
 	}
-	for(x in map){
-		for(y in map[x]){
-			if(countries[map[x][y].owner] != undefined){
+
+	for(x in map) {
+		for(y in map[x]) {
+			if(countries[map[x][y].owner] != undefined) {
 				countries[map[x][y].owner].resource += map[x][y].resource;
-				if(countries[map[x][y].owner].population.size > countries[map[x][y].owner].ownedCells * 1000){
+				if(countries[map[x][y].owner].population.size > countries[map[x][y].owner].ownedCells * 1000) {
 					countries[map[x][y].owner].population.size = countries[map[x][y].owner].ownedCells * 1000
 				}
 			}
 		}
 	}
 	
-	for(c in countries){
-		if(countries[c].population.size < 1){
-			report+=countries[c].name+" HAS FALLEN!!! <@"+c+">\n";
+	for(c in countries) {
+		if(countries[c].population.size < 1) {
+			report += countries[c].name + " HAS FALLEN!!! <@"+c+">\n";
 			//client.channels.find("id","386688984845123587").send(countries[c].name+" HAS FALLEN!!! <@"+c+">");
 			//console.log(countries[c].name+" fell due to population concerns: "+countries[c].population.size);
-			for(x in map){
-				for(y in map[x]){
-					if(map[x][y].owner == c){
+			for(x in map) {
+				for(y in map[x]) {
+					if(map[x][y].owner == c) {
 						map[x][y].owner = "none";
 					}
 				}
 			}
+
 			delete countries[c];
 			
-			
-		}else{
+		} else {
 			countries[c].population.size += Math.round(countries[c].population.size*0.01); 
 			if(countries[c].population.size > countries[c].ownedCells * 1000){
 				countries[c].population.size = countries[c].ownedCells * 1000
 			}
 		}
 	}
+	
 	var wcount = 0;
-	for(w in wars)
-		wcount++;
+	for(w in wars) wcount++;
+
 	console.log("===================================");
-	console.log("there are "+wcount+" wars currently");
-	for(w in wars){
-		try{
-			if(map[wars[w].x][wars[w].y].elevation > 0 && map[wars[w].x][wars[w].y].elevation < 10 && (countries[wars[w].attacker].population.manpower)*10 > (Math.random()*(map[wars[w].x][wars[w].y].elevation)) ){
-				if(map[wars[w].x][wars[w].y].owner == "none"){
-					if(Math.random() < 0.8){
+	console.log("there are " + wcount + " wars currently");
+
+	for(w in wars) {
+		try {
+			if(map[wars[w].x][wars[w].y].elevation > 0 && map[wars[w].x][wars[w].y].elevation < 10 && (countries[wars[w].attacker].population.manpower) * 10 > (Math.random() * (map[wars[w].x][wars[w].y].elevation)) ) {
+				if(map[wars[w].x][wars[w].y].owner == "none") {
+					if(Math.random() < 0.8) {
 						map[wars[w].x][wars[w].y].owner = wars[w].attacker;
 					}
-				}else{
-						for(var x = parseInt(wars[w].x)-1;x<parseInt(wars[w].x)+2;x++){
-							for(var y = parseInt(wars[w].y)-1;y < parseInt(wars[w].y)+2;y++){
-								try{
-									if(map[x][y].owner == wars[w].attacker){
-										wars[w].aForce += ((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)*1.25)*(Math.random()*2);
+				} else {
+						for(var x = parseInt(wars[w].x) - 1; x < parseInt(wars[w].x) + 2; x++) {
+							for(var y = parseInt(wars[w].y) - 1; y < parseInt(wars[w].y) + 2; y++) {
+								try {
+									if(map[x][y].owner == wars[w].attacker) {
+										wars[w].aForce += ((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells) * 1.25) * (Math.random() * 2);
 									}
-									if(wars[w].defender != "none"){
-										if(map[x][y].owner == wars[w].defender){
-											wars[w].dForce += ((countries[map[x][y].owner].population.size*countries[map[x][y].owner].population.manpower)/(countries[map[x][y].owner].ownedCells))*(Math.random()*2);
+
+									if(wars[w].defender != "none") {
+										if(map[x][y].owner == wars[w].defender) {
+											wars[w].dForce += ((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2);
 										}
 									}
-								}catch(err){
+								} catch(err) {
 									
 								}
 							}
 						}
 						//client.channels.find("id","386688984845123587").send("War, "+wars[w].aForce+" force vs "+wars[w].dForce+" force");
-					if(wars[w].aForce > wars[w].dForce && Math.random() < 0.8){
+					if(wars[w].aForce > wars[w].dForce && Math.random() < 0.8) {
 						//client.channels.find("id","386688984845123587").send("War won by "+countries[wars[w].attacker].name+", won with "+wars[w].aForce+" force");
-						if(warVictories[wars[w].attacker] == undefined){
+						if(warVictories[wars[w].attacker] == undefined) {
 							warVictories[wars[w].attacker] = 1;
-						}else{
+						} else {
 							warVictories[wars[w].attacker] += 1;
 						}
+
 						map[wars[w].x][wars[w].y].owner = wars[w].attacker;
-						if(wars[w].defender != "none"){
+						if(wars[w].defender != "none") {
 							countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
 							countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
 						}
-						if(wars[w].defender != "none"){
-							if(wars[w].x == countries[wars[w].defender].capital.x && wars[w].y == countries[wars[w].defender].capital.y){
+						
+						if(wars[w].defender != "none") {
+							if(wars[w].x == countries[wars[w].defender].capital.x && wars[w].y == countries[wars[w].defender].capital.y) {
 								//client.channels.find("id","386688984845123587").send(countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">");
-								for(x in map){
-									for(y in map[x]){
-										if(map[x][y].owner == wars[w].defender){
+								for(x in map) {
+									for(y in map[x]) {
+										if(map[x][y].owner == wars[w].defender) {
 											map[x][y].owner = "none";
 										}
 									}
 								}
-								report+=countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">\n";
+								report += countries[wars[w].defender].name + " HAS FALLEN!!! <@" + wars[w].defender + ">\n";
+								
 								delete countries[wars[w].defender];
-								if(countries[v].name != undefined){
-					tempCount++;
-					try{
-						report+=countries[v].name+" claimed "+warVictories[v]+" cells of land\n";
-					}catch(err){
+
+								if(countries[v].name != undefined) {
+									tempCount++;
+									try {
+										report+=countries[v].name+" claimed "+warVictories[v]+" cells of land\n";
+									} catch(err) {
 						
-					}
+								}
 				}
 				//console.log(countries[wars[w].defender].name+" fell due to loosing a war");
 								
-							}
+					}
 						}
 						var tempd = "none";
-						if(wars[w].defender != "none")
-							tempd = countries[wars[w].defender].name;
-						console.log(countries[wars[w].attacker].name+":"+wars[w].aForce+" captured "+wars[w].x+","+wars[w].y+" from "+tempd+":"+wars[w].dForce);
-					}else{
+						if(wars[w].defender != "none") tempd = countries[wars[w].defender].name;
+						console.log(countries[wars[w].attacker].name + ":" + wars[w].aForce + " captured " + wars[w].x + "," + wars[w].y + " from " + tempd + ":" + wars[w].dForce);
+					} else {
 						//client.channels.find("id","386688984845123587").send("War lost by "+countries[wars[w].attacker].name+", lost to "+wars[w].dForce+" force");
 						//console.log(countries[wars[w].defender].name+":"+wars[w].dForce+" defended "+wars[w].x+","+wars[w].y+" from "+countries[wars[w].attacker].name+":"+wars[w].aForce);
-						if(countries[wars[w].defender]!=undefined){
+						if(countries[wars[w].defender] != undefined) {
 							countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
 							countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
 						}
 					}
 				}
 			}
-		}catch(err){
+		}catch(err) {
 			
 		}
 		//countries[w.attacker].name);
+
 		delete wars[w];
-		
-		
 	}
 	
 	var tempCount = 0;
-	for(v in warVictories){
-		try{
-			if(countries[v].name != undefined){
+	
+	for(v in warVictories) {
+		try {
+			if(countries[v].name != undefined) {
 				tempCount++;
-				try{
-					report+=countries[v].name+" claimed "+warVictories[v]+" cells of land\n";
-				}catch(err){
+
+				try {
+					report += countries[v].name + " claimed " + warVictories[v] + " cells of land\n";
+				} catch(err) {
 					
 				}
 			}
-		}catch(err){
+		} catch(err) {
+
 		}
 		
 	}
-	if(tempCount == 0)
-		report+="The world is at peace!\n";
+	if(tempCount == 0) report+="The world is at peace!\n";
+
 	report+="========================\n";
 	report+="Census ( Average force per cell )\n";
 	report+="========================\n";
+
 	var forceList = [];
 	var f = -1;
-	for(c in countries){
-		countries[c].ownedCells = getOwnedCells(countries[c]);
+
+	for(c in countries) {
+		countries[c].ownedCells = getOwnedCells(countries[c], map, countries);
 		f++;
 		forceList[f] = {};
 		forceList[f]["name"] = countries[c].name;
 		forceList[f]["force"] = (countries[c].population.size * countries[c].population.manpower) / (countries[c].ownedCells);
 	}
-	for(var j = 0; j<forceList.length; j++){
-		for(var i = 0; i<forceList.length-1; i++){
-			if(forceList[i].force < forceList[i+1].force){
-				var temp = forceList[i+1];
-				forceList[i+1] = forceList[i];
+
+	for(var j = 0; j < forceList.length; j++) {
+		for(var i = 0; i < forceList.length - 1; i++) {
+			if(forceList[i].force < forceList[i + 1].force) {
+				var temp = forceList[i + 1];
+				forceList[i + 1] = forceList[i];
 				forceList[i] = temp;
 			}
 		}
 	}
-	for(var f = 0; f<forceList.length; f++){
-		report+=forceList[f].name+": "+(Math.round(forceList[f].force*100)/100)+"\n";
+
+	for(var f = 0; f < forceList.length; f++) {
+		report += forceList[f].name + ": " + (Math.round(forceList[f].force*100)/100) + "\n";
 	}
+
 	report+="========================\n";
 	report+="   Population Growth\n";
 	report+="========================\n";
-	for(c in countries){
+
+	for(c in countries) {
 		prefix = "";
-		if(countries[c].population.size-popGrowth[c]["start"]>0){
-			prefix="+";
+
+		if(countries[c].population.size - popGrowth[c]["start"] > 0) {
+			prefix = "+";
 		}
-		report+=countries[c].name+": "+prefix+( countries[c].population.size-popGrowth[c]["start"])+"\n";
+
+		report += countries[c].name + ": " + prefix + ( countries[c].population.size - popGrowth[c]["start"]) + "\n";
 	}
-	report+="========================\n";
-	client.channels.find("id","386688984845123587").send(report);
+
+	report += "========================\n";
+
+	client.guilds.first().channels.find("name", "daily-news").send(report);
 	
-	
-	
-	save();
-	if(repeat){
-		setTimeout(function(){
+	save(countries, map);
+
+	if(repeat) {
+		setTimeout(() => {
 			tick(true);
-		},tickSpeed);
+		}, tickSpeed);
 	}
 }
 
-function declareWar(x,y,a,d,warAll){
-	if(wars[x+"|"+y] == undefined){
-		if(map[x][y].owner == "none"){
-			if(wars[x+"|"+y] == undefined){
-				wars[x+"|"+y] = new war(a,"none",x,y);
-				return null;
-			}
-		}
-		if(a != d && !(countries[a].allies.includes(d)) && (map[x][y].owner == d || warAll)){
-			if(warAll){
-				d = map[x][y].owner;
-			}
-			if(wars[x+"|"+y] == undefined){
-				wars[x+"|"+y] = new war(a,d,x,y);
-			}
-		}
-	}
-}
-
-client.on('message',msg =>{
-	try{
+client.on('message',msg => {
+	try {
 		id = msg.author.id;
 		c = countries[id];
 		content = msg.content.toLowerCase().split(" ");
@@ -562,7 +276,7 @@ client.on('message',msg =>{
 				}else{
 					countries[id] = new country(id,msg.content.split(" ")[1]);
 					msg.channel.send("You've created the country of "+msg.content.split(" ")[1]);
-					save();
+					save(countries, map);
 				}
 			}
 			
@@ -690,16 +404,25 @@ client.on('message',msg =>{
 					y = parseInt(content[2]);
 				}
 				size = 10;
-				if(content[3] != undefined)
+				if(content[3] != undefined) {
 					size = parseInt(content[3]);
+				} else size = 10;
 					
 				if(content[1] != undefined && content[2] == undefined)
 					size = parseInt(content[1]);
+
+				console.log(size)
 				
-				canvasMap.makeImage(map,wars,x-size,y-size,x+size,y+size,countries);
+				let buffer = makeImage(map, wars, x - size, y - size, parseInt(x) + size, parseInt(y) + size, countries);
+
 				setTimeout(function(){
-					msg.channel.send('Map on ('+x+","+y+")",  {files: ["./img.png"]});
-				},500);
+					    msg.channel.send(`Center of ${y} ${x}`, {
+             				files: [{
+            					attachment: buffer,
+            					name: `${y}-${x}.png`,
+        					}],
+						});
+				}, 500);
 				
 				//msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
 				//msg.channel.send("Center of ("+y+","+x+")");
@@ -731,7 +454,7 @@ client.on('message',msg =>{
 				if(content[1]!=undefined && content[1].charCodeAt(0)<=255 && content[0].length>1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")){
 					msg.channel.send("The country of "+countries[id].name+" is now "+msg.content.split(" ")[1]);
 					countries[id].name = msg.content.split(" ")[1];
-					save();
+					save(countries, map);
 				}else{
 					msg.channel.send("You need a real name....");
 				}
@@ -743,7 +466,7 @@ client.on('message',msg =>{
 						if(content[1] >= 0){
 							countries[id].population.manpower = parseFloat(content[1]/100);
 							msg.channel.send("Manpower set to "+content[1]+"%");
-							save();
+							save(countries, map);
 						}else{
 							msg.channel.send("Manpower too low!");
 						}
@@ -828,7 +551,7 @@ client.on('message',msg =>{
 								}
 								
 								if(warable){
-									declareWar(x,y,id,target,false);
+									declareWar(x,y,id,target,false, wars, map);
 								}else{
 									
 								}
@@ -855,7 +578,7 @@ client.on('message',msg =>{
 									}
 									
 									if(warable){
-										declareWar(x,y,id,map[x][y].owner,false);
+										declareWar(x,y,id,map[x][y].owner,false, wars, map);
 									}else{
 										
 									}
@@ -882,7 +605,7 @@ client.on('message',msg =>{
 									}
 									
 									if(warable){
-										declareWar(x,y,id,map[x][y].owner,false);
+										declareWar(x,y,id,map[x][y].owner,false, wars, map);
 									}else{
 										
 									}
@@ -966,12 +689,18 @@ client.on('message',msg =>{
 			}
 			
 			if(content[0] == call+"fullmap"){
-				save();
+				save(countries, map);
 				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				canvasMap.makeImage(map,wars,0,0,width,height,countries);
+				let buffer = makeImage(map,wars,0,0,width,height,countries);
+
 				setTimeout(function(){
-					msg.channel.send('The Whole Map!',  {files: ["./img.png"]});
-				},500);
+					    msg.channel.send({
+        					files: [{
+            					attachment: buffer,
+            					name: `map.png`,
+        					}],
+						});
+				}, 500);
 				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
 			}
 			
@@ -997,7 +726,7 @@ client.on('message',msg =>{
 		
 		}
 		
-		if(msg.author.id == "246589957165023232" || msg.author.id == "338914218470539266"){
+		if(msg.author.id == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
 			if(content[0] == call+"tick"){
 				tick(false);
 				msg.channel.send("tick forced!!! do not do this unless bugfixing!!!");
@@ -1050,12 +779,84 @@ client.on('message',msg =>{
 		msg.channel.send("Ow! error!");
 	}
 });
-client.login(token);
 /*
 setTimeout(function(){
 
 },600000);
 */
-setTimeout(function(){
-tick(true);
-},1000);
+
+client.on('ready', () => {
+	setTimeout(() => tick(true), 1000);
+})
+
+//###############################
+//#        Country Class        #
+//###############################
+
+class country {
+	constructor(id, name){ 
+		this.id = id;
+		this.name = name;
+		this.owner = "Generic Ruler #" + Math.round(Math.random() * 5000);
+		this.allies = [];
+		this.economyType = "capitalist";
+		this.governmentType = "dictatorship";
+		this.resource = 0;
+		this.allies[0] = id;
+		this.population = {};
+		this.ownedCells = 0;
+		this.population.size = 1000;
+		this.population.loyalty = 1;
+		this.population.sway = 0;
+		this.population.manpower = 0.2;
+		this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+		console.log(this.capital.x, this.capital.y)
+		var owner = map[this.capital.x][this.capital.y].owner;
+		let tries = 0;
+		if(owner != "none") {
+			while(owner != "none") { //&& tries < 200){
+				this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+				try {
+					owner = map[this.capital.x][this.capital.y].owner;
+					if(map[this.capital.x][this.capital.y].elevation > 3 && map[this.capital.x][this.capital.y].elevation < 0){
+						owner = "";
+					}
+				} catch(err) {
+					
+                }
+                
+				tries++;
+			}
+		}
+		if(tries > 1999) {
+			this.population.size = 0;
+		} else {
+			for(var x = this.capital.x-2; x < this.capital.x+3; x++) {
+				for(var y = this.capital.y - 2; y < this.capital.y + 3; y++) {
+					try {
+						if(map[x][y].owner == "none" && map[x][y].elevation < 10 && map[x][y].elevation > 0) {
+							map[x][y].owner = id;
+						}
+					} catch(err) {
+						
+					}
+				}
+			}
+			
+			for(var x = this.capital.x - 1; x < this.capital.x + 2; x++) {
+				for(var y = this.capital.y - 1; y < this.capital.y + 2; y++) {
+					try {
+						map[x][y].owner = id;
+					} catch(err) {
+						
+					}
+				}
+			}
+			
+			map[this.capital.x][this.capital.y].owner = id;
+			save(countries, map);
+		}
+	}
+}
+
+client.login(token)
