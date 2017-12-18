@@ -324,7 +324,9 @@ client.on('message',msg => {
 				msg.channel.send(temp);
 			}
 			
-			if(content[0] == call+"allies"){
+			if(content[0] == call+"allies") {
+				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
+
 				temp = "";
 				for(k in countries[id].allies){
 					try{
@@ -390,10 +392,13 @@ client.on('message',msg => {
 			}
 			
 			if(content[0] == call+"force"){
-				msg.channel.send("you have "+((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells))+" force on average per cell");
+				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
+				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() : 'You'} have `+((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells))+" force on average per cell");
 			}
 			
 			if(content[0] == call+"map"){
+				if(msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];				
+
 				var x = content[2];
 				var y = content[1];
 				if(x == null || y == null){
@@ -408,7 +413,7 @@ client.on('message',msg => {
 					size = parseInt(content[3]);
 				} else size = 10;
 					
-				if(content[1] != undefined && content[2] == undefined)
+				if(content[1] != undefined && content[2] == undefined && !isNaN(content[1]))
 					size = parseInt(content[1]);
 
 				console.log(size)
@@ -428,6 +433,8 @@ client.on('message',msg => {
 				//msg.channel.send("Center of ("+y+","+x+")");
 			}
 			if(content[0] == call+"stats"){
+				if(msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
+
 				var temp = "";
 				for(k in c){
 					temp+=k+":"+c[k]+"\n";
@@ -774,7 +781,7 @@ client.on('message',msg => {
 			}
 			
 		}
-	}catch(err){
+	} catch(err) {
 		console.log(err);
 		msg.channel.send("Ow! error!");
 	}
