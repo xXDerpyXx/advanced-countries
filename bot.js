@@ -732,6 +732,15 @@ client.on('message',msg => {
 			}
 		
 		}
+
+		if(content[0] == call+"whois"){
+			if(msg.mentions.members.first()) {
+				id = msg.mentions.members.first().id, c = countries[id];
+				msg.channel.send(`${msg.mentions.members.first().toString()} is the country of '${c.name}'`);
+			} else {
+				msg.channel.send('Please actually mention someone...')
+			}
+		}
 		
 		if(msg.author.id == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
 			if(content[0] == call+"tick"){
