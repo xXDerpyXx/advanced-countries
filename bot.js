@@ -268,7 +268,7 @@ client.on('message',msg => {
 		c = countries[id];
 		content = msg.content.toLowerCase().split(" ");
 		if(c == undefined){
-			if(content[0] == call+"makecountry"){
+			if(content[0] == call+"makecountry") {
 				//console.log(content[1]);
 				if(content[1] == undefined && content[1].charCodeAt(0)<=255 && content[0].length>1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")){
 					msg.channel.send("You need to specify a name! `"+call+"makecountry [name]` and the first char has to be ascii");
@@ -437,10 +437,10 @@ client.on('message',msg => {
 
 				var temp = "";
 				for(k in c){
-					temp+=k+":"+c[k]+"\n";
+					temp+=k+": "+c[k]+"\n";
 				}
 				for(k in c.population){
-					temp+=k+":"+c.population[k]+"\n";
+					temp+=k+": "+c.population[k]+"\n";
 				}
 				msg.channel.send(temp);
 			}
@@ -813,7 +813,7 @@ class country {
 	constructor(id, name){ 
 		this.id = id;
 		this.name = name;
-		this.owner = "Generic Ruler #" + Math.round(Math.random() * 5000);
+		this.owner = client.users.get(id).tag
 		this.allies = [];
 		this.economyType = "capitalist";
 		this.governmentType = "dictatorship";

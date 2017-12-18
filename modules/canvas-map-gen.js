@@ -5,7 +5,7 @@ const Canvas = require('canvas');
 const fs = require('fs');
 //    , data = JSON.parse(fs.readFileSync('./map.json', 'utf8'));
 
-exports.makeImage = function(data,war,sx,sy,ex,ey,c) {
+exports.makeImage = function(data, war, sx, sy, ex, ey, c) {
 	ex = parseInt(ex)
 	ey = parseInt(ey)
 
@@ -55,7 +55,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey,c) {
 				}
 				var m = false;
 				var w = false;
-				 if(war[x+"|"+y] != undefined){
+				 if(war[x + "|" + y] != undefined){
 					color = "rgb(255,0,0)";
 					w = true;
 				 }
@@ -65,7 +65,7 @@ exports.makeImage = function(data,war,sx,sy,ex,ey,c) {
 					console.log("centrist");
 				}
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
-				draw(e, y-sy, (((ex-x)-(ex-sx))+(ex-sx)), colonised, color, border,m,w)
+				draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), colonised, color, border, m, w)
 			}catch(err){
 				//console.log(err);
 			}
