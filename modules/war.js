@@ -1,7 +1,7 @@
 const war = require('../struct/War.js');
 
 module.exports = {
-    declareWar: (x,y,a,d,warAll, wars, map) => {
+    declareWar: (x,y,a,d,warAll, wars, map, countries) => {
         if(wars[x + "|" + y] == undefined) {
             if(map[x][y].owner == "none") {
                 if(wars[x + "|" + y] == undefined){

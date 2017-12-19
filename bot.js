@@ -558,7 +558,7 @@ client.on('message',msg => {
 								}
 								
 								if(warable){
-									declareWar(x,y,id,target,false, wars, map);
+									declareWar(x,y,id,target,false, wars, map, countries);
 								}else{
 									
 								}
@@ -585,7 +585,7 @@ client.on('message',msg => {
 									}
 									
 									if(warable){
-										declareWar(x,y,id,map[x][y].owner,false, wars, map);
+										declareWar(x,y,id,map[x][y].owner,false, wars, map, countries);
 									}else{
 										
 									}
@@ -612,7 +612,7 @@ client.on('message',msg => {
 									}
 									
 									if(warable){
-										declareWar(x,y,id,map[x][y].owner,false, wars, map);
+										declareWar(x,y,id,map[x][y].owner,false, wars, map, countries);
 									}else{
 										
 									}
