@@ -5,12 +5,25 @@ const Canvas = require('canvas');
 const fs = require('fs');
 //    , data = JSON.parse(fs.readFileSync('./map.json', 'utf8'));
 
-exports.makeImage = function(data, war, sx, sy, ex, ey, c) {
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+
+exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 	ex = parseInt(ex)
 	ey = parseInt(ey)
 
 	 console.time('Time')
-	 canvas = new Canvas(WIDTH * (ex-sx), WIDTH * (ey-sy));
+	 var ySize = WIDTH * (ey-sy);
+	 if(showList){
+		 ySize += (10*Object.size(c));
+	 }
+	 canvas = new Canvas(WIDTH * (ex-sx), ySize);
      ctx = canvas.getContext('2d');
 	
 	for(var x = sx; x < ex; x++){
@@ -79,7 +92,20 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c) {
 		console.timeEnd('Time')
 	})
 	*/
-
+	if(showList != null){
+		if(showList){
+			spot = 0;
+			for(k in c){
+				let r = colonised ? parseInt((k.substring(0, 2)) % 210) + 40 : null
+				  , g = colonised ? parseInt((k.substring(3, 6)) % 210) + 40 : null
+				  , b = colonised ? parseInt((k.substring(7, 10)) % 210) + 40 : null;
+				ctx.font = "10px Arial";
+				ctx.fillStyle = "rgb("+r+","+g+","+b+")";
+				ctx.fillText(0,(spot*10)+WIDTH * (ey-sy),c[k].name);
+				spot++
+			}
+		}
+	}
 	return canvas.toBuffer();
 }
 

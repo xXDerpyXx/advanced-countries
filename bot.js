@@ -775,7 +775,7 @@ client.on('message',msg => {
 			if(content[0] == call+"fullmap"){
 				save(countries, map);
 				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				let buffer = makeImage(map,wars,0,0,width,height,countries);
+				let buffer = makeImage(map,wars,0,0,width,height,countries,true);
 
 				setTimeout(function(){
 					    msg.channel.send({
