@@ -103,7 +103,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				//ctx.fillStyle = "rgb("+r+","+g+","+b+")";
 				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
 				//ctx.fillText(c[k].name,(c[k].capital.y*WIDTH) - sy,(((ex-(c[k].capital.y*WIDTH)) - (ex-sx)) + (ex - sx)));
-				ctx.fillText(c[k].name,c[k].capital.y*WIDTH,((((c[k].capital.x*WIDTH)+((ey*WIDTH)-(sy*WIDTH)))%((ey*WIDTH)-(sy*WIDTH)))+((ey*WIDTH)-(sy*WIDTH)))%((ey*WIDTH)-(sy*WIDTH)));
+				ctx.fillText(c[k].name,((c[k].capital.y*WIDTH)+((ex*WIDTH)-(sx*WIDTH)))%((ex*WIDTH)-(sx*WIDTH)),((((c[k].capital.x*WIDTH)+((ey*WIDTH)-(sy*WIDTH)))%((ey*WIDTH)-(sy*WIDTH)))+((ey*WIDTH)-(sy*WIDTH)))%((ey*WIDTH)-(sy*WIDTH)));
 				spot++;
 				
 				y - sy, (((ex-x) - (ex-sx)) + (ex - sx))
