@@ -96,9 +96,9 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 		if(showList){
 			spot = 0;
 			for(k in c){
-				let r = colonised ? (k.substring(0, 2)) % 210) + 40 : null
-				  , g = colonised ? (k.substring(3, 6)) % 210) + 40 : null
-				  , b = colonised ? (k.substring(7, 10)) % 210) + 40 : null;
+				let r = colonised ? parseInt((k.substring(0, 2)) % 210) + 40 : null
+				  , g = colonised ? parseInt((k.substring(3, 6)) % 210) + 40 : null
+				  , b = colonised ? parseInt((k.substring(7, 10)) % 210) + 40 : null;
 				ctx.font = "10px Arial";
 				ctx.fillStyle = "rgb("+r+","+g+","+b+")";
 				ctx.fillText(0,(spot*10)+WIDTH * (ey-sy),c[k].name);
