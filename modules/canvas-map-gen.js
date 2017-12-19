@@ -21,7 +21,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 	 console.time('Time')
 	 var ySize = WIDTH * (ey-sy);
 	 if(showList){
-		 ySize += (10*Object.size(c));
+		 //ySize += (10*Object.size(c));
 	 }
 	 canvas = new Canvas(WIDTH * (ex-sx), ySize);
      ctx = canvas.getContext('2d');
@@ -99,9 +99,10 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				let r = parseInt((k.substring(0, 2)) % 210) + 40
 				  , g = parseInt((k.substring(3, 6)) % 210) + 40 
 				  , b = parseInt((k.substring(7, 10)) % 210) + 40 ;
-				ctx.font = "10px Arial";
-				ctx.fillStyle = "rgb("+r+","+g+","+b+")";
-				ctx.fillText(c[k].name,0,(spot*10)+WIDTH * (ey-sy));
+				ctx.font = "20px Arial";
+				//ctx.fillStyle = "rgb("+r+","+g+","+b+")";
+				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
+				ctx.fillText(c[k].name,c[k].capital.x,c[k].capital.y);
 				spot++
 			}
 		}
