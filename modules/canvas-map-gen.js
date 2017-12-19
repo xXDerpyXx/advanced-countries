@@ -102,7 +102,8 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				ctx.font = "20px Arial";
 				//ctx.fillStyle = "rgb("+r+","+g+","+b+")";
 				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
-				ctx.fillText(c[k].name,(c[k].capital.y*WIDTH) - sy,(((ex-(c[k].capital.y*WIDTH)) - (ex-sx)) + (ex - sx)));
+				//ctx.fillText(c[k].name,(c[k].capital.y*WIDTH) - sy,(((ex-(c[k].capital.y*WIDTH)) - (ex-sx)) + (ex - sx)));
+				ctx.fillText(c[k].name,c[k].capital.y,c[k].capital.x);
 				spot++;
 				
 				y - sy, (((ex-x) - (ex-sx)) + (ex - sx))
