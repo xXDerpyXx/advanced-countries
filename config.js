@@ -3,7 +3,7 @@ module.exports = {
     call: "!",
     width: 100,
     height: 100,
-    tickSpeed: 300000
+    tickSpeed: 300000,
     adminList: [
 		"246589957165023232",
 		"338914218470539266",
