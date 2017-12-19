@@ -274,7 +274,7 @@ client.on('message',msg => {
 					msg.channel.send("You need to specify a name! `"+call+"makecountry [name]` and the first char has to be ascii");
 					
 				}else{
-					countries[id] = new country(id,msg.content.split(" ")[1]);
+					countries[id] = new country(id, msg.content.split(" ")[1]);
 					msg.channel.send("You've created the country of "+msg.content.split(" ")[1]);
 					save(countries, map);
 				}
@@ -825,10 +825,16 @@ class country {
 		this.population.loyalty = 1;
 		this.population.sway = 0;
 		this.population.manpower = 0.2;
-		this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+		//this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+		this.capital = new location(11, 15);
 		console.log(this.capital.x, this.capital.y)
 		var owner = map[this.capital.x][this.capital.y].owner;
 		let tries = 0;
+
+		while(map[this.capital.x][this.capital.y].elevation > 4 || map[this.capital.x][this.capital.y].elevation < 0) {
+			this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));			
+		}
+
 		if(owner != "none") {
 			while(owner != "none") { //&& tries < 200){
 				this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
