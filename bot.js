@@ -4,8 +4,8 @@
 // ##########################
 
 const Discord = require("discord.js");
-const client  =  new Discord.Client();
-const fs      = 	require("fs");
+const client  = new Discord.Client();
+const fs      = require("fs");
 
 // ##########################
 //    Functions and Config
