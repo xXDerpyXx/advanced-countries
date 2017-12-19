@@ -1,6 +1,6 @@
 
 // ##########################
-//      Discord.js & fs
+//      Discord.js & fs (Dependancies)
 // ##########################
 
 const Discord = require("discord.js");
@@ -12,7 +12,7 @@ const fs      = require("fs");
 // ##########################
 
 const { formatMass, save, recursiveWait, getOwnedCells } = require('./modules/util.js')
-const { token, call, width, height, tickSpeed } = require('./config.js')
+const { token, call, width, height, tickSpeed, adminList } = require('./config.js')
 const { generateMap, getLocalMap } = require('./modules/map.js')
 const { makeImage }   = require("./modules/canvas-map-gen.js");
 const { declareWar }   = require("./modules/war.js");
@@ -551,9 +551,9 @@ client.on('message',msg => {
 				}
 			}
 
-			//###############################
-			//#            !war             #
-			//###############################
+			//###############################   /|
+			//#            !war             #  < |====  KEY THING THAT NEEDS FIXING
+			//###############################   \|          (FIX DIRECTIONAL CONTROL)
 
 			if(content[0] == call+"war"){
 				var dir = "";
@@ -789,7 +789,7 @@ client.on('message',msg => {
 			}
 			
 			//###############################
-			//#           !unally           #
+			//#           !unally           # <-- needs fixing, sometimes requires 2 usages of the command to unally someone
 			//###############################
 
 			if(content[0] == call+"unally"){
@@ -814,7 +814,7 @@ client.on('message',msg => {
 		}
 
 		//###############################
-		//#           !whois            #
+		//#           !whois            # <-- make an alternate that uses a country name to get the username of the person
 		//###############################
 		
 		if(content[0] == call+"whois"){
@@ -830,7 +830,7 @@ client.on('message',msg => {
 		//#       Admin Commands        #
 		//###############################
 
-		if(msg.author.id == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
+		if(adminList.includes(msg.author.id)){// == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
 			if(content[0] == call+"tick"){
 				tick(false);
 				msg.channel.send("tick forced!!! do not do this unless bugfixing!!!");
