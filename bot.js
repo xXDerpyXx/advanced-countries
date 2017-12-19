@@ -393,7 +393,7 @@ client.on('message',msg => {
 			
 			if(content[0] == call+"force"){
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
-				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() : 'You'} have `+((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells))+" force on average per cell");
+				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + ((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells))+" force on average per cell");
 			}
 			
 			if(content[0] == call+"map"){

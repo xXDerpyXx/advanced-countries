@@ -1,0 +1,23 @@
+{
+  "name": "advanced-countries",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xXDerpyXx/advanced-countries.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xXDerpyXx/advanced-countries/issues"
+  },
+  "homepage": "https://github.com/xXDerpyXx/advanced-countries#readme",
+  "description": "",
+  "dependencies": {
+    "canvas": "^1.6.8",
+    "discord.js": "^11.2.1"
+  }
+}
