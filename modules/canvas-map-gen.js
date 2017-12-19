@@ -102,8 +102,16 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				ctx.font = "20px Arial";
 				//ctx.fillStyle = "rgb("+r+","+g+","+b+")";
 				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
+<<<<<<< HEAD
 				ctx.fillText(c[k].name, c[k].capital.x*WIDTH, c[k].capital.y*WIDTH);
 				spot++
+=======
+				//ctx.fillText(c[k].name,(c[k].capital.y*WIDTH) - sy,(((ex-(c[k].capital.y*WIDTH)) - (ex-sx)) + (ex - sx)));
+				ctx.fillText(c[k].name,((c[k].capital.y*WIDTH)+((ex*WIDTH)-(sx*WIDTH)))%((ex*WIDTH)-(sx*WIDTH)),((((c[k].capital.x*WIDTH)+((ey*WIDTH)-(sy*WIDTH)))%((ey*WIDTH)-(sy*WIDTH)))+((ey*WIDTH)-(sy*WIDTH)))%((ey*WIDTH)-(sy*WIDTH)));
+				spot++;
+				
+				y - sy, (((ex-x) - (ex-sx)) + (ex - sx))
+>>>>>>> a809089f75007312397c5c7f86a217c1dc923bb8
 			}
 		}
 	}
