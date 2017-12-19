@@ -102,7 +102,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				ctx.font = "20px Arial";
 				//ctx.fillStyle = "rgb("+r+","+g+","+b+")";
 				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
-				ctx.fillText(c[k].name,c[k].capital.x,c[k].capital.y);
+				ctx.fillText(c[k].name,c[k].capital.x*WIDTH,c[k].capital.y*WIDTH);
 				spot++
 			}
 		}
