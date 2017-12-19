@@ -101,7 +101,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				  , b = parseInt((k.substring(7, 10)) % 210) + 40 ;
 				ctx.font = "10px Arial";
 				ctx.fillStyle = "rgb("+r+","+g+","+b+")";
-				ctx.fillText(0,(spot*10)+WIDTH * (ey-sy),c[k].name);
+				ctx.fillText(c[k].name,0,(spot*10)+WIDTH * (ey-sy));
 				spot++
 			}
 		}
