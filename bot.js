@@ -1,11 +1,15 @@
 
-// Discord.js & fs
+// ##########################
+//      Discord.js & fs
+// ##########################
 
 const Discord = require("discord.js");
 const client  =  new Discord.Client();
 const fs      = 	require("fs");
 
-// Functions and Config
+// ##########################
+//    Functions and Config
+// ##########################
 
 const { formatMass, save, recursiveWait, getOwnedCells } = require('./modules/util.js')
 const { token, call, width, height, tickSpeed } = require('./config.js')
@@ -13,7 +17,9 @@ const { generateMap, getLocalMap } = require('./modules/map.js')
 const { makeImage }   = require("./modules/canvas-map-gen.js");
 const { declareWar }   = require("./modules/war.js");
 
-// Classes
+// ########################
+//          Classes
+// ########################
 
 const government = require('./struct/Government.js');
 const location   = require('./struct/Location.js');
@@ -40,6 +46,11 @@ try {
 }
 
 var wars = {};
+
+
+//###############################
+//#            Tick             #
+//###############################
 
 function tick(repeat) {
 	var report = "";
@@ -262,11 +273,20 @@ function tick(repeat) {
 	}
 }
 
+//###############################
+//#        Message Event        #
+//###############################
+
 client.on('message',msg => {
 	try {
 		id = msg.author.id;
 		c = countries[id];
 		content = msg.content.toLowerCase().split(" ");
+
+		//###############################
+		//#        !makecountry         #
+		//###############################
+
 		if(c == undefined){
 			if(content[0] == call+"makecountry") {
 				//console.log(content[1]);
@@ -281,6 +301,11 @@ client.on('message',msg => {
 			}
 			
 		}else{
+
+			//###############################
+			//#         !givepeople         #
+			//###############################
+
 			if(content[0] == call+"givepeople"){
 				if(content[1] != undefined){
 					if(content[2] != undefined){
@@ -316,6 +341,11 @@ client.on('message',msg => {
 					msg.channel.send("you need to specify who to give people to, `!givepeople [target] [amount]`");
 				}
 			}
+
+			//###############################
+			//#            !list            #
+			//###############################
+
 			if(content[0] == call+"list"){
 				temp = "";
 				for(k in countries){
@@ -324,6 +354,10 @@ client.on('message',msg => {
 				msg.channel.send(temp);
 			}
 			
+			//###############################
+			//#           !allies           #
+			//###############################
+
 			if(content[0] == call+"allies") {
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
 
@@ -338,7 +372,10 @@ client.on('message',msg => {
 				msg.channel.send(temp);
 			}
 
-			
+			//###############################
+			//#            !ally            #
+			//###############################
+
 			if(content[0] == call+"ally"){
 				var foundAlly = false;
 				for(k in countries){
@@ -354,6 +391,10 @@ client.on('message',msg => {
 				}
 			}
 			
+			//###############################
+			//#          !giveland          #
+			//###############################
+
 			if(content[0] == call+"giveland"){
 				var foundTarget = false;
 				var target = "";
@@ -391,11 +432,19 @@ client.on('message',msg => {
 				}
 			}
 			
+			//###############################
+			//#           !force            #
+			//###############################
+
 			if(content[0] == call+"force"){
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
 				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + ((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells))+" force on average per cell");
 			}
 			
+			//###############################
+			//#         	!map            #
+			//###############################
+
 			if(content[0] == call+"map"){
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];				
 
@@ -432,6 +481,11 @@ client.on('message',msg => {
 				//msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
 				//msg.channel.send("Center of ("+y+","+x+")");
 			}
+
+			//###############################
+			//#           !stats            #
+			//###############################
+
 			if(content[0] == call+"stats"){
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
 
@@ -444,6 +498,11 @@ client.on('message',msg => {
 				}
 				msg.channel.send(temp);
 			}
+
+			//###############################
+			//#        !movecapital         #
+			//###############################
+
 			if(content[0] == call+"movecapital"){
 				if(map[content[2]][content[1]].owner == id){
 					countries[id].capital.x = content[2];
@@ -455,7 +514,9 @@ client.on('message',msg => {
 					
 			}
 			
-			
+			//###############################
+			//#           !rename           #
+			//###############################
 			
 			if(content[0] == call+"rename"){
 				if(content[1]!=undefined && content[1].charCodeAt(0)<=255 && content[0].length>1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")){
@@ -467,6 +528,10 @@ client.on('message',msg => {
 				}
 			}
 			
+			//###############################
+			//#          !manpower          #
+			//###############################
+
 			if(content[0] == call+"manpower"){
 				if(content[1] != undefined){
 					if(content[1] <= 100){
@@ -485,7 +550,11 @@ client.on('message',msg => {
 					
 				}
 			}
-			
+
+			//###############################
+			//#            !war             #
+			//###############################
+
 			if(content[0] == call+"war"){
 				var dir = "";
 				var right = 2;
@@ -682,7 +751,11 @@ client.on('message',msg => {
 				msg.channel.send("War at ("+x+","+y+")");
 			}
 		*/	
-		
+			
+			//###############################
+			//#       !deletecountry        #
+			//###############################	
+
 			if(content[0] == call+"deletecountry"){
 				for(var x in map){
 					for(var y in map[x]){
@@ -695,6 +768,10 @@ client.on('message',msg => {
 				msg.channel.send("Country disbanded!");
 			}
 			
+			//###############################
+			//#          !fullmap           #
+			//###############################
+
 			if(content[0] == call+"fullmap"){
 				save(countries, map);
 				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
@@ -711,7 +788,10 @@ client.on('message',msg => {
 				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
 			}
 			
-			
+			//###############################
+			//#           !unally           #
+			//###############################
+
 			if(content[0] == call+"unally"){
 				var foundAlly = false;
 				for(k in countries[id].allies){
@@ -733,6 +813,10 @@ client.on('message',msg => {
 		
 		}
 
+		//###############################
+		//#           !whois            #
+		//###############################
+		
 		if(content[0] == call+"whois"){
 			if(msg.mentions.members.first()) {
 				id = msg.mentions.members.first().id, c = countries[id];
@@ -741,7 +825,11 @@ client.on('message',msg => {
 				msg.channel.send('Please actually mention someone...')
 			}
 		}
-		
+
+		//###############################
+		//#       Admin Commands        #
+		//###############################
+
 		if(msg.author.id == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
 			if(content[0] == call+"tick"){
 				tick(false);
@@ -795,11 +883,10 @@ client.on('message',msg => {
 		msg.channel.send("Ow! error!");
 	}
 });
-/*
-setTimeout(function(){
 
-},600000);
-*/
+//###############################
+//#         Ready Event         #
+//###############################
 
 client.on('ready', () => {
 	setTimeout(() => tick(true), 1000);
