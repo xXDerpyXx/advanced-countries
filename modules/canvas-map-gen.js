@@ -73,6 +73,12 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 						ir = r-40;
 						ig = g-40;
 						ib = b-40;
+						if( ir < 0)
+							ir = 0;
+						if( ig < 0)
+							ig = 0;
+						if( ib < 0)
+							ib = 0;
 						color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
 					}
 				}
