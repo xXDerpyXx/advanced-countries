@@ -103,11 +103,17 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				  , b = parseInt((k.substring(7, 10)) % 210) + 40 ;
 				ctx.font = "20px Arial";
 				//ctx.fillStyle = "rgb("+r+","+g+","+b+")";
-				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
+				ctx.fillStyle = "rgb("+255+","+255+","+255")";
 				//ctx.fillText(c[k].name,(c[k].capital.y*WIDTH) - sy,(((ex-(c[k].capital.y*WIDTH)) - (ex-sx)) + (ex - sx)));
 				ctx.fillText(c[k].name,
 					((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)),
 					(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH)));
+				
+				ctx.fillStyle = "rgb("+0+","+0+","+0")";
+
+				ctx.fillText(c[k].name,
+					((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH))+2,
+					(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
 				
 				spot++;
 				
