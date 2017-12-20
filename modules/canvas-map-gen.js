@@ -52,7 +52,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				
 				let color = "";
 				
-				if(c[data[x][y]['owner'].color == undefined){
+				if(c[data[x][y]['owner']].color == undefined){
 					let r = colonised ? (parseInt(data[x][y]['owner'].substring(0, 2)) % 210) + 40 : null
 					  , g = colonised ? (parseInt(data[x][y]['owner'].substring(3, 6)) % 210) + 40 : null
 					  , b = colonised ? (parseInt(data[x][y]['owner'].substring(7, 10)) % 210) + 40 : null
