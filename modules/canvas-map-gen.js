@@ -126,6 +126,12 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 					((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)),
 					(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH)));
 				
+				ctx.fillText(c[k].name,
+					((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+4),
+					(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+4);
+				
+				
+				
 				ctx.fillStyle = "rgb("+0+","+0+","+0+")";
 
 				ctx.fillText(c[k].name,
