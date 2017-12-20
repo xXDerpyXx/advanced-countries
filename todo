@@ -1,5 +1,7 @@
 [ ] Loyalty System
 	[ ] Daily Random Events
+		[ ] Riots
+		[ ] Revolutions (relying on AI countries to be complete)
 	[ ] Daily effects from actions (such as manpower amount)
 	[ ] Sway, daily effect that slowly tries to go towards 0 but changes on extreme events
 [ ] AI countries
