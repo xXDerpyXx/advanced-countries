@@ -51,17 +51,17 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				}
 				
 				let color = "";
-				
+				let r = colonised ? (parseInt(data[x][y]['owner'].substring(0, 2)) % 210) + 40 : null
+				  , g = colonised ? (parseInt(data[x][y]['owner'].substring(3, 6)) % 210) + 40 : null
+				  , b = colonised ? (parseInt(data[x][y]['owner'].substring(7, 10)) % 210) + 40 : null
+				  // , ir = colonised ? ((r + 127) % 255) : null
+				  // , ig = colonised ? ((g + 127) % 255) : null
+				  // , ib = colonised ? ((b + 127) % 255) : null;
+				  , ir = colonised ? r - 40 : null
+				  , ig = colonised ? g - 40 : null
+				  , ib = colonised ? b - 40 : null
 				if(c[data[x][y]['owner']].color == undefined){
-					let r = colonised ? (parseInt(data[x][y]['owner'].substring(0, 2)) % 210) + 40 : null
-					  , g = colonised ? (parseInt(data[x][y]['owner'].substring(3, 6)) % 210) + 40 : null
-					  , b = colonised ? (parseInt(data[x][y]['owner'].substring(7, 10)) % 210) + 40 : null
-					  // , ir = colonised ? ((r + 127) % 255) : null
-					  // , ig = colonised ? ((g + 127) % 255) : null
-					  // , ib = colonised ? ((b + 127) % 255) : null;
-					  , ir = colonised ? r - 40 : null
-					  , ig = colonised ? g - 40 : null
-					  , ib = colonised ? b - 40 : null
+					
 					  
 					color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
 				}else{
@@ -74,7 +74,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 					color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
 				}
 
-
+				color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
 				
 				
 				for( k in c ){
