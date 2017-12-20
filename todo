@@ -1,0 +1,15 @@
+[ ] Loyalty System
+	[ ] Daily Random Events
+	[ ] Daily effects from actions (such as manpower amount)
+	[ ] Sway, daily effect that slowly tries to go towards 0 but changes on extreme events
+[ ] AI countries
+	[ ] Random version
+	[ ] Simple AI
+	[ ] Neural Network
+[ ] Chores
+	[ ] Finally fix !unally
+	[ ] Clean some code
+	[ ] Do the dishes
+	[ ] Better commenting in certain places
+	[ ] For Derpy: Learn better practices, like dear god your code is ugly
+
