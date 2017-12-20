@@ -60,18 +60,21 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				  , ir = colonised ? r - 40 : null
 				  , ig = colonised ? g - 40 : null
 				  , ib = colonised ? b - 40 : null
-				if(c[data[x][y]['owner']].color == undefined){
-					
-					  
-					color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
-				}else{
-					r = c[data[x][y]['owner']].color.r;
-					g = c[data[x][y]['owner']].color.g;
-					b = c[data[x][y]['owner']].color.b;
-					ir = r-40;
-					ig = g-40;
-					ib = b-40;
-					color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+				
+				if(c[data[x][y]['owner']] != undefined){
+					if(c[data[x][y]['owner']].color == undefined){
+						
+						  
+						color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+					}else{
+						r = c[data[x][y]['owner']].color.r;
+						g = c[data[x][y]['owner']].color.g;
+						b = c[data[x][y]['owner']].color.b;
+						ir = r-40;
+						ig = g-40;
+						ib = b-40;
+						color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+					}
 				}
 
 				color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
