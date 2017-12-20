@@ -3,6 +3,8 @@
 		[ ] Riots
 		[ ] Revolutions (relying on AI countries to be complete)
 	[ ] Daily effects from actions (such as manpower amount)
+		[ ] Manpower Effects
+		[ ] War Effects
 	[ ] Sway, daily effect that slowly tries to go towards 0 but changes on extreme events
 [ ] AI countries
 	[ ] Random version
@@ -14,4 +16,28 @@
 	[ ] Do the dishes
 	[ ] Better commenting in certain places
 	[ ] For Derpy: Learn better practices, like dear god your code is ugly
-
+[ ] Economy
+	[ ] Resource and Needs
+		[ ] Wars cost resources
+		[ ] Upgrades (maybe?)
+		[ ] Different guns
+			[ ] Rock Paper Scissor gun system (Gun A beats B which beats C which beats A)
+	[ ] Communism
+	[ ] Capitalism
+	[ ] Meritism
+[ ] Government
+	[ ] Uprisings
+		[ ] Manifesting as either reform of government or a riot/revolution
+	[ ] Assasinations (connected to Loyalty)
+	[ ] Dictatorship
+	[ ] Monarchy
+		[ ] Family Trees
+	[ ] Facism
+	[ ] Democracy
+		[ ] Votes
+		[ ] Rare daily election event
+		[ ] Actions require votes to happen, requiring loyalty
+	[ ] Republic
+		[ ] Election Events
+		[ ] Votes and parties
+		[ ] Actions require votes to happen, requiring loyalty
