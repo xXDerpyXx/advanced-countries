@@ -16,7 +16,7 @@
 	[ ] Do the dishes
 	[ ] Better commenting in certain places
 	[ ] For Derpy: Learn better practices, like dear god your code is ugly
-	[ ] More visible text on maps
+	[x] More visible text on maps
 [ ] Economy
 	[ ] Resource and Needs
 		[ ] Wars cost resources
@@ -37,7 +37,7 @@
 		[ ] Genocide - killing a percentage of people per turn, needed to keep up loyalty
 	[ ] Democracy
 		[ ] Votes
-		[ ] Rare daily election event
+		[ ] No Elections - Ruler = "The People"
 		[ ] Actions require votes to happen, requiring loyalty
 	[ ] Republic
 		[ ] Election Events
