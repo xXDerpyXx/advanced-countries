@@ -10,6 +10,9 @@
 	[ ] Random version
 	[ ] Simple AI
 	[ ] Neural Network
+		[ ] Neural Net Module
+		[ ] Training
+		[ ] Save/Load data
 [ ] Chores
 	[ ] Finally fix !unally
 	[ ] Clean some code
@@ -21,14 +24,21 @@
 	[ ] Resource and Needs
 		[ ] Wars cost resources
 		[ ] Upgrades (maybe?)
-		[ ] Different guns
+		[ ] Different guns (costs to change production)
 			[ ] Rock Paper Scissor gun system (Gun A beats B which beats C which beats A)
 	[ ] Communism
 	[ ] Capitalism
 	[ ] Meritism
 [ ] Government
+	[ ] Party favor
+		[ ] Conservatism (monarcchy)
+		[ ] Liberalism (democracy)
+		[ ] Athoritarian (facism/dictatorship)
+		[ ] Leftist (republic)
 	[ ] Uprisings
-		[ ] Manifesting as either reform of government or a riot/revolution
+		[ ] Manifesting as either reform of government or a riot/revolution (relying on AI countries)
+		[ ] Manifesting as forming a new country (relying on AI countries)
+		[ ] Manifesting as assasinations
 	[ ] Assasinations (connected to Loyalty)
 	[ ] Dictatorship
 	[ ] Monarchy
@@ -37,9 +47,13 @@
 		[ ] Genocide - killing a percentage of people per turn, needed to keep up loyalty
 	[ ] Democracy
 		[ ] Votes
+			[ ] Parties  
 		[ ] No Elections - Ruler = "The People"
 		[ ] Actions require votes to happen, requiring loyalty
 	[ ] Republic
 		[ ] Election Events
 		[ ] Votes and parties
 		[ ] Actions require votes to happen, requiring loyalty
+[ ] Make web app
+[ ] Make IRC bot	
+	
