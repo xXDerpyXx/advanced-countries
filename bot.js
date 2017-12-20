@@ -442,6 +442,32 @@ client.on('message',msg => {
 			}
 			
 			//###############################
+			//#           !color            #
+			//###############################
+			
+			if(content[0] == call+"color"){
+				if(content[1] != undefined && content[2] != undefined && content[3] != undefined){
+					if(parseInt(content[1]) < 0 || parseInt(content[2]) < 0 || parseInt(content[3]) < 0){
+						msg.channel.send("R, G and B needs to be 0 or more!");
+					}else{
+						if(parseInt(content[1]) > 255 || parseInt(content[2]) > 255 || parseInt(content[3]) > 255){
+							msg.channel.send("R, G and B needs to be less than 256!");
+						}else{
+							msg.channel.send("Map color set!");
+							countries[id].color = {};
+							countries[id].color.r = parseInt(content[1]);
+							countries[id].color.g = parseInt(content[2]);
+							countries[id].color.b = parseInt(content[3]);
+							
+						}
+					}
+				}else{
+					msg.channel.send("You need an R, G, and B value");
+				}
+				
+			}
+			
+			//###############################
 			//#         	!map            #
 			//###############################
 

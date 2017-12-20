@@ -49,19 +49,33 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 						}
 					}
 				}
+				
+				let color = "";
+				
+				if(c[data[x][y]['owner'].color == undefined){
+					let r = colonised ? (parseInt(data[x][y]['owner'].substring(0, 2)) % 210) + 40 : null
+					  , g = colonised ? (parseInt(data[x][y]['owner'].substring(3, 6)) % 210) + 40 : null
+					  , b = colonised ? (parseInt(data[x][y]['owner'].substring(7, 10)) % 210) + 40 : null
+					  // , ir = colonised ? ((r + 127) % 255) : null
+					  // , ig = colonised ? ((g + 127) % 255) : null
+					  // , ib = colonised ? ((b + 127) % 255) : null;
+					  , ir = colonised ? r - 40 : null
+					  , ig = colonised ? g - 40 : null
+					  , ib = colonised ? b - 40 : null
+					  
+					color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+				}else{
+					r = c[data[x][y]['owner']].color.r;
+					g = c[data[x][y]['owner']].color.g;
+					b = c[data[x][y]['owner']].color.b;
+					ir = r-40;
+					ig = g-40;
+					ib = b-40;
+					color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+				}
 
-				let r = colonised ? (parseInt(data[x][y]['owner'].substring(0, 2)) % 210) + 40 : null
-				  , g = colonised ? (parseInt(data[x][y]['owner'].substring(3, 6)) % 210) + 40 : null
-				  , b = colonised ? (parseInt(data[x][y]['owner'].substring(7, 10)) % 210) + 40 : null
-				  // , ir = colonised ? ((r + 127) % 255) : null
-				  // , ig = colonised ? ((g + 127) % 255) : null
-				  // , ib = colonised ? ((b + 127) % 255) : null;
-				  , ir = colonised ? r - 40 : null
-				  , ig = colonised ? g - 40 : null
-				  , ib = colonised ? b - 40 : null
 
-
-				let color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+				
 				
 				for( k in c ){
 					if(x == c[k].capital.x && y == c[k].capital.y){
