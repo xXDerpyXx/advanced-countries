@@ -1,0 +1,37 @@
+{
+    "M1": {
+        "counters": ["AK47", "Minigun", "Shotgun"],
+        "modifier": 1.2,
+        "cost": 10
+    },
+    "AK47": {
+        "counters": ["Rocks"],
+        "modifier": 1,
+        "cost": 6
+    },
+    "Rocks": {
+        "counters": ["M1"],
+        "modifier": 0.5,
+        "cost": 1
+    },
+    "Shotgun": {
+        "counters": ["Rocks", "M1"],
+        "modifier": 0.8,
+        "cost": 8
+    },
+    "AWP": {
+        "counters": ["Rocks", "M1", "Shotgun", "Minigun"],
+        "modifier": 1.5,
+        "cost": 20
+    },
+    "Minigun": {
+        "counters": ["AK47", "Rocks"],
+        "modifier": 1.2,
+        "cost": 15
+    },
+    "Watergun": {
+        "counters": [],
+        "modifier": 0.2,
+        "cost": 0.5
+    }
+}

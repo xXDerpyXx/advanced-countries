@@ -1,6 +1,6 @@
 
 // ##########################
-//      Discord.js & fs (Dependancies)
+//       Dependancies
 // ##########################
 
 const Discord = require("discord.js");
@@ -11,7 +11,7 @@ const fs      = require("fs");
 //    Functions and Config
 // ##########################
 
-const { formatMass, save, recursiveWait, getOwnedCells } = require('./modules/util.js')
+const { formatMass, save, recursiveWait, getOwnedCells, loadGuns } = require('./modules/util.js')
 const { token, call, width, height, tickSpeed, adminList } = require('./config.js')
 const { generateMap, getLocalMap } = require('./modules/map.js')
 const { makeImage }   = require("./modules/canvas-map-gen.js");
@@ -28,16 +28,22 @@ const cell       = require('./struct/Cell.js');
 const war        = require('./struct/War.js');
 const gun        = require('./struct/Gun.js');
 
+// ########################
+//           Vars
+// ########################
+
 let economies   = {};
 let governments = {};
 
 let countries = {};
 let map       = {};
 
+var wars = {};
 let guns = {};
 
 
 //temp placement, move to a new file later
+/*
 guns["M1"] = new gun("M1");
 guns["M1"].counters = ["AK47","Minigun","Shotgun"];
 guns["M1"].modifier = 1.2;
@@ -66,6 +72,9 @@ guns["Minigun"] = new gun("Minigun");
 guns["Minigun"].counters = ["AK47","Rocks"];
 guns["Minigun"].modifier = 1.2;
 guns["Minigun"].cost = 15;
+*/
+
+loadGuns().then(g => guns = g);
 
 try {
 	console.log("[LOADING DATA]");
@@ -78,9 +87,6 @@ try {
 	map = generateMap()
 	save(countries, map);
 }
-
-var wars = {};
-
 
 //###############################
 //#            Tick             #

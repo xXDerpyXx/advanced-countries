@@ -1,4 +1,5 @@
 const fs = require('fs');
+const gun = require('../struct/Gun.js');
 const { getLocalMap } = require('../modules/map.js');
 const { token, call, width, height, tickSpeed } = require('../config.js')
 
@@ -60,5 +61,38 @@ module.exports = {
         }
     
         return temp;
+    },
+
+    loadGuns: () => {
+        const loadJson = (filepath) => {
+            return new Promise((resolve, reject) => {
+              fs.readFile(filepath, 'utf8', (err, content) => {
+                    if(err) {
+                        reject(err)
+                    } else {
+                        try {
+                            resolve(JSON.parse(content));
+                        } catch(err) {
+                            reject(err)
+                        }
+                    }
+                })
+            });
+        }
+
+        return new Promise(res => {
+            loadJson(process.env.PWD + '/consts/guns.json').then(json =>{
+                let guns = {};
+
+                Object.keys(json).forEach(key => {
+                    guns[key]          = new gun(key)
+                    guns[key].counters = json[key].counters;
+                    guns[key].modifier = json[key].modifier;
+                    guns[key].cost     = json[key].cost;
+                })
+
+                res(guns);
+            })
+        })
     }
 }
