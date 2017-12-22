@@ -105,6 +105,11 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
 				draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), colonised, color, border, m, w)
 			}catch(err){
+				if(Math.random() >= 0.7){
+					var color = "#000000";
+					draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, true, false)
+				}
+				
 				//console.log(err);
 			}
 		};
