@@ -39,15 +39,33 @@ let guns = {};
 
 //temp placement, move to a new file later
 guns["M1"] = new gun("M1");
-guns["M1"].counters = ["AK47"];
+guns["M1"].counters = ["AK47","Minigun","Shotgun"];
 guns["M1"].modifier = 1.2;
+guns["M1"].cost = 10;
+
 guns["AK47"] = new gun("AK47");
-guns["AK47"].cost = 0.75;
+guns["AK47"].cost = 6;
 guns["AK47"].counters = ["Rocks"];
+
 guns["Rocks"] = new gun("Rocks");
 guns["Rocks"].counters = ["M1"];
-guns["Rocks"].cost = 0.5;
-guns["Rocks"].modifier = 0.7;
+guns["Rocks"].cost = 1;
+guns["Rocks"].modifier = 0.5;
+
+guns["Shotgun"] = new gun("Shotgun");
+guns["Shotgun"].counters = ["Rocks","M1"];
+guns["Shotgun"].modifier = 0.8;
+guns["Shotgun"].cost = 8;
+
+guns["AWP"] = new gun("AWP");
+guns["AWP"].counters = ["Rocks","M1","Shotgun","Minigun"];
+guns["AWP"].modifier = 1.5;
+guns["AWP"].cost = 20;
+
+guns["Minigun"] = new gun("Shotgun");
+guns["Minigun"].counters = ["AK47","Rocks"];
+guns["Minigun"].modifier = 1.2;
+guns["Minigun"].cost = 15;
 
 try {
 	console.log("[LOADING DATA]");
@@ -415,7 +433,7 @@ client.on('message',msg => {
 					temp+="Counters: "+guns[k].counters+"\n";
 					temp+="Costs: "+guns[k].cost+" per 100 troops\n";
 					temp+="General Strength: "+guns[k].modifier+"\n";
-					temp+="-------\n"
+					//temp+="-------\n"
 				}
 				temp+="=====================\n";
 				msg.channel.send(temp);
