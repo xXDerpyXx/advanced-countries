@@ -47,14 +47,14 @@ let guns = {};
 guns["M1"] = new gun("M1");
 guns["M1"].counters = ["AK47","Minigun","Shotgun"];
 guns["M1"].modifier = 1.2;
-guns["M1"].cost = 10;
+guns["M1"].cost = 15;
 
 guns["AK47"] = new gun("AK47");
 guns["AK47"].cost = 6;
-guns["AK47"].counters = ["Rocks"];
+guns["AK47"].counters = ["Rocks","AWP"];
 
 guns["Rocks"] = new gun("Rocks");
-guns["Rocks"].counters = ["M1"];
+guns["Rocks"].counters = ["M1","AWP","Shotgun"];
 guns["Rocks"].cost = 1;
 guns["Rocks"].modifier = 0.5;
 
@@ -66,10 +66,10 @@ guns["Shotgun"].cost = 8;
 guns["AWP"] = new gun("AWP");
 guns["AWP"].counters = ["Rocks","M1","Shotgun","Minigun"];
 guns["AWP"].modifier = 1.5;
-guns["AWP"].cost = 20;
+guns["AWP"].cost = 30;
 
 guns["Minigun"] = new gun("Minigun");
-guns["Minigun"].counters = ["AK47","Rocks"];
+guns["Minigun"].counters = ["AK47","Rocks","Shotgun"];
 guns["Minigun"].modifier = 1.2;
 guns["Minigun"].cost = 15;
 */
