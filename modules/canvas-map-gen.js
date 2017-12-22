@@ -107,7 +107,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 			}catch(err){
 				if(Math.random() >= 0.7){
 					var color = "#000000";
-					draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, true, false)
+					draw(0, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, true, false)
 				}
 				
 				//console.log(err);
