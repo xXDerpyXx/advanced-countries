@@ -105,10 +105,10 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
 				draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), colonised, color, border, m, w)
 			}catch(err){
-				if(Math.random() >= 0.7){
-					var color = "#000000";
-					draw(0, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, true, false)
-				}
+				var part = Math.random()*255;
+				var color = "rgb("+part+","+part+","+part+")";
+				draw(0, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, false, false, true)
+
 				
 				//console.log(err);
 			}
@@ -168,7 +168,7 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function draw(e, x, y, c, color, b, m, w) {
+function draw(e, x, y, c, color, b, m, w, forced) {
 	
     ctx.fillStyle =
         //color // Border
@@ -180,6 +180,11 @@ function draw(e, x, y, c, color, b, m, w) {
         '#ffffff' // Snow
         : rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
     
+    if(forced != null){
+		if(forced){
+			ctx.fillStyle = color;
+		}
+	}
 	
 	if(color == "rgb(255,255,0)"){
 		ctx.fillStyle = color;
