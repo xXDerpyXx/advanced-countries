@@ -380,7 +380,20 @@ client.on('message',msg => {
 					msg.channel.send("you need to specify who to give people to, `!givepeople [target] [amount]`");
 				}
 			}
-
+			
+			if(content[0] == call+"setgun"){
+				if(content[1] != null){
+					if(guns[content[1]] != undefined){
+						msg.channel.send("gun set!");
+						countries.gun = guns[content[1]];
+					}else{
+						msg.channel.send(content[1]+" is not a gun that exists");
+					}
+				}else{
+					msg.channel.send("Specify the gun you want used");
+				}
+			}
+			
 			//###############################
 			//#            !list            #
 			//###############################
