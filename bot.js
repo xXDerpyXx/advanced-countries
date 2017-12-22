@@ -399,6 +399,28 @@ client.on('message',msg => {
 			}
 			
 			//###############################
+			//#            !gun             #
+			//###############################
+			
+			if(content[0] == call+"gun"){
+				var temp = "";
+				temp+="List of avalible guns\n";
+				temp+="=====================\n";
+				
+				for(k in guns){
+					temp+="-------\n"
+					temp+=guns[k].name"\n";
+					temp+="-------\n"
+					temp+="Counters: "+guns[k].counters+="\n";
+					temp+="Costs: "+guns[k].cost+" per 100 troops\n";
+					temp+="General Strength: "+guns[k].modifier;
+					temp+="-------\n"
+				}
+				temp+="=====================\n";
+				msg.channel.send(temp);
+			}
+			
+			//###############################
 			//#            !list            #
 			//###############################
 
