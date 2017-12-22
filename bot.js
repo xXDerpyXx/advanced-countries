@@ -413,7 +413,7 @@ client.on('message',msg => {
 					temp+="-------\n"
 					temp+="Counters: "+guns[k].counters+"\n";
 					temp+="Costs: "+guns[k].cost+" per 100 troops\n";
-					temp+="General Strength: "+guns[k].modifier;
+					temp+="General Strength: "+guns[k].modifier+"\n";
 					temp+="-------\n"
 				}
 				temp+="=====================\n";
