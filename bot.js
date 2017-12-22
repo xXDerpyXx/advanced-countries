@@ -518,6 +518,16 @@ client.on('message',msg => {
 			if(content[0] == call+"force"){
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
 				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + ((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells))+" force on average per cell");
+				if(countries[id].gun == undefined){
+					countries[id].gun = guns["M1"];
+				}
+				var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower)/100);
+				var armedPercent = 1;
+				if(countries.resource < countries[id].gun.cost * cMilitaryPop){
+					armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+				}
+				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
+				msg.channel.send("Your army is armed with "+countries[id].gun.name+" and you can give "+(armedPercent*100)+"% of your "+cMilitaryPop+" troops, this gun");=;
 			}
 			
 			//###############################
