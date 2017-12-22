@@ -62,7 +62,7 @@ guns["AWP"].counters = ["Rocks","M1","Shotgun","Minigun"];
 guns["AWP"].modifier = 1.5;
 guns["AWP"].cost = 20;
 
-guns["Minigun"] = new gun("Shotgun");
+guns["Minigun"] = new gun("Minigun");
 guns["Minigun"].counters = ["AK47","Rocks"];
 guns["Minigun"].modifier = 1.2;
 guns["Minigun"].cost = 15;
