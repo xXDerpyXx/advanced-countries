@@ -150,7 +150,7 @@ function tick(repeat) {
 						for(var x = parseInt(wars[w].x) - 1; x < parseInt(wars[w].x) + 2; x++) {
 							for(var y = parseInt(wars[w].y) - 1; y < parseInt(wars[w].y) + 2; y++) {
 								try {
-									if(map[x][y].owner == wars[w].attacker) {\
+									if(map[x][y].owner == wars[w].attacker) {
 										
 										var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells) * 1.25) * (Math.random() * 2)) * armorment[wars[w].attacker].percent) * countries[wars[w].attacker].gun.modifier;
 										if(countries[wars[w].attacker].gun.counters.includes(countries[wars[w].defender].gun.name)){
