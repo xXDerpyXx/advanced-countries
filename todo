@@ -1,3 +1,5 @@
+[ ] Natural Disasters
+	[ ] Plauge
 [ ] Loyalty System
 	[ ] Daily Random Events
 		[ ] Riots
@@ -14,7 +16,8 @@
 		[ ] Training
 		[ ] Save/Load data
 [ ] Chores
-	[ ] Finally fix !unally
+	[ ] Fix country colors being invisible or null
+	[x] Finally fix !unally
 	[ ] Clean some code
 		[ ] Command Handler
 	[ ] Do the dishes
