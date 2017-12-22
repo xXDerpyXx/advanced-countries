@@ -105,7 +105,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
 				draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), colonised, color, border, m, w)
 			}catch(err){
-				var part = Math.random()*255;
+				var part = Math.round(Math.random()*255);
 				var color = "rgb("+part+","+part+","+part+")";
 				draw(0, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, false, false, true)
 
