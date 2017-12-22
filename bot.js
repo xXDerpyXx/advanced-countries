@@ -26,12 +26,27 @@ const location   = require('./struct/Location.js');
 const economy    = require('./struct/Economy.js');
 const cell       = require('./struct/Cell.js');
 const war        = require('./struct/War.js');
+const gun        = require('./struct/Gun.js');
 
 let economies   = {};
 let governments = {};
 
 let countries = {};
 let map       = {};
+
+let guns = {};
+
+
+//temp placement, move to a new file later
+guns["M1"] = new gun("M1");
+guns["M1"].counters = ["AK47"];
+guns["M1"].modifier = 1.2;
+guns["AK47"] = new gun("AK47");
+guns["AK47"].cost = 0.75;
+guns["AK47"].counters = ["Rocks"];
+guns["Rocks"] = new gun("Rocks");
+guns["Rocks"].counters = ["M1"];
+guns["Rocks"].cost = 0.5;
 
 try {
 	console.log("[LOADING DATA]");
@@ -63,11 +78,25 @@ function tick(repeat) {
 
 	warVictories = {};
 	popGrowth    = {};
+	armorment    = {};
 
 	for(c in countries) {
 		countries[c].ownedCells = getOwnedCells(countries[c], map, countries);
 		popGrowth[c] = {};
 		popGrowth[c]["start"] = countries[c].population.size;
+		armorment[c] = {};
+		if(countries[c].gun == undefined){
+			countries[c].gun = guns["M1"];
+		}
+		var cMilitaryPop = Math.round((countries[c].population.size * countries[c].population.manpower)/100);
+		var armedPercent = 1;
+		if(countries.resource < countries[c].gun.cost * cMilitaryPop){
+			armedPercent = countries[c].resource / (cMilitaryPop * countries[c].gun.cost);
+		}
+		countries[c].resource -= Math.round(countries[c].gun.cost * cMilitaryPop)*armedPercent;
+		if(countries[c].resource < 0)
+			countries[c].resource = 0;
+		armorment[c]["percent"] = armedPercent;
 	}
 
 	for(x in map) {
@@ -121,13 +150,23 @@ function tick(repeat) {
 						for(var x = parseInt(wars[w].x) - 1; x < parseInt(wars[w].x) + 2; x++) {
 							for(var y = parseInt(wars[w].y) - 1; y < parseInt(wars[w].y) + 2; y++) {
 								try {
-									if(map[x][y].owner == wars[w].attacker) {
-										wars[w].aForce += ((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells) * 1.25) * (Math.random() * 2);
+									if(map[x][y].owner == wars[w].attacker) {\
+										
+										var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells) * 1.25) * (Math.random() * 2)) * armorment[wars[w].attacker].percent) * countries[wars[w].attacker].gun.modifier;
+										if(countries[wars[w].attacker].gun.counters.includes(countries[wars[w].defender].gun.name)){
+											tForce = tForce*1.5;
+										}
+										wars[w].aForce += tForce;
+										
 									}
 
 									if(wars[w].defender != "none") {
 										if(map[x][y].owner == wars[w].defender) {
-											wars[w].dForce += ((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2);
+											var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2))  * armorment[wars[w].defender].percent) * countries[wars[w].defender].gun.modifier;
+											if(countries[wars[w].defender].gun.counters.includes(countries[wars[w].attacker].gun.name)){
+												tForce = tForce*1.5;
+											}
+											wars[w].dForce += tForce;
 										}
 									}
 								} catch(err) {
