@@ -47,6 +47,7 @@ guns["AK47"].counters = ["Rocks"];
 guns["Rocks"] = new gun("Rocks");
 guns["Rocks"].counters = ["M1"];
 guns["Rocks"].cost = 0.5;
+guns["Rocks"].modifier = 0.7;
 
 try {
 	console.log("[LOADING DATA]");
