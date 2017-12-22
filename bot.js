@@ -409,9 +409,9 @@ client.on('message',msg => {
 				
 				for(k in guns){
 					temp+="-------\n"
-					temp+=guns[k].name"\n";
+					temp+=guns[k].name+"\n";
 					temp+="-------\n"
-					temp+="Counters: "+guns[k].counters+="\n";
+					temp+="Counters: "+guns[k].counters+"\n";
 					temp+="Costs: "+guns[k].cost+" per 100 troops\n";
 					temp+="General Strength: "+guns[k].modifier;
 					temp+="-------\n"
