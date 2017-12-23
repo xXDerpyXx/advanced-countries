@@ -590,7 +590,11 @@ client.on('message',msg => {
 				var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower)/100);
 				var armedPercent = 1;
 				if(countries.resource < countries[id].gun.cost * cMilitaryPop){
-					armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+					
+				}
+				armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+				if(armedPercent > 1){
+					armedPercent = 1;
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
 				msg.channel.send("Your army is armed with "+countries[id].gun.name+" and you can give "+(armedPercent*100)+"% of your "+(cMilitaryPop*100)+" troops, this gun for the cost of "+cost+" resource");
