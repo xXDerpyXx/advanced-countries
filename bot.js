@@ -632,7 +632,11 @@ client.on('message',msg => {
 				var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower)/100);
 				var armedPercent = 1;
 				if(countries.resource < countries[id].gun.cost * cMilitaryPop){
-					armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+					
+				}
+				armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+				if(armedPercent > 1){
+					armedPercent = 1;
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
 				var profit = total-cost;
