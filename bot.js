@@ -559,8 +559,9 @@ client.on('message',msg => {
 			//###############################
 
 			if(content[0] == call+"resource"){
+				var temp = "";
 				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
-				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + countries[id].resource + " resource" );
+				temp+=(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + countries[id].resource + " resource\n" );
 				var total = 0;
 				for(x in map){
 					for(y in map[x]){
@@ -584,9 +585,10 @@ client.on('message',msg => {
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
 				var profit = total-cost;
-				msg.channel.send("you mine "+total+" resource per turn");
-				msg.channel.send("and spend "+cost+" per turn on weapons");
-				msg.channel.send("leaving you with "+profit+" per turn");
+				temp+=("you mine "+total+" resource per turn\n");
+				temp+=("and spend "+cost+" per turn on weapons\n");
+				temp+=("leaving you with "+profit+" per turn\n");
+				msg.channel.send(temp);
 			}
 			
 			//###############################
