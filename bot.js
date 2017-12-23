@@ -116,8 +116,13 @@ function tick(repeat) {
 		var cMilitaryPop = Math.round((countries[c].population.size * countries[c].population.manpower)/100);
 		var armedPercent = 1;
 		if(countries.resource < countries[c].gun.cost * cMilitaryPop){
-			armedPercent = countries[c].resource / (cMilitaryPop * countries[c].gun.cost);
+			
 		}
+		armedPercent = countries[c].resource / (cMilitaryPop * countries[c].gun.cost);
+		if(armedPercent > 1){
+			armedPercent = 1;
+		}
+		
 		countries[c].resource -= Math.round(countries[c].gun.cost * cMilitaryPop)*armedPercent;
 		if(countries[c].resource < 0)
 			countries[c].resource = 0;
