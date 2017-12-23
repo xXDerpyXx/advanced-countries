@@ -602,7 +602,7 @@ client.on('message',msg => {
 					armedPercent = 1;
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
-				msg.channel.send("Your army is armed with "+countries[id].gun.name+" and you can give "+(armedPercent*100)+"% of your "+(cMilitaryPop*100)+" troops, this gun for the cost of "+cost+" resource");
+				msg.channel.send("Your army is armed with "+countries[id].gun.name+" and you can give "+Math.round(armedPercent*100)+"% of your "+(cMilitaryPop*100)+" troops, this gun for the cost of "+Math.round(cost)+" resource");
 			}
 			
 			//###############################
@@ -640,9 +640,9 @@ client.on('message',msg => {
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
 				var profit = total-cost;
-				temp+=("you mine "+total+" resource per turn\n");
-				temp+=("and spend "+cost+" per turn on weapons\n");
-				temp+=("leaving you with "+profit+" per turn\n");
+				temp+=("you mine "+Math.round(total)+" resource per turn\n");
+				temp+=("and spend "+Math.round(cost)+" per turn on weapons\n");
+				temp+=("leaving you with "+Math.round(profit)+" per turn\n");
 				msg.channel.send(temp);
 			}
 			
