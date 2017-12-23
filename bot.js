@@ -424,10 +424,10 @@ client.on('message',msg => {
 			}
 			
 			//###############################
-			//#            !gun             #
+			//#            !guns            #
 			//###############################
 			
-			if(content[0] == call+"gun"){
+			if(content[0] == call+"guns"){
 				var temp = "";
 				temp+="List of avalible guns\n";
 				temp+="=====================\n";
