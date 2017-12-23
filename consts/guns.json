@@ -1,35 +1,35 @@
 {
-    "M1": {
-        "counters": ["AK47", "Minigun", "Shotgun"],
+    "m1": {
+        "counters": ["ak47", "minigun", "shotgun"],
         "modifier": 1.2,
         "cost": 15
     },
-    "AK47": {
-        "counters": ["Rocks"],
+    "ak47": {
+        "counters": ["rocks"],
         "modifier": 1,
         "cost": 10
     },
-    "Rocks": {
-        "counters": ["M1"],
+    "rocks": {
+        "counters": ["m1"],
         "modifier": 0.5,
         "cost": 1
     },
-    "Shotgun": {
-        "counters": ["Rocks", "M1"],
+    "shotgun": {
+        "counters": ["rocks", "m1"],
         "modifier": 0.8,
         "cost": 15
     },
-    "AWP": {
-        "counters": ["Rocks", "M1", "Shotgun", "Minigun"],
+    "awp": {
+        "counters": ["rocks", "m1", "shotgun", "minigun"],
         "modifier": 1.5,
         "cost": 50
     },
-    "Minigun": {
-        "counters": ["AK47", "Rocks"],
+    "minigun": {
+        "counters": ["ak47", "rocks"],
         "modifier": 1.2,
         "cost": 30
     },
-    "Watergun": {
+    "watergun": {
         "counters": [],
         "modifier": 0.2,
         "cost": 0.5

@@ -412,9 +412,9 @@ client.on('message',msg => {
 			
 			if(content[0] == call+"setgun"){
 				if(content[1] != null){
-					if(guns[msg.content.split(" ")[1]] != undefined){
+					if(guns[content[1]] != undefined){
 						msg.channel.send("gun set!");
-						countries[id].gun = guns[msg.content.split(" ")[1]];
+						countries[id].gun = guns[content[1]];
 					}else{
 						msg.channel.send(content[1]+" is not a gun that exists");
 					}
