@@ -415,6 +415,7 @@ client.on('message',msg => {
 					if(guns[content[1]] != undefined){
 						msg.channel.send("gun set!");
 						countries[id].gun = guns[content[1]];
+						countries[id].resource = countries[id].resource*0.5;
 					}else{
 						msg.channel.send(content[1]+" is not a gun that exists");
 					}
