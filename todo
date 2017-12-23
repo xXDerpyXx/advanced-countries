@@ -19,6 +19,7 @@
 		[ ] Training
 		[ ] Save/Load data
 [ ] Chores
+	[ ] Fix Directional wars
 	[ ] Fix country colors being invisible or null
 	[x] Finally fix !unally
 	[ ] Clean some code
@@ -29,10 +30,10 @@
 	[x] More visible text on maps
 [ ] Economy
 	[ ] Resource and Needs
-		[ ] Wars cost resources
+		[x] Wars cost resources
 		[ ] Upgrades (maybe?)
-		[ ] Different guns (costs to change production)
-			[ ] Rock Paper Scissor gun system (Gun A beats B which beats C which beats A)
+		[x] Different guns (costs to change production)
+			[x] Rock Paper Scissor gun system (Gun A beats B which beats C which beats A)
 	[ ] Communism
 	[ ] Capitalism
 	[ ] Meritism
