@@ -555,7 +555,7 @@ client.on('message',msg => {
 			}
 			
 			//###############################
-			//#           !force            #
+			//#         !resource           #
 			//###############################
 
 			if(content[0] == call+"resource"){
