@@ -555,6 +555,41 @@ client.on('message',msg => {
 			}
 			
 			//###############################
+			//#           !force            #
+			//###############################
+
+			if(content[0] == call+"resource"){
+				if(msg.mentions.members.first()) id = msg.mentions.members.first().id
+				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + countries[id].resource + " resource" );
+				var total = 0;
+				for(x in map){
+					for(y in map[x]){
+						try{
+							if(map[x][y].owner == id){
+								total += map[x][y].resource;
+							}
+						}catch(err){
+							
+						}
+					}
+				}
+				
+				if(countries[id].gun == undefined){
+					countries[id].gun = guns["M1"];
+				}
+				var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower)/100);
+				var armedPercent = 1;
+				if(countries.resource < countries[id].gun.cost * cMilitaryPop){
+					armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+				}
+				var cost = Math.round(countries[id].gun.cost * cMilitaryPop)*armedPercent;
+				var profit = total-cost;
+				msg.channel.send("you mine "+total+" resource per turn");
+				msg.channel.send("and spend "+cost+" per turn on weapons");
+				msg.channel.send("leaving you with "+profit+" per turn");
+			}
+			
+			//###############################
 			//#           !color            #
 			//###############################
 			
