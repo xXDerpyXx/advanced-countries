@@ -5,12 +5,12 @@
         "cost": 80
     },
     "ak47": {
-        "counters": ["rocks"],
+        "counters": ["rocks","awp"],
         "modifier": 1,
         "cost": 60
     },
     "rocks": {
-        "counters": ["m1"],
+        "counters": ["m1","awp"],
         "modifier": 0.5,
         "cost": 5
     },
@@ -20,7 +20,7 @@
         "cost": 40
     },
     "awp": {
-        "counters": ["rocks", "m1", "shotgun", "minigun"],
+        "counters": ["m1", "shotgun", "minigun"],
         "modifier": 1.5,
         "cost": 150
     },
