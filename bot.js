@@ -111,7 +111,7 @@ function tick(repeat) {
 		popGrowth[c]["start"] = countries[c].population.size;
 		armorment[c] = {};
 		if(countries[c].gun == undefined){
-			countries[c].gun = guns["M1"];
+			countries[c].gun = guns["m1"];
 		}
 		var cMilitaryPop = Math.round((countries[c].population.size * countries[c].population.manpower)/100);
 		var armedPercent = 1;
