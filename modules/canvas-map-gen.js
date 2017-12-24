@@ -131,10 +131,10 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 						ctx.lineWidth = 5;
 						ctx.strokeStyle = "rgb("+c[k].color.r+","+c[k].color.g+","+c[k].color.b+")";
 						ctx.beginPath();
-						ctx.moveTo(((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2)+WIDTH,
-						(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
-						ctx.lineTo(((c[c[k].allies[j]].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2)+WIDTH,
-						(height * WIDTH) - ((((c[c[k].allies[j]].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
+						ctx.moveTo(((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2)+(WIDTH*2),
+						(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2)+WIDTH;
+						ctx.lineTo(((c[c[k].allies[j]].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2)+(WIDTH*2),
+						(height * WIDTH) - ((((c[c[k].allies[j]].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2)+WIDTH;
 						ctx.stroke();
 					}catch(err){
 						
