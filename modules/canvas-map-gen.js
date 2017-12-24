@@ -127,13 +127,16 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 		if(showAlliances){
 			for(k in c){
 				for(j in c[k].allies){
-					
-					ctx.beginPath();
-					ctx.moveTo(((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2),
-					(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
-					ctx.lineTo(((c[j].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2),
-					(height * WIDTH) - ((((c[j].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
-					ctx.stroke();
+					try{
+						ctx.beginPath();
+						ctx.moveTo(((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2),
+						(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
+						ctx.lineTo(((c[j].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2),
+						(height * WIDTH) - ((((c[j].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
+						ctx.stroke();
+					}catch(err){
+						
+					}
 				}
 			}
 		}
