@@ -16,7 +16,7 @@ Object.size = function(obj) {
 };
 
 
-exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
+exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliances) {
 	ex = parseInt(ex)
 	ey = parseInt(ey)
 
@@ -29,7 +29,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
      ctx = canvas.getContext('2d');
 	
 	for(var x = sx; x < ex; x++){
-		for(var y = sy; y < ey; y++){
+		for(var y = sy; y < ey; y++){showAlliances
 			try{
 				//console.log((x-sx)+","+(y-sy));
 				let e = data[x][y]['elevation']
@@ -122,6 +122,23 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList) {
 		console.timeEnd('Time')
 	})
 	*/
+	
+	if(showAlliances != null){
+		if(showAlliances){
+			for(k in c){
+				for(j in c[k].allies){
+					
+					ctx.beginPath();
+					ctx.moveTo(((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2),
+					(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2);
+					ctx.lineTo(((c[j].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2),
+					(height * WIDTH) - ((((c[j].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2););
+					ctx.stroke();
+				}
+			}
+		}
+	}
+	
 	if(showList != null){
 		if(showList){
 			spot = 0;
