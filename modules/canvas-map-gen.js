@@ -34,7 +34,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 	if(showAlliances != null){
 		if(showAlliances){
 			for(k in c){
-				if(c[mainCountry].includes(k)){
+				if(c[mainCountry].allies.includes(k)){
 					ac.push(k);
 				}else{
 					ec.push(k);
