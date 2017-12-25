@@ -105,7 +105,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
 				draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), colonised, color, border, m, w)
 			}catch(err){
-				var part = Math.round(Math.random()*120)+70;
+				var part = Math.round(Math.random()*120);
 				var color = "rgb("+part+","+part+","+part+")";
 				draw(0, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), false, color, false, false, false, true)
 
@@ -202,6 +202,8 @@ function draw(e, x, y, c, color, b, m, w, forced) {
         '#ffffff' // Snow
         : rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
     
+    ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH)
+    
     if(forced != null){
 		if(forced){
 			ctx.fillStyle = color;
@@ -215,7 +217,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 	if(m){
 		ctx.fillStyle = "#000000";
 	}
-    ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH)
+    
     
 	if(c || b){
 		ctx.fillStyle = color;
@@ -223,15 +225,15 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 	}
     
     if(w){
-		ctx.strokeStyle = "rgb(255,255,255)";
+		ctx.strokeStyle = "rgb(255,0,0)";
 		ctx.lineWidth = 2;
 		ctx.beginPath();
 		ctx.moveTo(parseInt(x)*WIDTH,parseInt(y)*WIDTH);
 		ctx.lineTo((parseInt(x)+1)*WIDTH,(parseInt(y)+1)*WIDTH);
 		//ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo((parseInt(x)+1)*WIDTH,parseInt(y)*WIDTH);
-		ctx.lineTo(parseInt(x)*WIDTH,(parseInt(y)+1)*WIDTH);
+		ctx.moveTo((parseInt(x))*WIDTH,(parseInt(y)+1)*WIDTH);
+		ctx.lineTo((parseInt(x)+1)*WIDTH,(parseInt(y))*WIDTH);
 		ctx.stroke();
 		//ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
 	}
