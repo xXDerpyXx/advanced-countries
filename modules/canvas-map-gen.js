@@ -223,8 +223,17 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 	}
     
     if(w){
-		ctx.fillStyle = color;
-		ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
+		ctx.strokeStyle = color;
+		ctx.beginPath();
+		ctx.moveTo(parseInt(x),parseInt(y));
+		ctx.lineTo(parseInt(x)*WIDTH,parseInt(y)*WIDTH);
+		ctx.stroke();
+		ctx.strokeStyle = color;
+		ctx.beginPath();
+		ctx.moveTo(parseInt(x)*WIDTH,parseInt(y));
+		ctx.lineTo(parseInt(x),parseInt(y)*WIDTH);
+		ctx.stroke();
+		//ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
 	}
 }
 
