@@ -226,7 +226,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
     
     
     if(w){
-		ctx.fillStyle = color;
+		ctx.fillStyle = "rgb(255,0,0)";
 		ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
 	}
 }
