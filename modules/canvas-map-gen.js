@@ -28,6 +28,21 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 	 canvas = new Canvas(WIDTH * (ex-sx), ySize);
      ctx = canvas.getContext('2d');
 	
+	var ac = [];
+	var ec = []; 
+	
+	if(showAlliances != null){
+		if(showAlliances){
+			for(k in c){
+				if(c[mainCountry].includes(k)){
+					ac.push(k);
+				}else{
+					ec.push(k);
+				}
+			}
+		}
+	}
+	
 	for(var x = sx; x < ex; x++){
 		for(var y = sy; y < ey; y++){showAlliances
 			try{
@@ -60,6 +75,8 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 				  , ir = colonised ? r - 40 : null
 				  , ig = colonised ? g - 40 : null
 				  , ib = colonised ? b - 40 : null
+				
+				
 				
 				if(c[data[x][y]['owner']] != undefined){
 					if(c[data[x][y]['owner']].color == undefined){
@@ -103,6 +120,24 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 					console.log("centrist");
 				}
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
+				
+				if(ac.includes(parseInt(data[x][y]['owner']))){
+					color = "rgba(0,0,255,0.6)";
+					if(border){
+						color = "rgba(0,0,255,0.9)";
+					}
+						
+				}
+				
+				if(ec.includes(parseInt(data[x][y]['owner']))){
+					color = "rgba(0,0,255,0.6)";
+					if(border){
+						color = "rgba(0,0,255,0.9)";
+					}
+						
+				}
+				
+				
 				draw(e, y - sy, (((ex-x) - (ex-sx)) + (ex - sx)), colonised, color, border, m, w)
 			}catch(err){
 				var part = Math.round(Math.random()*120);
@@ -130,6 +165,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 					try{
 						if(mainCountry != null){
 							if(k == mainCountry || j == mainCountry){
+								/*
 								ctx.lineWidth = 5;
 								//ctx.strokeStyle = "rgb("+c[k].color.r+","+c[k].color.g+","+c[k].color.b+")";
 								ctx.beginPath();
@@ -138,7 +174,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 								ctx.lineTo(((c[c[k].allies[j]].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2)+(WIDTH*2),
 								(height * WIDTH) - ((((c[c[k].allies[j]].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2)+WIDTH;
 								ctx.stroke();
-
+								*/
 							}
 						}else{
 							ctx.lineWidth = 5;
