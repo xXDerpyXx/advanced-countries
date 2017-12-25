@@ -227,11 +227,11 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 		ctx.lineWidth = 2;
 		ctx.beginPath();
 		ctx.moveTo(parseInt(x)*WIDTH,parseInt(y)*WIDTH);
-		ctx.lineTo((parseInt(x)*WIDTH)+WIDTH,(parseInt(y)*WIDTH)+WIDTH);
+		ctx.lineTo((parseInt(x)+1)*WIDTH),(parseInt(y)+1)*WIDTH);
 		//ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo((parseInt(x)*WIDTH)+WIDTH,parseInt(y)*WIDTH);
-		ctx.lineTo(parseInt(x)*WIDTH,(parseInt(y)*WIDTH)+WIDTH);
+		ctx.moveTo((parseInt(x)+1)*WIDTH,parseInt(y)*WIDTH);
+		ctx.lineTo(parseInt(x)*WIDTH,(parseInt(y)+1)*WIDTH);
 		ctx.stroke();
 		//ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
 	}
