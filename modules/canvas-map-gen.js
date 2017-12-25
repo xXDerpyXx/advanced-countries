@@ -30,14 +30,17 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 	
 	var ac = [];
 	var ec = []; 
+	var oc
 	
 	if(showAlliances != null){
 		if(showAlliances){
 			for(k in c){
-				if(c[mainCountry].allies.includes(k)){
+				if(c[mainCountry].allies.includes(k) && c[k].allies.includes(mainCountry)){
 					ac[ac.length] = (k);
-				}else{
+				}else if(!(c[mainCountry].allies.includes(k)) && !(c[k].allies.includes(mainCountry))){
 					ec[ec.length] = (k);
+				}else{
+					oc[oc.length] = (k);
 				}
 			}
 		}
@@ -130,9 +133,17 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 				}
 				
 				if(ec.includes(data[x][y]['owner'])){
-					color = "rgba(0,0,255,0.6)";
+					color = "rgba(255,0,0,0.6)";
 					if(border){
-						color = "rgba(0,0,255,0.9)";
+						color = "rgba(255,0,0,0.9)";
+					}
+						
+				}
+				
+				if(oc.includes(data[x][y]['owner'])){
+					color = "rgba(0,255,0,0.6)";
+					if(border){
+						color = "rgba(0,255,0,0.9)";
 					}
 						
 				}
