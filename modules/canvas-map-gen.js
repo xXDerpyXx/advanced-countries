@@ -30,7 +30,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 	
 	var ac = [];
 	var ec = []; 
-	var oc
+	var oc = [];
 	
 	if(showAlliances != null){
 		if(showAlliances){
