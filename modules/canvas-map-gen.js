@@ -35,9 +35,9 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 		if(showAlliances){
 			for(k in c){
 				if(c[mainCountry].allies.includes(k)){
-					ac.push(k);
+					ac[ac.length] = (k);
 				}else{
-					ec.push(k);
+					ec[ec.length] = (k);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 				}
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
 				
-				if(ac.includes(parseInt(data[x][y]['owner']))){
+				if(ac.includes(data[x][y]['owner'])){
 					color = "rgba(0,0,255,0.6)";
 					if(border){
 						color = "rgba(0,0,255,0.9)";
@@ -129,7 +129,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 						
 				}
 				
-				if(ec.includes(parseInt(data[x][y]['owner']))){
+				if(ec.includes(data[x][y]['owner'])){
 					color = "rgba(0,0,255,0.6)";
 					if(border){
 						color = "rgba(0,0,255,0.9)";
