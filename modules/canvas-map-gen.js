@@ -65,7 +65,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 					if(c[data[x][y]['owner']].color == undefined){
 						
 						  
-						color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+						color = border ? "rgba("+ir+","+ig+","+ib+","+50+")" : colonised ? "rgba("+r+","+g+","+b+","+50+")" : null;
 					}else{
 						r = c[data[x][y]['owner']].color.r;
 						g = c[data[x][y]['owner']].color.g;
@@ -79,11 +79,11 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 							ig = 0;
 						if( ib < 0)
 							ib = 0;
-						color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+						color = border ? "rgba("+ir+","+ig+","+ib+","+50+")" : colonised ? "rgba("+r+","+g+","+b+","+50+")" : null;
 					}
 				}
 
-				color = border ? rgbToHex(ir, ig, ib) : colonised ? rgbToHex(r, g, b) : null;
+				color = border ? "rgba("+ir+","+ig+","+ib+","+50+")" : colonised ? "rgba("+r+","+g+","+b+","+50+")" : null;
 				
 				
 				for( k in c ){
@@ -129,7 +129,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 				for(j in c[k].allies){
 					try{
 						ctx.lineWidth = 5;
-						ctx.strokeStyle = "rgb("+c[k].color.r+","+c[k].color.g+","+c[k].color.b+")";
+						//ctx.strokeStyle = "rgb("+c[k].color.r+","+c[k].color.g+","+c[k].color.b+")";
 						ctx.beginPath();
 						ctx.moveTo(((c[k].capital.y * WIDTH) + ((ex * WIDTH) - (sx * WIDTH))) % ((ex * WIDTH) - (sx * WIDTH)+2)+(WIDTH*2),
 						(height * WIDTH) - ((((c[k].capital.x * WIDTH) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))) + ((ey * WIDTH) - (sy * WIDTH))) % ((ey * WIDTH) - (sy * WIDTH))+2)+WIDTH;
@@ -219,7 +219,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
     
     if(c || b){
 		ctx.fillStyle = color;
-		ctx.fillRect(((parseInt(x) + 1) * WIDTH)+1, ((parseInt(y) + 1) * WIDTH)+1, WIDTH-2, WIDTH-2)
+		ctx.fillRect(((parseInt(x) + 1) * WIDTH), ((parseInt(y) + 1) * WIDTH), WIDTH, WIDTH)
 	}
     
     if(w){
