@@ -79,11 +79,11 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 							ig = 0;
 						if( ib < 0)
 							ib = 0;
-						color = border ? "rgba("+ir+","+ig+","+ib+","+0.9+")" : colonised ? "rgba("+r+","+g+","+b+","+0.75+")" : null;
+						color = border ? "rgba("+ir+","+ig+","+ib+","+0.9+")" : colonised ? "rgba("+r+","+g+","+b+","+0.60+")" : null;
 					}
 				}
 
-				color = border ? "rgba("+ir+","+ig+","+ib+","+0.9+")" : colonised ? "rgba("+r+","+g+","+b+","+0.75+")" : null;
+				color = border ? "rgba("+ir+","+ig+","+ib+","+0.9+")" : colonised ? "rgba("+r+","+g+","+b+","+0.60+")" : null;
 				
 				
 				for( k in c ){
