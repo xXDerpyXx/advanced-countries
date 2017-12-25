@@ -94,7 +94,7 @@ exports.makeImage = function(data, war, sx, sy, ex, ey, c, showList,showAlliance
 				var m = false;
 				var w = false;
 				 if(war[x + "|" + y] != undefined){
-					color = "rgb(255,0,0)";
+					//color = "rgb(255,0,0)";
 					w = true;
 				 }
 				 
@@ -220,23 +220,10 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 	if(c || b){
 		ctx.fillStyle = color;
 		ctx.fillRect(((parseInt(x) + 1) * WIDTH), ((parseInt(y) + 1) * WIDTH), WIDTH, WIDTH);
-		if(w){
-			ctx.strokeStyle = color;
-			ctx.lineWidth = 2;
-			ctx.beginPath();
-			ctx.moveTo(parseInt(x)*WIDTH,parseInt(y)*WIDTH);
-			ctx.lineTo((parseInt(x)+1)*WIDTH,(parseInt(y)+1)*WIDTH);
-			//ctx.stroke();
-			ctx.beginPath();
-			ctx.moveTo((parseInt(x)+1)*WIDTH,parseInt(y)*WIDTH);
-			ctx.lineTo(parseInt(x)*WIDTH,(parseInt(y)+1)*WIDTH);
-			ctx.stroke();
-			//ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
-		}
 	}
     
     if(w){
-		ctx.strokeStyle = color;
+		ctx.strokeStyle = "rgb(255,255,255)";
 		ctx.lineWidth = 2;
 		ctx.beginPath();
 		ctx.moveTo(parseInt(x)*WIDTH,parseInt(y)*WIDTH);
