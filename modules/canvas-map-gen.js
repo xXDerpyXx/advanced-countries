@@ -226,6 +226,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
     
     
     if(w){
+		ctx.lineWidth = 2;
 		ctx.strokeStyle = "rgb(255,0,0)";
 		ctx.beginPath();
 		ctx.moveTo((x+1)*WIDTH,(y+1)*WIDTH);
