@@ -11,7 +11,7 @@ const fs      = require("fs");
 //    Functions and Config
 // ##########################
 
-const { formatMass, save, recursiveWait, getOwnedCells, loadGuns } = require('./modules/util.js')
+const { formatMass, save, recursiveWait, getOwnedCells, loadGuns, saveImage } = require('./modules/util.js')
 const { token, call, width, height, tickSpeed, adminList } = require('./config.js')
 const { generateMap, getLocalMap } = require('./modules/map.js')
 const { makeImage }   = require("./modules/canvas-map-gen.js");
@@ -40,7 +40,6 @@ let map       = {};
 
 var wars = {};
 let guns = {};
-
 
 //temp placement, move to a new file later
 /*
@@ -93,6 +92,11 @@ try {
 //###############################
 
 function tick(repeat) {
+
+	//###############################
+	//#     Generate daily-news     #
+	//###############################
+
 	var report = "";
 	console.log("===================================");
 	console.log("   Today is a new day")
@@ -332,7 +336,8 @@ function tick(repeat) {
 	report += "========================\n";
 
 	client.guilds.first().channels.find("name", "daily-news").send(report);
-	
+
+	saveImage(map, wars, countries)	
 	save(countries, map);
 
 	if(repeat) {

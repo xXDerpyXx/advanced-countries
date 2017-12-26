@@ -1,6 +1,7 @@
 const fs = require('fs');
 const gun = require('../struct/Gun.js');
 const { getLocalMap } = require('../modules/map.js');
+const { makeImage }   = require("../modules/canvas-map-gen.js");
 const { token, call, width, height, tickSpeed } = require('../config.js')
 
 module.exports = {
@@ -93,6 +94,16 @@ module.exports = {
 
                 res(guns);
             })
+        })
+    },
+
+    saveImage: (map, wars, countries) => {
+        let buffer = makeImage(map, wars, 0, 0, width, height, countries, false);
+
+        let name = fs.readdirSync(process.env.PWD + '/maps').length + 1;
+
+        fs.writeFile(process.env.PWD + `/maps/${name}.png`, canvas.toBuffer(), (err) => { 
+            if(err) console.log(err)
         })
     }
 }
