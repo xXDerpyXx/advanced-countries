@@ -817,8 +817,32 @@ client.on('message', msg => {
 				}
 			}
 
+			//###############################
+			//#          !economy           #
+			//###############################
+
+			if (content[0] == call + "economy"){
+				if (content[1] != undefined) {
+					try {
+						if (content[1] == "capitalist") {
+							countries[id].economyType = "capitalist";
+						} else if (content[1] == "communist") {
+							countries[id].economyType = "communist";
+						} else if (content[1] == "meritist"){
+							countries[id].economyType = "meritist";
+						} else{
+							msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.")
+						}
+					} catch(err){
+						msg.channel.send("Ow! Error!");
+					}
+				} else {
+					msg.channel.send("You gotta say something!");
+				}
+			}
+
 			//###############################   /|
-			//#            !war             #  < |====  KEY THING THAT NEEDS FIXING
+			//#            !war             #  < |====  KEY THING THAT NEEDS FIXING   Hopefully fixed - tbk
 			//###############################   \|          (FIX DIRECTIONAL CONTROL)
 
 			if (content[0] == call + "war") {
