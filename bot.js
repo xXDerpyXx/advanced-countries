@@ -685,7 +685,7 @@ client.on('message', msg => {
 				if (content[1] != undefined && content[2] != undefined && content[3] != undefined) {
 					if (parseInt(content[1]) < 0 || parseInt(content[2]) < 0 || parseInt(content[3]) < 0) {
 						msg.channel.send("R, G and B needs to be 0 or more!");
-					} else if (parseInt(content[1]) == null || parseInt(content[2]) == null || parseInt(content[3]) == null) {
+					} else if (content[1] == "null" || content[2] == "null" || content[3] == "null") {
 						msg.channel.send("No nulls please!");
 					} else {
 						if (parseInt(content[1]) > 255 || parseInt(content[2]) > 255 || parseInt(content[3]) > 255) {
