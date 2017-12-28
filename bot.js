@@ -826,10 +826,13 @@ client.on('message', msg => {
 					try {
 						if (content[1] == "capitalist") {
 							countries[id].economyType = "capitalist";
+							msg.channel.send("Economy set!");
 						} else if (content[1] == "communist") {
 							countries[id].economyType = "communist";
+							msg.channel.send("Economy set!");
 						} else if (content[1] == "meritist"){
 							countries[id].economyType = "meritist";
+							msg.channel.send("Economy set!");
 						} else{
 							msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.")
 						}
