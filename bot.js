@@ -685,7 +685,7 @@ client.on('message', msg => {
 				if (content[1] != undefined && content[2] != undefined && content[3] != undefined) {
 					if (parseInt(content[1]) < 0 || parseInt(content[2]) < 0 || parseInt(content[3]) < 0) {
 						msg.channel.send("R, G and B needs to be 0 or more!");
-					} else if (parseInt(content[1]) === null || parseInt(content[2]) === null || parseInt(content[3]) === null) {
+					} else if (parseInt(content[1]) == null || parseInt(content[2]) == null || parseInt(content[3]) == null) {
 						msg.channel.send("No nulls please!");
 					} else {
 						if (parseInt(content[1]) > 255 || parseInt(content[2]) > 255 || parseInt(content[3]) > 255) {
@@ -712,14 +712,14 @@ client.on('message', msg => {
 			if (content[0] == call + "map") {
 				if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
 
-				var x = content[1];
-				var y = content[2];
+				var x = content[2];
+				var y = content[1];
 				if (x == null || y == null) {
 					x = c.capital.x;
 					y = c.capital.y;
 				} else {
-					x = parseInt(content[1]);
-					y = parseInt(content[2]);
+					x = parseInt(content[2]);
+					y = parseInt(content[1]);
 				}
 				size = 10;
 				if (content[3] != undefined) {
@@ -843,6 +843,20 @@ client.on('message', msg => {
 					msg.channel.send("You gotta say something!");
 				}
 			}
+
+			//###############################
+			//#        !government          # //in progress
+			//###############################
+
+			/*if(content[0] == call + "government"){
+				if (content[1] != undefined){
+					try{
+						if(content[1] == "fac")
+					}catch(err){
+						msg.channel.send("Ow! Error!");
+					}
+				}
+			}*/
 
 			//###############################   /|
 			//#            !war             #  < |====  KEY THING THAT NEEDS FIXING   Hopefully fixed - tbk
