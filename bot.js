@@ -712,14 +712,14 @@ client.on('message', msg => {
 			if (content[0] == call + "map") {
 				if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
 
-				var x = content[2];
-				var y = content[1];
+				var x = content[1];
+				var y = content[2];
 				if (x == null || y == null) {
 					x = c.capital.x;
 					y = c.capital.y;
 				} else {
-					x = parseInt(content[2]);
-					y = parseInt(content[1]);
+					x = parseInt(content[1]);
+					y = parseInt(content[2]);
 				}
 				size = 10;
 				if (content[3] != undefined) {
@@ -733,13 +733,13 @@ client.on('message', msg => {
 				if (size <= 0) {
 					msg.channel.send("Don't use negatives, silly...");
 				} else {
-					let buffer = makeImage(map, wars, x - size, y - size, parseInt(x) + size, parseInt(y) + size, countries);
+					let buffer = makeImage(map, wars, y - size, x - size, parseInt(x) + size, parseInt(y) + size, countries);
 
 					setTimeout(function () {
-						msg.channel.send(`Center of ${y} ${x}`, {
+						msg.channel.send(`Center of ${x} ${y}`, {
 							files: [{
 								attachment: buffer,
-								name: `${y}-${x}.png`,
+								name: `${x}-${y}.png`,
 							}],
 						});
 					}, 500);
