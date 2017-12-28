@@ -733,7 +733,7 @@ client.on('message', msg => {
 				if (size <= 0) {
 					msg.channel.send("Don't use negatives, silly...");
 				} else {
-					let buffer = makeImage(map, wars, y - size, x - size, parseInt(x) + size, parseInt(y) + size, countries);
+					let buffer = makeImage(map, wars, x - size, y - size, parseInt(x) + size, parseInt(y) + size, countries);
 
 					setTimeout(function () {
 						msg.channel.send(`Center of ${x} ${y}`, {

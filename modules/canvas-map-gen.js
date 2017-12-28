@@ -158,11 +158,11 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 				}
 
 
-				draw(e, y - sy, (((ex - x) - (ex - sx)) + (ex - sx)), colonised, color, border, m, w)
+				draw(e, (((ex - x) - (ex - sx)) + (ex - sx)), y - sy, colonised, color, border, m, w)
 			} catch (err) {
 				var part = Math.round(Math.random() * 120);
 				var color = "rgb(" + part + "," + part + "," + part + ")";
-				draw(0, y - sy, (((ex - x) - (ex - sx)) + (ex - sx)), false, color, false, false, false, true)
+				draw(0, (((ex - x) - (ex - sx)) + (ex - sx)), y - sy, false, color, false, false, false, true)
 
 
 				//console.log(err);
