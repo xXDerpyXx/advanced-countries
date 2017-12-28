@@ -157,7 +157,9 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
-		countries[c].population.size = countries[c].population.size - countries[c].population.size * countries[c].genocidePercent;
+		if(counties[c].genocidePercent = undefined){}else{
+			countries[c].population.size = countries[c].population.size - countries[c].population.size * countries[c].genocidePercent;
+		}
 	}
 
 	for (x in map) {
