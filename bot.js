@@ -18,6 +18,12 @@ const { makeImage }   = require("./modules/canvas-map-gen.js");
 const { declareWar }   = require("./modules/war.js");
 
 // ########################
+//          Commands
+// ########################
+
+const commands = require("./modules/commands.js");
+
+// ########################
 //          Classes
 // ########################
 
