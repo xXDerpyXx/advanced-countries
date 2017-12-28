@@ -825,26 +825,26 @@ client.on('message', msg => {
 				var left = 1;
 				var up = 1;
 				var down = 2;
-				if (content.includes("north") || content.includes("east") || content.includes("south") || content.includes("west") || content.includes("weast")) {
+				if (content.includes("north") || content.includes("east") || content.includes("south") || content.includes("west") || content.includes("weast"))/*weast?*/ {
 					up = 0;
 					down = 1;
 					left = 0;
 					right = 1;
-					if (msg.content.includes("south")) {
+					if (msg.content.includes("west")) {
 						up = 1;
-						dir += " south";
-					}
-					if (msg.content.includes("north")) {
-						down = 2;
-						dir += " north";
-					}
-					if (msg.content.includes("east")) {
-						right = 2;
 						dir += " west";
 					}
 					if (msg.content.includes("west")) {
+						down = 2;
+						dir += " west";
+					}
+					if (msg.content.includes("south")) {
+						right = 2;
+						dir += " south";
+					}
+					if (msg.content.includes("north")) {
 						left = 1;
-						dir += " east";
+						dir += " north";
 					}
 					if (msg.content.includes("weast")) {
 						left = 1;
