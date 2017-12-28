@@ -1240,6 +1240,28 @@ client.on('message', msg => {
 		}
 
 		//###############################
+		//#         !whoisowner         # <-- make an alternate that uses a country name to get the username of the person
+		//###############################
+
+		if (content[0] == call + "whoisowner") {
+			var toSend = "";
+			if (content[1] != undefined) {
+				countries.array.forEach(element => {
+					if(element.name == content[1]){
+						toSend += `The owner of ${element.name} is ${country.owner}.`
+					}
+				});
+				if(toSend != ""){
+					msg.channel.send(toSend);
+				}else{
+					msg.channel.send("That country doesn't exist...")
+				}
+			} else {
+				msg.channel.send('Please actually mention a country name...')
+			}
+		}
+
+		//###############################
 		//#       Admin Commands        #
 		//###############################
 
