@@ -20,7 +20,7 @@
 		[ ] Save/Load data
 [ ] Chores
 	[X] Fix Directional wars
-	[ ] Fix country colors being invisible or null
+	[X] Fix country colors being invisible or null
 	[x] Finally fix !unally
 	[ ] Clean some code
 		[ ] Command Handler
