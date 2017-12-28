@@ -19,7 +19,7 @@
 		[ ] Training
 		[ ] Save/Load data
 [ ] Chores
-	[ ] Fix Directional wars
+	[X] Fix Directional wars
 	[ ] Fix country colors being invisible or null
 	[x] Finally fix !unally
 	[ ] Clean some code
