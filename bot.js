@@ -157,6 +157,7 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
+		countries[c].population.size = countries[c].population.size - countries[c].population.size * countries[c].genocidePercent;
 	}
 
 	for (x in map) {
@@ -391,10 +392,14 @@ client.on('message', msg => {
 			if (content[0] == call + "makecountry") {
 				//console.log(content[1]);
 				if (content[1] == undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
-					msg.channel.send("You need to specify a name! `" + call + "makecountry [name]` and the first char has to be ascii");
+					msg.channel.send("You need to specify a name! `" + call + "makecountry [name] [economy type] [government type]` and the first char has to be ascii");
 
-				} else {
-					countries[id] = new country(id, msg.content.split(" ")[1]);
+				} else if(content[2] != "communist" && content[2] != "capitalism" && content[2] != "meritist" && content[2] != undefined){
+					msg.channel.send("That isn't an economy type! Types: capitalist, communist, or meritist. Say nothing for capitalist");
+				}else if(content[3] != "republic" && content[3] != "monarchy" && content[3] != "dictatorship" && content[3] != "facist" && content[3] != "democracy" && content[3] != undefined){
+					msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
+				}else{
+					countries[id] = new country(id, content[1], content[2], content[3]);
 					msg.channel.send("You've created the country of " + msg.content.split(" ")[1]);
 					save(countries, map);
 				}
@@ -826,12 +831,15 @@ client.on('message', msg => {
 					try {
 						if (content[1] == "capitalist") {
 							countries[id].economyType = "capitalist";
+							save(countries, map);
 							msg.channel.send("Economy set!");
 						} else if (content[1] == "communist") {
 							countries[id].economyType = "communist";
+							save(countries, map);
 							msg.channel.send("Economy set!");
 						} else if (content[1] == "meritist"){
 							countries[id].economyType = "meritist";
+							save(countries, map);
 							msg.channel.send("Economy set!");
 						} else{
 							msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.")
@@ -840,27 +848,92 @@ client.on('message', msg => {
 						msg.channel.send("Ow! Error!");
 					}
 				} else {
-					msg.channel.send("You gotta say something!");
+					msg.channel.send("Options: capitalist, communist, or meritist.");
 				}
 			}
 
 			//###############################
-			//#        !government          # //in progress
+			//#        !government          # 
 			//###############################
 
-			/*if(content[0] == call + "government"){
+			if(content[0] == call + "government"){
 				if (content[1] != undefined){
 					try{
-						if(content[1] == "fac")
+						if(content[1] == "facist"){
+							countries[id].governmentType = "facist";
+							countries[id].loyalty = 0;
+							countries[id].sway = -0.5;
+							save(countries, map);
+							msg.channel.send("Government type set!");
+						}else if(content[1] == "dictatorship"){
+							countries[id].governmentType = "dictatorship";
+							countries[id].genocidePercent = 0;
+							countries[id].loyalty = 0;
+							countries[id].sway = -0.5;
+							save(countries, map);
+							msg.channel.send("Government type set!");
+						}else if(content[1] == "monarchy"){
+							countries[id].governmentType = "monarchy";
+							countries[id].genocidePercent = 0;
+							countries[id].loyalty = 0;
+							countries[id].sway = -0.5;
+							save(countries, map);
+							msg.channel.send("Government type set!");
+						}else if(content[1] == "democracy"){
+							countries[id].governmentType = "democracy";
+							countries[id].genocidePercent = 0;
+							countries[id].loyalty = 0;
+							countries[id].sway = -0.5;
+							save(countries, map);
+							msg.channel.send("Government type set!");
+						}else if(content[1] == "republic"){
+							countries[id].governmentType = "republic";
+							countries[id].genocidePercent = 0;
+							countries[id].loyalty = 0;
+							countries[id].sway = -0.5;
+							save(countries, map);
+							msg.channel.send("Government type set!");
+						}else{
+							msg.channel.send("Sorry, you can only be a republic, dictatorship, monarchy, democracy, or a facist.");
+						}
 					}catch(err){
 						msg.channel.send("Ow! Error!");
 					}
+				}else{
+					msg.channel.send("Options: republic, dictatorship, monarchy, democracy, or facist.");
 				}
-			}*/
+			}
 
-			//###############################   /|
-			//#            !war             #  < |====  KEY THING THAT NEEDS FIXING   Hopefully fixed - tbk
-			//###############################   \|          (FIX DIRECTIONAL CONTROL)
+			//###############################
+			//#         !genocide           #
+			//###############################
+
+			if (content[0] == call + "genocide"){
+				if(countries[id].governmentType = "facist"){
+					if (content[1] != undefined) {
+						if (content[1] <= 100) {
+							if (content[1] >= 0) {
+								countries[id].population.genocidePercent = parseFloat(content[1] / 100);
+								msg.channel.send("Genocide amount set to " + content[1] + "%");
+								save(countries, map);
+							} else {
+								msg.channel.send("Genocide % too low!");
+							}
+						} else {
+							msg.channel.send("Genocide % too high!");
+						}
+					} else {
+						msg.channel.send("You need to give a valid percentage, `" + call + "genocide 25` will set kill 25% of your population every turn.");
+	
+					}
+				}else{
+					msg.channel.send("Sorry, you have to be facist to use this command.")
+				}
+			}
+
+			//###############################
+			//#            !war             #
+			//###############################
 
 			if (content[0] == call + "war") {
 				var dir = "";
@@ -1237,17 +1310,18 @@ client.on('ready', () => {
 //###############################
 
 class country {
-	constructor(id, name) {
+	constructor(id, name, chosenEconomy = "capitalist", chosenGov = "dictatorship") {
 		this.id = id;
 		this.name = name;
 		this.owner = client.users.get(id).tag
 		this.allies = [];
-		this.economyType = "capitalist";
-		this.governmentType = "dictatorship";
+		this.economyType = chosenEconomy;
+		this.governmentType = chosenGov;
 		this.resource = 0;
 		this.allies[0] = id;
 		this.population = {};
 		this.ownedCells = 0;
+		this.genocidePercent = 0;
 		this.population.size = 1000;
 		this.population.loyalty = 1;
 		this.population.sway = 0;

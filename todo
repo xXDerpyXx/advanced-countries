@@ -20,7 +20,7 @@
 		[ ] Save/Load data
 [ ] Chores
 	[X] Fix Directional wars
-	[] Fix country colors being invisible or null
+	[X] Fix country colors being invisible or null
 	[x] Finally fix !unally
 	[ ] Clean some code
 		[ ] Command Handler
@@ -48,17 +48,17 @@
 		[ ] Manifesting as forming a new country (relying on AI countries)
 		[ ] Manifesting as assasinations
 	[ ] Assasinations (connected to Loyalty)
-	[ ] Dictatorship
-	[ ] Monarchy
+	[x] Dictatorship
+	[x] Monarchy
 		[ ] Family Trees
-	[ ] Facism
-		[ ] Genocide - killing a percentage of people per turn, needed to keep up loyalty
-	[ ] Democracy
+	[x] Facism
+		[x] Genocide - killing a percentage of people per turn, needed to keep up loyalty
+	[x] Democracy
 		[ ] Votes
 			[ ] Parties  
 		[ ] No Elections - Ruler = "The People"
 		[ ] Actions require votes to happen, requiring loyalty
-	[ ] Republic
+	[x] Republic
 		[ ] Election Events
 		[ ] Votes and parties
 		[ ] Actions require votes to happen, requiring loyalty
