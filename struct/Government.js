@@ -1,4 +1,4 @@
-module.exports =  class government {
+module.exports = class government {
 	constructor() {
 		this.name;
 		this.loyaltyEffect = 0;
