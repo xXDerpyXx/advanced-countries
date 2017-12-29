@@ -9,20 +9,35 @@
     },
     "rules": {
         "indent": [
-            "error",
+            "warn",
             "tab"
         ],
         "linebreak-style": [
-            "error",
+            "warn",
             "unix"
         ],
         "quotes": [
-            "error",
+            "warn",
             "double"
         ],
         "semi": [
             "error",
             "always"
+        ],
+        "block-scoped-var": [
+            "off"
+        ],
+        "no-unused-vars": [
+            "off"
+        ],
+        "no-console": [
+            "off"
+        ],
+        "no-undef": [
+            "off"
+        ],
+        "no-redeclare":[
+            "off"
         ]
     }
 }
