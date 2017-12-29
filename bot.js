@@ -1189,7 +1189,7 @@ client.on('message', msg => {
 					Object.keys(countries).forEach(function(key) {
 
 						if(countries[key].name.toLowerCase() == content[1]){
-							toReturn = countries[key].id;
+							toReturn = countries[key];
 						}
 					  
 					});
@@ -1197,10 +1197,10 @@ client.on('message', msg => {
 				}
 				save(countries, map);
 				if (content[1] != undefined) {
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries());
+					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries().id);
 
 					setTimeout(function () {
-						msg.channel.send(`Map of allies for ${findCountries(countries, content[1]).name}`,{
+						msg.channel.send(`Map of allies for ${findCountries().name}`,{
 							files: [{
 								attachment: buffer,
 								name: `map.png`,
