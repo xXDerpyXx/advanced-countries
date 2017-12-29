@@ -11,4 +11,4 @@ module.exports = class cell {
 		this.climate = 0;
 		this.owner = "none";
 	}
-}
+};

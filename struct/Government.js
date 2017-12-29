@@ -6,4 +6,4 @@ module.exports = class government {
 		this.warEffect = 0;
 		this.overpopulationEffect = 0;
 	}
-}
+};

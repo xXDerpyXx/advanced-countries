@@ -1,10 +1,10 @@
-const { token, call, width, height, tickSpeed } = require('../config.js');
-const cell = require('../struct/Cell.js');
+const { token, call, width, height, tickSpeed } = require("../config.js");
+const cell = require("../struct/Cell.js");
 
 exports.generateMap = () => {
-    let map = {}
+	let map = {};
 
-    for(var x = 0; x < width; x++) {
+	for(var x = 0; x < width; x++) {
 		map[x] = {};
 
 		for(var y = 0; y < height; y++) {
@@ -41,10 +41,10 @@ exports.generateMap = () => {
 				console.log(map[x][y].elevation);
 			}
 		} 
-    }
+	}
     
-    return map;
-}
+	return map;
+};
 
 exports.getLocalMap = (sx,sy,width,height,c) => {
 	temp = "";
@@ -120,4 +120,4 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 	} catch(err) {
 		return "Error occured";
 	}
-}
+};

@@ -9,4 +9,4 @@ module.exports = class war {
 		this.x = x;
 		this.y = y;
 	}
-}
+};

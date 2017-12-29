@@ -3,4 +3,4 @@ module.exports = class location {
 		this.x = x;
 		this.y = y;
 	}
-}
+};

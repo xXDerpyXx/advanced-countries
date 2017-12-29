@@ -5,4 +5,4 @@ module.exports = class gun {
 		this.modifier = 1;
 		this.cost = 1;
 	}
-}
+};

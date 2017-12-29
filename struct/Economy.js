@@ -6,4 +6,4 @@ module.exports = class economy {
 		this.warEffect = 0;
 		this.overpopulationEffect = 0;
 	}
-}
+};

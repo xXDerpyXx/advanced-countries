@@ -1,8 +1,8 @@
 const WIDTH = 10;
 
-const Canvas = require('canvas');
+const Canvas = require("canvas");
 
-const fs = require('fs');
+const fs = require("fs");
 //    , data = JSON.parse(fs.readFileSync('./map.json', 'utf8'));
 
 const {
@@ -11,7 +11,7 @@ const {
 	width,
 	height,
 	tickSpeed
-} = require('../config.js')
+} = require("../config.js");
 
 Object.size = function (obj) {
 	var size = 0,
@@ -24,16 +24,16 @@ Object.size = function (obj) {
 
 
 exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAlliances, mainCountry) {
-	ex = parseInt(ex)
-	ey = parseInt(ey)
+	ex = parseInt(ex);
+	ey = parseInt(ey);
 
-	console.time('Time')
+	console.time("Time");
 	var ySize = WIDTH * (ey - sy);
 	if (showList) {
 		//ySize += (10*Object.size(c));
 	}
 	canvas = new Canvas(WIDTH * (ex - sx), ySize);
-	ctx = canvas.getContext('2d');
+	ctx = canvas.getContext("2d");
 
 	var ac = [];
 	var ec = [];
@@ -55,11 +55,11 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 
 	for (var x = sx; x < ex; x++) {
 		for (var y = sy; y < ey; y++) {
-			showAlliances
+			showAlliances;
 			try {
 				//console.log((x-sx)+","+(y-sy));
-				let e = data[x][y]['elevation']
-				let colonised = data[x][y]['owner'] !== 'none'
+				let e = data[x][y]["elevation"];
+				let colonised = data[x][y]["owner"] !== "none";
 
 				border = false;
 				currOwner = data[x][y].owner;
@@ -71,34 +71,34 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 								border = true;
 							}
 						} catch (err) {
-
+							console.log(err.toString());
 						}
 					}
 				}
 
 				let color = "";
-				let r = colonised ? (parseInt(data[x][y]['owner'].substring(0, 2)) % 210) + 40 : null,
-					g = colonised ? (parseInt(data[x][y]['owner'].substring(3, 6)) % 210) + 40 : null,
-					b = colonised ? (parseInt(data[x][y]['owner'].substring(7, 10)) % 210) + 40 : null
+				let r = colonised ? (parseInt(data[x][y]["owner"].substring(0, 2)) % 210) + 40 : null,
+					g = colonised ? (parseInt(data[x][y]["owner"].substring(3, 6)) % 210) + 40 : null,
+					b = colonised ? (parseInt(data[x][y]["owner"].substring(7, 10)) % 210) + 40 : null
 					// , ir = colonised ? ((r + 127) % 255) : null
 					// , ig = colonised ? ((g + 127) % 255) : null
 					// , ib = colonised ? ((b + 127) % 255) : null;
 					,
 					ir = colonised ? r - 40 : null,
 					ig = colonised ? g - 40 : null,
-					ib = colonised ? b - 40 : null
+					ib = colonised ? b - 40 : null;
 
 
 
-				if (c[data[x][y]['owner']] != undefined) {
-					if (c[data[x][y]['owner']].color == undefined) {
+				if (c[data[x][y]["owner"]] != undefined) {
+					if (c[data[x][y]["owner"]].color == undefined) {
 
 
 						color = border ? "rgba(" + ir + "," + ig + "," + ib + "," + 50 + ")" : colonised ? "rgba(" + r + "," + g + "," + b + "," + 50 + ")" : null;
 					} else {
-						r = c[data[x][y]['owner']].color.r;
-						g = c[data[x][y]['owner']].color.g;
-						b = c[data[x][y]['owner']].color.b;
+						r = c[data[x][y]["owner"]].color.r;
+						g = c[data[x][y]["owner"]].color.g;
+						b = c[data[x][y]["owner"]].color.b;
 						ir = r - 40;
 						ig = g - 40;
 						ib = b - 40;
@@ -133,7 +133,7 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 				}
 				//console.log((y-sy)+","+ (((ex-x)-(ex-sx))+(ex-sx))+" | "+(ex-sx))
 
-				if (ac.includes(data[x][y]['owner'])) {
+				if (ac.includes(data[x][y]["owner"])) {
 					color = "rgba(0,0,255,0.6)";
 					if (border) {
 						color = "rgba(0,0,255,0.9)";
@@ -141,7 +141,7 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 
 				}
 
-				if (ec.includes(data[x][y]['owner'])) {
+				if (ec.includes(data[x][y]["owner"])) {
 					color = "rgba(255,0,0,0.6)";
 					if (border) {
 						color = "rgba(255,0,0,0.9)";
@@ -149,7 +149,7 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 
 				}
 
-				if (oc.includes(data[x][y]['owner'])) {
+				if (oc.includes(data[x][y]["owner"])) {
 					color = "rgba(0,255,0,0.6)";
 					if (border) {
 						color = "rgba(0,255,0,0.9)";
@@ -158,17 +158,17 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 				}
 
 
-				draw(e, y - sy, (((ex - x) - (ex - sx)) + (ex - sx)), colonised, color, border, m, w)
+				draw(e, y - sy, (((ex - x) - (ex - sx)) + (ex - sx)), colonised, color, border, m, w);
 			} catch (err) {
 				var part = Math.round(Math.random() * 120);
 				var color = "rgb(" + part + "," + part + "," + part + ")";
-				draw(0, y - sy, (((ex - x) - (ex - sx)) + (ex - sx)), false, color, false, false, false, true)
+				draw(0, y - sy, (((ex - x) - (ex - sx)) + (ex - sx)), false, color, false, false, false, true);
 
 
 				//console.log(err);
 			}
-		};
-	};
+		}
+	}
 	//rotate270(canvas, ctx,(ey-sy)*WIDTH,(ex-sx)*WIDTH)
 
 	/*
@@ -207,7 +207,7 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 							ctx.stroke();
 						}
 					} catch (err) {
-
+						console.log(err.toString());
 					}
 				}
 			}
@@ -243,12 +243,12 @@ exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAllian
 
 				spot++;
 
-				y - sy, (((ex - x) - (ex - sx)) + (ex - sx))
+				y - sy, (((ex - x) - (ex - sx)) + (ex - sx));
 			}
 		}
 	}
 	return canvas.toBuffer();
-}
+};
 
 
 
@@ -265,17 +265,17 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 	ctx.fillStyle =
 		//color // Border
 		e < 7 && e > 0 ?
-		rgbToHex(0, (parseInt((e / 7) * 127) + 127), 0) // Grass
-		:
-		e > 7 && e < 10 ?
-		rgbToHex((parseInt((e / 10) * 127) + 127), (parseInt((e / 10) * 127) + 127), (parseInt((e / 10) * 127) + 127)) // Rocky / hill
-		:
-		e > 10 ?
-		'#ffffff' // Snow
-		:
-		rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
+			rgbToHex(0, (parseInt((e / 7) * 127) + 127), 0) // Grass
+			:
+			e > 7 && e < 10 ?
+				rgbToHex((parseInt((e / 10) * 127) + 127), (parseInt((e / 10) * 127) + 127), (parseInt((e / 10) * 127) + 127)) // Rocky / hill
+				:
+				e > 10 ?
+					"#ffffff" // Snow
+					:
+					rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
 
-	ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH)
+	ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH);
 
 	if (forced != null) {
 		if (forced) {
@@ -316,7 +316,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 
 function rotate270(canvas, ctx, height, width) {
 
-	let img = new Canvas.Image
+	let img = new Canvas.Image;
 	img.src = canvas.toBuffer();
 	ctx.clearRect(0, 0, 1000, 1000);
 
@@ -324,7 +324,7 @@ function rotate270(canvas, ctx, height, width) {
 
 
 	//img.onload = function(){
-	ctx.drawImage(img, 0, 0, width, height)
+	ctx.drawImage(img, 0, 0, width, height);
 
 	//}
 }
