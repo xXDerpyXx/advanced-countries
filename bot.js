@@ -1184,9 +1184,16 @@ client.on('message', msg => {
 			//###############################
 
 			if (content[0] == call + "allymap") {
+				function findCountries(cc, toFind){
+					for(c in cc){
+						if(c.name.toLowerCase() == toFind.toLowerCase()){
+							return c;
+						}
+					}
+				}
 				save(countries, map);
 				if (content[1] != undefined) {
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, content[1]);
+					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries(countries, content[1]));
 
 					setTimeout(function () {
 						msg.channel.send({
@@ -1198,10 +1205,10 @@ client.on('message', msg => {
 					}, 500);
 				} else {
 					//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true);
+					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, msg.author.id);
 
 					setTimeout(function () {
-						msg.channel.send({
+						msg.channel.send(`Map of allies for ${countries[msg.author.id].name}`, {
 							files: [{
 								attachment: buffer,
 								name: `map.png`,
@@ -1257,11 +1264,11 @@ client.on('message', msg => {
 		if (content[0] == call + "whoisowner") {
 			var toSend = "";
 			if (content[1] != undefined) {
-				countries.array.forEach(element => {
-					if(element.name == content[1]){
-						toSend += `The owner of ${element.name} is ${country.owner}.`
+				for(c in countries){
+					if(c.name.toLowerCase() == content[1].toLowerCase()){
+						toSend += `The owner of ${c.name} is ${c.owner}.`
 					}
-				});
+				}
 				if(toSend != ""){
 					msg.channel.send(toSend);
 				}else{
@@ -1414,5 +1421,4 @@ class country {
 		}
 	}
 }
-
 client.login(token)
