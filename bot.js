@@ -157,7 +157,7 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
-		if(countries[c].genocidePercent == undefined){}else{
+		if (countries[c].genocidePercent == undefined) {} else {
 			countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);
 		}
 	}
@@ -396,11 +396,11 @@ client.on('message', msg => {
 				if (content[1] == undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
 					msg.channel.send("You need to specify a name! `" + call + "makecountry [name] [economy type] [government type]` and the first char has to be ascii");
 
-				} else if(content[2] != "communist" && content[2] != "capitalist" && content[2] != "meritist" && content[2] != undefined){
+				} else if (content[2] != "communist" && content[2] != "capitalist" && content[2] != "meritist" && content[2] != undefined) {
 					msg.channel.send("That isn't an economy type! Types: capitalist, communist, or meritist. Say nothing for capitalist");
-				}else if(content[3] != "republic" && content[3] != "monarchy" && content[3] != "dictatorship" && content[3] != "facist" && content[3] != "democracy" && content[3] != undefined){
+				} else if (content[3] != "republic" && content[3] != "monarchy" && content[3] != "dictatorship" && content[3] != "facist" && content[3] != "democracy" && content[3] != undefined) {
 					msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
-				}else{
+				} else {
 					countries[id] = new country(id, content[1], content[2], content[3]);
 					msg.channel.send("You've created the country of " + msg.content.split(" ")[1]);
 					save(countries, map);
@@ -641,9 +641,9 @@ client.on('message', msg => {
 					armedPercent = 1;
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
-				if(content[1] == "webint"){
+				if (content[1] == "webint") {
 					msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
-				}else{
+				} else {
 					msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
 				}
 			}
@@ -686,9 +686,9 @@ client.on('message', msg => {
 				temp += ("you mine " + Math.round(total) + " resource per turn\n");
 				temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
 				temp += ("leaving you with " + Math.round(profit) + " per turn\n");
-				if(content[1] == "webint"){
+				if (content[1] == "webint") {
 					msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
-				}else{
+				} else {
 					msg.channel.send(temp);
 				}
 			}
@@ -837,7 +837,7 @@ client.on('message', msg => {
 			//#          !economy           #
 			//###############################
 
-			if (content[0] == call + "economy"){
+			if (content[0] == call + "economy") {
 				if (content[1] != undefined) {
 					try {
 						if (content[1] == "capitalist") {
@@ -848,14 +848,14 @@ client.on('message', msg => {
 							countries[id].economyType = "communist";
 							save(countries, map);
 							msg.channel.send("Economy set!");
-						} else if (content[1] == "meritist"){
+						} else if (content[1] == "meritist") {
 							countries[id].economyType = "meritist";
 							save(countries, map);
 							msg.channel.send("Economy set!");
-						} else{
+						} else {
 							msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.")
 						}
-					} catch(err){
+					} catch (err) {
 						msg.channel.send("Ow! Error!");
 					}
 				} else {
@@ -867,50 +867,50 @@ client.on('message', msg => {
 			//#        !government          # 
 			//###############################
 
-			if(content[0] == call + "government"){
-				if (content[1] != undefined){
-					try{
-						if(content[1] == "facist"){
+			if (content[0] == call + "government") {
+				if (content[1] != undefined) {
+					try {
+						if (content[1] == "facist") {
 							countries[id].governmentType = "facist";
 							countries[id].loyalty = 0;
 							countries[id].sway = -0.5;
 							save(countries, map);
 							msg.channel.send("Government type set!");
-						}else if(content[1] == "dictatorship"){
+						} else if (content[1] == "dictatorship") {
 							countries[id].governmentType = "dictatorship";
 							countries[id].genocidePercent = 0;
 							countries[id].loyalty = 0;
 							countries[id].sway = -0.5;
 							save(countries, map);
 							msg.channel.send("Government type set!");
-						}else if(content[1] == "monarchy"){
+						} else if (content[1] == "monarchy") {
 							countries[id].governmentType = "monarchy";
 							countries[id].genocidePercent = 0;
 							countries[id].loyalty = 0;
 							countries[id].sway = -0.5;
 							save(countries, map);
 							msg.channel.send("Government type set!");
-						}else if(content[1] == "democracy"){
+						} else if (content[1] == "democracy") {
 							countries[id].governmentType = "democracy";
 							countries[id].genocidePercent = 0;
 							countries[id].loyalty = 0;
 							countries[id].sway = -0.5;
 							save(countries, map);
 							msg.channel.send("Government type set!");
-						}else if(content[1] == "republic"){
+						} else if (content[1] == "republic") {
 							countries[id].governmentType = "republic";
 							countries[id].genocidePercent = 0;
 							countries[id].loyalty = 0;
 							countries[id].sway = -0.5;
 							save(countries, map);
 							msg.channel.send("Government type set!");
-						}else{
+						} else {
 							msg.channel.send("Sorry, you can only be a republic, dictatorship, monarchy, democracy, or a facist.");
 						}
-					}catch(err){
+					} catch (err) {
 						msg.channel.send("Ow! Error!");
 					}
-				}else{
+				} else {
 					msg.channel.send("Options: republic, dictatorship, monarchy, democracy, or facist.");
 				}
 			}
@@ -919,8 +919,8 @@ client.on('message', msg => {
 			//#         !genocide           #
 			//###############################
 
-			if (content[0] == call + "genocide"){
-				if(countries[id].governmentType = "facist"){
+			if (content[0] == call + "genocide") {
+				if (countries[id].governmentType = "facist") {
 					if (content[1] != undefined) {
 						if (content[1] <= 100) {
 							if (content[1] >= 0) {
@@ -935,9 +935,9 @@ client.on('message', msg => {
 						}
 					} else {
 						msg.channel.send("You need to give a valid percentage, `" + call + "genocide 25` will set kill 25% of your population every turn.");
-	
+
 					}
-				}else{
+				} else {
 					msg.channel.send("Sorry, you have to be facist to use this command.")
 				}
 			}
@@ -1184,30 +1184,21 @@ client.on('message', msg => {
 			//###############################
 
 			if (content[0] == call + "allymap") {
-				function findCountries(cc, toFind){
-					for(var c in cc){
-						if (!countries.hasOwnProperty(c)) continue;
-	
-						var obj = countries[c];
-	
-						for (var prop in obj) {
-							// skip loop if the property is from prototype
-							if(!obj.hasOwnProperty(prop)) continue;
-					
-							// your code
-							if(obj == content[1].toLowerCase()){
-								toSend += `The owner of ${c.name} is ${c.owner}.`;
-							}
+				function findCountries(toFind) {
+					Object.keys(countries).forEach(function(key) {
+
+						if(countries[key].name.toLowerCase() == toFind){
+							return countries[key].id;
 						}
-						
-					}
+					  
+					  });
 				}
 				save(countries, map);
 				if (content[1] != undefined) {
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries(countries, content[1]).id);
+					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries(content[1]));
 
 					setTimeout(function () {
-						msg.channel.send({
+						msg.channel.send(`Map of allies for ${findCountries(countries, content[1]).name}`,{
 							files: [{
 								attachment: buffer,
 								name: `map.png`,
@@ -1275,25 +1266,16 @@ client.on('message', msg => {
 		if (content[0] == call + "whoisowner") {
 			var toSend = "";
 			if (content[1] != undefined) {
-				for(var c in countries){
-					if (!countries.hasOwnProperty(c)) continue;
+				Object.keys(countries).forEach(function(key) {
 
-					var obj = countries[c];
-
-					for (var prop in obj) {
-						// skip loop if the property is from prototype
-						if(!obj.hasOwnProperty(prop)) continue;
-				
-						// your code
-						if(obj == content[1].toLowerCase()){
-							toSend += `The owner of ${c.name} is ${c.owner}.`;
-						}
+					if(countries[key].name.toLowerCase() == content[1]){
+						toSend += `The owner of ${countries[key].name} is ${countries[key].owner}.`
 					}
-					
-				}
-				if(toSend != ""){
+				  
+				  });
+				if (toSend != "") {
 					msg.channel.send(toSend);
-				}else{
+				} else {
 					msg.channel.send("That country doesn't exist...")
 				}
 			} else {
