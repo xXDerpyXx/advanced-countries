@@ -1185,15 +1185,26 @@ client.on('message', msg => {
 
 			if (content[0] == call + "allymap") {
 				function findCountries(cc, toFind){
-					for(c in cc){
-						if(c.name.toLowerCase() == toFind.toLowerCase()){
-							return c;
+					for(var c in cc){
+						if (!countries.hasOwnProperty(c)) continue;
+	
+						var obj = countries[c];
+	
+						for (var prop in obj) {
+							// skip loop if the property is from prototype
+							if(!obj.hasOwnProperty(prop)) continue;
+					
+							// your code
+							if(obj == content[1].toLowerCase()){
+								toSend += `The owner of ${c.name} is ${c.owner}.`;
+							}
 						}
+						
 					}
 				}
 				save(countries, map);
 				if (content[1] != undefined) {
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries(countries, content[1]));
+					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries(countries, content[1]).id);
 
 					setTimeout(function () {
 						msg.channel.send({
@@ -1264,10 +1275,21 @@ client.on('message', msg => {
 		if (content[0] == call + "whoisowner") {
 			var toSend = "";
 			if (content[1] != undefined) {
-				for(c in countries){
-					if(c.name.toLowerCase() == content[1].toLowerCase()){
-						toSend += `The owner of ${c.name} is ${c.owner}.`
+				for(var c in countries){
+					if (!countries.hasOwnProperty(c)) continue;
+
+					var obj = countries[c];
+
+					for (var prop in obj) {
+						// skip loop if the property is from prototype
+						if(!obj.hasOwnProperty(prop)) continue;
+				
+						// your code
+						if(obj == content[1].toLowerCase()){
+							toSend += `The owner of ${c.name} is ${c.owner}.`;
+						}
 					}
+					
 				}
 				if(toSend != ""){
 					msg.channel.send(toSend);
