@@ -864,7 +864,7 @@ client.on('message', msg => {
 			}
 
 			//###############################
-			//#        !government          # 
+			//#        !government          #
 			//###############################
 
 			if (content[0] == call + "government") {
@@ -1131,7 +1131,7 @@ client.on('message', msg => {
 						y--;
 					if(temp == 4 && y > 1)
 						y++;
-						
+
 					//console.log(id+" vs "+map[x][y].owner);
 					if(!c.allies.includes(map[x][y].owner) && tries < 20000)
 						wars[x+"|"+y] = new war(id,map[x][y].owner,x,y);
@@ -1145,7 +1145,7 @@ client.on('message', msg => {
 
 			//###############################
 			//#       !deletecountry        #
-			//###############################	
+			//###############################
 
 			if (content[0] == call + "deletecountry") {
 				for (var x in map) {
@@ -1178,6 +1178,19 @@ client.on('message', msg => {
 				}, 500);
 				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
 			}
+			if (content[0] == call + "rawdata") {
+				save(countries, map);
+				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
+				setTimeout(function () {
+					msg.author.send("All the raw data:", {
+						files: ["./data/data.json"],
+					});
+					msg.author.send({
+						files: ["./data/map.json"],
+					});
+				}, 500);
+				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
+			}
 
 			//###############################
 			//#          !allymap           #
@@ -1197,7 +1210,7 @@ client.on('message', msg => {
 				save(countries, map);
 				if (content[1] != undefined) {
 					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, theCountry.id);
-					
+
 					setTimeout(function () {
 						msg.channel.send(`Map of allies for ${theCountry.name}`,{
 							files: [{
@@ -1272,7 +1285,7 @@ client.on('message', msg => {
 					if(countries[key].name.toLowerCase() == content[1]){
 						toSend += `The owner of ${countries[key].name} is ${countries[key].owner}.`
 					}
-				  
+
 				  });
 				if (toSend != "") {
 					msg.channel.send(toSend);
