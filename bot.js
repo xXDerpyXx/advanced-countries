@@ -396,7 +396,7 @@ client.on('message', msg => {
 				if (content[1] == undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
 					msg.channel.send("You need to specify a name! `" + call + "makecountry [name] [economy type] [government type]` and the first char has to be ascii");
 
-				} else if(content[2] != "communist" && content[2] != "capitalism" && content[2] != "meritist" && content[2] != undefined){
+				} else if(content[2] != "communist" && content[2] != "capitalist" && content[2] != "meritist" && content[2] != undefined){
 					msg.channel.send("That isn't an economy type! Types: capitalist, communist, or meritist. Say nothing for capitalist");
 				}else if(content[3] != "republic" && content[3] != "monarchy" && content[3] != "dictatorship" && content[3] != "facist" && content[3] != "democracy" && content[3] != undefined){
 					msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
@@ -539,7 +539,7 @@ client.on('message', msg => {
 				for (k in countries) {
 					temp += countries[k].name + "\n";
 				}
-				msg.channel.send(temp);
+				msg.channel.send("List of countries:\n" + temp);
 			}
 
 			//###############################
@@ -625,8 +625,9 @@ client.on('message', msg => {
 			//###############################
 
 			if (content[0] == call + "force") {
+				var toSend = ""
 				if (msg.mentions.members.first()) id = msg.mentions.members.first().id
-				msg.channel.send(`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell");
+				toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : 'You have '}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell";
 				if (countries[id].gun == undefined) {
 					countries[id].gun = guns["M1"];
 				}
@@ -640,7 +641,11 @@ client.on('message', msg => {
 					armedPercent = 1;
 				}
 				var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
-				msg.channel.send("Your army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
+				if(content[1] == "webint"){
+					msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
+				}else{
+					msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
+				}
 			}
 
 			//###############################
@@ -681,7 +686,11 @@ client.on('message', msg => {
 				temp += ("you mine " + Math.round(total) + " resource per turn\n");
 				temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
 				temp += ("leaving you with " + Math.round(profit) + " per turn\n");
-				msg.channel.send(temp);
+				if(content[1] == "webint"){
+					msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
+				}else{
+					msg.channel.send(temp);
+				}
 			}
 
 			//###############################
@@ -1160,7 +1169,7 @@ client.on('message', msg => {
 				let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
 
 				setTimeout(function () {
-					msg.channel.send({
+					msg.channel.send("Fullmap:", {
 						files: [{
 							attachment: buffer,
 							name: `map.png`,
