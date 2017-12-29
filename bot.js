@@ -447,625 +447,555 @@ client.on("message", msg => {
 		content = msg.content.toLowerCase().split(" ");
 
 		//###############################
-		//#        !makecountry         #
+		//#         !givepeople         #
 		//###############################
 
-		if (c == undefined) {
-			if (content[0] == call + "makecountry") {
-				//console.log(content[1]);
-				if (content[1] == undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
-					msg.channel.send("You need to specify a name! `" + call + "makecountry [name] [economy type] [government type]` and the first char has to be ascii");
+		//###############################
+		//#        !giveresource        #
+		//###############################
 
-				} else if (content[2] != "communist" && content[2] != "capitalist" && content[2] != "meritist" && content[2] != undefined) {
-					msg.channel.send("That isn't an economy type! Types: capitalist, communist, or meritist. Say nothing for capitalist");
-				} else if (content[3] != "republic" && content[3] != "monarchy" && content[3] != "dictatorship" && content[3] != "facist" && content[3] != "democracy" && content[3] != undefined) {
-					msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
+
+		//###############################
+		//#          !setgun            #
+		//###############################
+
+		if (content[0] == call + "setgun") {
+			if (content[1] != null) {
+				if (guns[content[1]] != undefined) {
+					msg.channel.send("gun set!");
+					countries[id].gun = guns[content[1]];
+					countries[id].resource = countries[id].resource - (countries[id].resource * 0.1);
 				} else {
-					countries[id] = new country(id, content[1], content[2], content[3]);
-					msg.channel.send("You've created the country of " + msg.content.split(" ")[1]);
-					save(countries, map);
+					msg.channel.send(content[1] + " is not a gun that exists");
+				}
+			} else {
+				msg.channel.send("Specify the gun you want used");
+			}
+		}
+
+		//###############################
+		//#            !guns            #
+		//###############################
+
+		if (content[0] == call + "guns") {
+			var temp = "";
+			temp += "List of avalible guns\n";
+			temp += "=====================\n";
+
+			for (k in guns) {
+				temp += "-------\n";
+				temp += guns[k].name + "\n";
+				temp += "-------\n";
+				temp += "Counters: " + guns[k].counters + "\n";
+				temp += "Costs: " + guns[k].cost + " per 100 troops\n";
+				temp += "General Strength: " + guns[k].modifier + "\n";
+				//temp+="-------\n"
+			}
+			temp += "=====================\n";
+			msg.channel.send(temp);
+		}
+
+		//###############################
+		//#            !list            #
+		//###############################
+
+		if (content[0] == call + "list") {
+			temp = "";
+			for (k in countries) {
+				temp += countries[k].name + "\n";
+			}
+			msg.channel.send("List of countries:\n" + temp);
+		}
+
+		//###############################
+		//#           !allies           #
+		//###############################
+
+		if (content[0] == call + "allies") {
+			if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
+
+			temp = "";
+			for (k in countries[id].allies) {
+				try {
+					temp += "" + countries[countries[id].allies[k]].name + "\n";
+				} catch (err) {
+					console.log(k + " had an error, it's ID = " + countries[id].allies[k]);
 				}
 			}
+			msg.channel.send(temp);
+		}
 
-		} else {
+		//###############################
+		//#            !ally            #
+		//###############################
 
-			//###############################
-			//#         !givepeople         #
-			//###############################
+		if (content[0] == call + "ally") {
+			var foundAlly = false;
+			for (k in countries) {
+				//console.log(countries[k].name);
+				if (countries[k].name.toLowerCase() == content[1]) {
+					countries[id].allies[countries[id].allies.length] = countries[k].id;
+					msg.channel.send("You now have allied " + content[1]);
+					foundAlly = true;
+				}
+			}
+			if (!foundAlly) {
+				msg.channel.send("They dont exist!");
+			}
+		}
 
-			if (content[0] == call + "givepeople") {
-				if (content[1] != undefined) {
-					if (content[2] != undefined) {
-						if (parseInt(content[2]) == content[2] && parseInt(content[2]) + " " != "NaN ") {
-							var found = false;
-							var c = "";
-							for (k in countries) {
-								if (countries[k].name.toLowerCase() == content[1]) {
-									found = true;
-									c = k;
+		//###############################
+		//#          !giveland          #
+		//###############################
+
+		if (content[0] == call + "giveland") {
+			var foundTarget = false;
+			var target = "";
+			for (k in countries) {
+				//console.log(countries[k].name);
+				if (countries[k].name.toLowerCase() == content[1]) {
+					target = k;
+					foundTarget = true;
+				}
+			}
+			if (!foundTarget) {
+				msg.channel.send("They dont exist!");
+			} else {
+				if (parseInt(content[2]) == content[2] && parseInt(content[3]) == content[3] && parseInt(content[4]) == content[4]) {
+					var targetX = parseInt(content[3]);
+					var targetY = parseInt(content[2]);
+					var size = Math.floor(parseInt(content[4]) / 2);
+					var givenLand = 0;
+					for (var x = targetX - size; x < targetX + size + 1; x++) {
+						for (var y = targetY - size; y < targetY + size + 1; y++) {
+							try {
+								if (map[x][y].owner == id) {
+									map[x][y].owner = target;
+									givenLand++;
 								}
+							} catch (err) {
+								console.log(err.toString());
 							}
-							if (found) {
-								if (countries[id].population.size >= parseInt(content[2])) {
-									msg.channel.send("giving " + countries[c].name + " " + content[2] + " people!");
-									countries[id].population.size -= parseInt(content[2]);
-									countries[c].population.size += parseInt(content[2]);
-								} else {
-									msg.channel.send("you don't even have that many people!");
-								}
-							} else {
-								msg.channel.send("They don't exist!");
-							}
-
-
-						} else {
-							msg.channel.send("That's not a number...");
 						}
-					} else {
-						msg.channel.send("you need to specify how much to give, `!givepeople [target] [amount]`");
 					}
+					msg.channel.send("you gave " + countries[target].name + " " + givenLand + " cells");
 				} else {
-					msg.channel.send("you need to specify who to give people to, `!givepeople [target] [amount]`");
+					msg.channel.send("you need the x, y and size, !giveland [country] [x] [y] [size]");
 				}
 			}
+		}
 
-			//###############################
-			//#        !giveresource        #
-			//###############################
+		//###############################
+		//#           !force            #
+		//###############################
 
-			if (content[0] == call + "giveresource") {
-				if (content[1] != undefined) {
-					if (content[2] != undefined) {
-						if (parseInt(content[2]) == content[2] && parseInt(content[2]) + " " != "NaN ") {
-							var found = false;
-							var c = "";
-							for (k in countries) {
-								if (countries[k].name.toLowerCase() == content[1]) {
-									found = true;
-									c = k;
-								}
-							}
-							if (found) {
-								if (countries[id].resource >= parseInt(content[2])) {
-									msg.channel.send("giving " + countries[c].name + " " + content[2] + " resource!");
-									countries[id].resource -= parseInt(content[2]);
-									countries[c].resource += parseInt(content[2]);
-								} else {
-									msg.channel.send("you don't even have that much resource!");
-								}
-							} else {
-								msg.channel.send("They don't exist!");
-							}
-
-
-						} else {
-							msg.channel.send("That's not a number...");
-						}
-					} else {
-						msg.channel.send("you need to specify how much to give, `!giveresource [target] [amount]`");
-					}
-				} else {
-					msg.channel.send("you need to specify who to give resource to, `!giveresource [target] [amount]`");
-				}
+		if (content[0] == call + "force") {
+			var toSend = "";
+			if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
+			toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell";
+			if (countries[id].gun == undefined) {
+				countries[id].gun = guns["M1"];
 			}
+			var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
+			var armedPercent = 1;
 
+			/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
 
-			//###############################
-			//#          !setgun            #
-			//###############################
-
-			if (content[0] == call + "setgun") {
-				if (content[1] != null) {
-					if (guns[content[1]] != undefined) {
-						msg.channel.send("gun set!");
-						countries[id].gun = guns[content[1]];
-						countries[id].resource = countries[id].resource - (countries[id].resource * 0.1);
-					} else {
-						msg.channel.send(content[1] + " is not a gun that exists");
-					}
-				} else {
-					msg.channel.send("Specify the gun you want used");
-				}
+				}*/
+			armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+			if (armedPercent > 1) {
+				armedPercent = 1;
 			}
-
-			//###############################
-			//#            !guns            #
-			//###############################
-
-			if (content[0] == call + "guns") {
-				var temp = "";
-				temp += "List of avalible guns\n";
-				temp += "=====================\n";
-
-				for (k in guns) {
-					temp += "-------\n";
-					temp += guns[k].name + "\n";
-					temp += "-------\n";
-					temp += "Counters: " + guns[k].counters + "\n";
-					temp += "Costs: " + guns[k].cost + " per 100 troops\n";
-					temp += "General Strength: " + guns[k].modifier + "\n";
-					//temp+="-------\n"
-				}
-				temp += "=====================\n";
-				msg.channel.send(temp);
+			var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
+			if (content[1] == "webint") {
+				msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
+			} else {
+				msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
 			}
+		}
 
-			//###############################
-			//#            !list            #
-			//###############################
+		//###############################
+		//#         !resource           #
+		//###############################
 
-			if (content[0] == call + "list") {
-				temp = "";
-				for (k in countries) {
-					temp += countries[k].name + "\n";
-				}
-				msg.channel.send("List of countries:\n" + temp);
-			}
-
-			//###############################
-			//#           !allies           #
-			//###############################
-
-			if (content[0] == call + "allies") {
-				if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-
-				temp = "";
-				for (k in countries[id].allies) {
+		if (content[0] == call + "resource") {
+			var temp = "";
+			if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
+			temp += (`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + countries[id].resource + " resource\n");
+			var total = 0;
+			for (x in map) {
+				for (y in map[x]) {
 					try {
-						temp += "" + countries[countries[id].allies[k]].name + "\n";
+						if (map[x][y].owner == id) {
+							total += map[x][y].resource;
+						}
 					} catch (err) {
-						console.log(k + " had an error, it's ID = " + countries[id].allies[k]);
-					}
-				}
-				msg.channel.send(temp);
-			}
-
-			//###############################
-			//#            !ally            #
-			//###############################
-
-			if (content[0] == call + "ally") {
-				var foundAlly = false;
-				for (k in countries) {
-					//console.log(countries[k].name);
-					if (countries[k].name.toLowerCase() == content[1]) {
-						countries[id].allies[countries[id].allies.length] = countries[k].id;
-						msg.channel.send("You now have allied " + content[1]);
-						foundAlly = true;
-					}
-				}
-				if (!foundAlly) {
-					msg.channel.send("They dont exist!");
-				}
-			}
-
-			//###############################
-			//#          !giveland          #
-			//###############################
-
-			if (content[0] == call + "giveland") {
-				var foundTarget = false;
-				var target = "";
-				for (k in countries) {
-					//console.log(countries[k].name);
-					if (countries[k].name.toLowerCase() == content[1]) {
-						target = k;
-						foundTarget = true;
-					}
-				}
-				if (!foundTarget) {
-					msg.channel.send("They dont exist!");
-				} else {
-					if (parseInt(content[2]) == content[2] && parseInt(content[3]) == content[3] && parseInt(content[4]) == content[4]) {
-						var targetX = parseInt(content[3]);
-						var targetY = parseInt(content[2]);
-						var size = Math.floor(parseInt(content[4]) / 2);
-						var givenLand = 0;
-						for (var x = targetX - size; x < targetX + size + 1; x++) {
-							for (var y = targetY - size; y < targetY + size + 1; y++) {
-								try {
-									if (map[x][y].owner == id) {
-										map[x][y].owner = target;
-										givenLand++;
-									}
-								} catch (err) {
-									console.log(err.toString());
-								}
-							}
-						}
-						msg.channel.send("you gave " + countries[target].name + " " + givenLand + " cells");
-					} else {
-						msg.channel.send("you need the x, y and size, !giveland [country] [x] [y] [size]");
+						console.log(err.toString());
 					}
 				}
 			}
 
-			//###############################
-			//#           !force            #
-			//###############################
-
-			if (content[0] == call + "force") {
-				var toSend = "";
-				if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-				toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell";
-				if (countries[id].gun == undefined) {
-					countries[id].gun = guns["M1"];
-				}
-				var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
-				var armedPercent = 1;
-
-				/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
+			if (countries[id].gun == undefined) {
+				countries[id].gun = guns["M1"];
+			}
+			var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
+			var armedPercent = 1;
+			/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
 
 				}*/
-				armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
-				if (armedPercent > 1) {
-					armedPercent = 1;
-				}
-				var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
-				if (content[1] == "webint") {
-					msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
-				} else {
-					msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
-				}
+			armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+			if (armedPercent > 1) {
+				armedPercent = 1;
 			}
-
-			//###############################
-			//#         !resource           #
-			//###############################
-
-			if (content[0] == call + "resource") {
-				var temp = "";
-				if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-				temp += (`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + countries[id].resource + " resource\n");
-				var total = 0;
-				for (x in map) {
-					for (y in map[x]) {
-						try {
-							if (map[x][y].owner == id) {
-								total += map[x][y].resource;
-							}
-						} catch (err) {
-							console.log(err.toString());
-						}
-					}
-				}
-
-				if (countries[id].gun == undefined) {
-					countries[id].gun = guns["M1"];
-				}
-				var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
-				var armedPercent = 1;
-				/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
-
-				}*/
-				armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
-				if (armedPercent > 1) {
-					armedPercent = 1;
-				}
-				var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
-				var profit = total - cost;
-				temp += ("you mine " + Math.round(total) + " resource per turn\n");
-				temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
-				temp += ("leaving you with " + Math.round(profit) + " per turn\n");
-				if (content[1] == "webint") {
-					msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
-				} else {
-					msg.channel.send(temp);
-				}
-			}
-
-			//###############################
-			//#           !color            #
-			//###############################
-
-			if (content[0] == call + "color") {
-				if (content[1] != undefined && content[2] != undefined && content[3] != undefined) {
-					if (parseInt(content[1]) < 0 || parseInt(content[2]) < 0 || parseInt(content[3]) < 0) {
-						msg.channel.send("R, G and B needs to be 0 or more!");
-					} else if (content[1] == "null" || content[2] == "null" || content[3] == "null" || content[1] == "nan" || content[2] == "nan" || content[3] == "nan") {
-						msg.channel.send("No nulls please!");
-					} else {
-						if (parseInt(content[1]) > 255 || parseInt(content[2]) > 255 || parseInt(content[3]) > 255) {
-							msg.channel.send("R, G and B needs to be less than 256!");
-						} else {
-							msg.channel.send("Map color set!");
-							countries[id].color = {};
-							countries[id].color.r = parseInt(content[1]);
-							countries[id].color.g = parseInt(content[2]);
-							countries[id].color.b = parseInt(content[3]);
-
-						}
-					}
-				} else {
-					msg.channel.send("You need an R, G, and B value");
-				}
-
-			}
-
-			//###############################
-			//#         	!map            #
-			//###############################
-
-			if (content[0] == call + "map") {
-				if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
-
-				var x = content[1];
-				var y = content[2];
-				if (x == null || y == null) {
-					x = c.capital.x;
-					y = c.capital.y;
-				} else {
-					x = parseInt(content[1]);
-					y = parseInt(content[2]);
-				}
-				size = 10;
-				if (content[3] != undefined) {
-					size = parseInt(content[3]);
-				} else size = 10;
-
-				if (content[1] != undefined && content[2] == undefined && !isNaN(content[1]))
-					size = parseInt(content[1]);
-
-				console.log(size);
-				if (size <= 0) {
-					msg.channel.send("Don't use negatives, silly...");
-				} else {
-					let buffer = makeImage(map, wars, x - size, y - size, parseInt(x) + size, parseInt(y) + size, countries);
-
-					setTimeout(function () {
-						msg.channel.send(`Center of ${x} ${y}`, {
-							files: [{
-								attachment: buffer,
-								name: `${x}-${y}.png`,
-							}],
-						});
-					}, 500);
-				}
-				//msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
-				//msg.channel.send("Center of ("+y+","+x+")");
-			}
-
-			//###############################
-			//#           !stats            #
-			//###############################
-
-			if (content[0] == call + "stats") {
-				if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
-
-				var temp = "";
-				for (k in c) {
-					temp += k + ": " + c[k] + "\n";
-				}
-				for (k in c.population) {
-					temp += k + ": " + c.population[k] + "\n";
-				}
+			var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
+			var profit = total - cost;
+			temp += ("you mine " + Math.round(total) + " resource per turn\n");
+			temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
+			temp += ("leaving you with " + Math.round(profit) + " per turn\n");
+			if (content[1] == "webint") {
+				msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
+			} else {
 				msg.channel.send(temp);
 			}
+		}
 
-			//###############################
-			//#        !movecapital         #
-			//###############################
+		//###############################
+		//#           !color            #
+		//###############################
 
-			if (content[0] == call + "movecapital") {
-				if (map[content[2]][content[1]].owner == id) {
-					countries[id].capital.x = content[2];
-					countries[id].capital.y = content[1];
-					msg.channel.send("Capital moved!");
+		if (content[0] == call + "color") {
+			if (content[1] != undefined && content[2] != undefined && content[3] != undefined) {
+				if (parseInt(content[1]) < 0 || parseInt(content[2]) < 0 || parseInt(content[3]) < 0) {
+					msg.channel.send("R, G and B needs to be 0 or more!");
+				} else if (content[1] == "null" || content[2] == "null" || content[3] == "null" || content[1] == "nan" || content[2] == "nan" || content[3] == "nan") {
+					msg.channel.send("No nulls please!");
 				} else {
-					msg.channel.send("You don't own that land!");
-				}
+					if (parseInt(content[1]) > 255 || parseInt(content[2]) > 255 || parseInt(content[3]) > 255) {
+						msg.channel.send("R, G and B needs to be less than 256!");
+					} else {
+						msg.channel.send("Map color set!");
+						countries[id].color = {};
+						countries[id].color.r = parseInt(content[1]);
+						countries[id].color.g = parseInt(content[2]);
+						countries[id].color.b = parseInt(content[3]);
 
+					}
+				}
+			} else {
+				msg.channel.send("You need an R, G, and B value");
 			}
 
-			//###############################
-			//#           !rename           #
-			//###############################
+		}
 
-			if (content[0] == call + "rename") {
-				if (content[1] != undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
-					msg.channel.send("The country of " + countries[id].name + " is now " + msg.content.split(" ")[1]);
-					countries[id].name = msg.content.split(" ")[1];
-					save(countries, map);
-				} else {
-					msg.channel.send("You need a real name....");
-				}
+		//###############################
+		//#         	!map            #
+		//###############################
+
+		if (content[0] == call + "map") {
+			if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
+
+			var x = content[1];
+			var y = content[2];
+			if (x == null || y == null) {
+				x = c.capital.x;
+				y = c.capital.y;
+			} else {
+				x = parseInt(content[1]);
+				y = parseInt(content[2]);
+			}
+			size = 10;
+			if (content[3] != undefined) {
+				size = parseInt(content[3]);
+			} else size = 10;
+
+			if (content[1] != undefined && content[2] == undefined && !isNaN(content[1]))
+				size = parseInt(content[1]);
+
+			console.log(size);
+			if (size <= 0) {
+				msg.channel.send("Don't use negatives, silly...");
+			} else {
+				let buffer = makeImage(map, wars, x - size, y - size, parseInt(x) + size, parseInt(y) + size, countries);
+
+				setTimeout(function () {
+					msg.channel.send(`Center of ${x} ${y}`, {
+						files: [{
+							attachment: buffer,
+							name: `${x}-${y}.png`,
+						}],
+					});
+				}, 500);
+			}
+			//msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
+			//msg.channel.send("Center of ("+y+","+x+")");
+		}
+
+		//###############################
+		//#           !stats            #
+		//###############################
+
+		if (content[0] == call + "stats") {
+			if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
+
+			var temp = "";
+			for (k in c) {
+				temp += k + ": " + c[k] + "\n";
+			}
+			for (k in c.population) {
+				temp += k + ": " + c.population[k] + "\n";
+			}
+			msg.channel.send(temp);
+		}
+
+		//###############################
+		//#        !movecapital         #
+		//###############################
+
+		if (content[0] == call + "movecapital") {
+			if (map[content[2]][content[1]].owner == id) {
+				countries[id].capital.x = content[2];
+				countries[id].capital.y = content[1];
+				msg.channel.send("Capital moved!");
+			} else {
+				msg.channel.send("You don't own that land!");
 			}
 
-			//###############################
-			//#          !manpower          #
-			//###############################
+		}
 
-			if (content[0] == call + "manpower") {
+		//###############################
+		//#           !rename           #
+		//###############################
+
+		if (content[0] == call + "rename") {
+			if (content[1] != undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
+				msg.channel.send("The country of " + countries[id].name + " is now " + msg.content.split(" ")[1]);
+				countries[id].name = msg.content.split(" ")[1];
+				save(countries, map);
+			} else {
+				msg.channel.send("You need a real name....");
+			}
+		}
+
+		//###############################
+		//#          !manpower          #
+		//###############################
+
+		if (content[0] == call + "manpower") {
+			if (content[1] != undefined) {
+				if (content[1] <= 100) {
+					if (content[1] >= 0) {
+						countries[id].population.manpower = parseFloat(content[1] / 100);
+						msg.channel.send("Manpower set to " + content[1] + "%");
+						save(countries, map);
+					} else {
+						msg.channel.send("Manpower too low!");
+					}
+				} else {
+					msg.channel.send("Manpower too high!");
+				}
+			} else {
+				msg.channel.send("You need to give a valid percentage, `" + call + "manpower 25` will set manpower at 25% of your population");
+
+			}
+		}
+
+		//###############################
+		//#          !economy           #
+		//###############################
+
+		if (content[0] == call + "economy") {
+			if (content[1] != undefined) {
+				try {
+					if (content[1] == "capitalist") {
+						countries[id].economyType = "capitalist";
+						save(countries, map);
+						msg.channel.send("Economy set!");
+					} else if (content[1] == "communist") {
+						countries[id].economyType = "communist";
+						save(countries, map);
+						msg.channel.send("Economy set!");
+					} else if (content[1] == "meritist") {
+						countries[id].economyType = "meritist";
+						save(countries, map);
+						msg.channel.send("Economy set!");
+					} else {
+						msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.");
+					}
+				} catch (err) {
+					msg.channel.send("Ow! Error!");
+				}
+			} else {
+				msg.channel.send("Options: capitalist, communist, or meritist.");
+			}
+		}
+
+		//###############################
+		//#        !government          #
+		//###############################
+
+		if (content[0] == call + "government") {
+			if (content[1] != undefined) {
+				try {
+					if (content[1] == "facist") {
+						countries[id].governmentType = "facist";
+						countries[id].loyalty = 0;
+						countries[id].sway = -0.5;
+						save(countries, map);
+						msg.channel.send("Government type set!");
+					} else if (content[1] == "dictatorship") {
+						countries[id].governmentType = "dictatorship";
+						countries[id].genocidePercent = 0;
+						countries[id].loyalty = 0;
+						countries[id].sway = -0.5;
+						save(countries, map);
+						msg.channel.send("Government type set!");
+					} else if (content[1] == "monarchy") {
+						countries[id].governmentType = "monarchy";
+						countries[id].genocidePercent = 0;
+						countries[id].loyalty = 0;
+						countries[id].sway = -0.5;
+						save(countries, map);
+						msg.channel.send("Government type set!");
+					} else if (content[1] == "democracy") {
+						countries[id].governmentType = "democracy";
+						countries[id].genocidePercent = 0;
+						countries[id].loyalty = 0;
+						countries[id].sway = -0.5;
+						save(countries, map);
+						msg.channel.send("Government type set!");
+					} else if (content[1] == "republic") {
+						countries[id].governmentType = "republic";
+						countries[id].genocidePercent = 0;
+						countries[id].loyalty = 0;
+						countries[id].sway = -0.5;
+						save(countries, map);
+						msg.channel.send("Government type set!");
+					} else {
+						msg.channel.send("Sorry, you can only be a republic, dictatorship, monarchy, democracy, or a facist.");
+					}
+				} catch (err) {
+					msg.channel.send("Ow! Error!");
+				}
+			} else {
+				msg.channel.send("Options: republic, dictatorship, monarchy, democracy, or facist.");
+			}
+		}
+
+		//###############################
+		//#         !genocide           #
+		//###############################
+
+		if (content[0] == call + "genocide") {
+			if (countries[id].governmentType == "facist") {
 				if (content[1] != undefined) {
 					if (content[1] <= 100) {
 						if (content[1] >= 0) {
-							countries[id].population.manpower = parseFloat(content[1] / 100);
-							msg.channel.send("Manpower set to " + content[1] + "%");
+							countries[id].population.genocidePercent = parseFloat(content[1] / 100);
+							msg.channel.send("Genocide amount set to " + content[1] + "%");
 							save(countries, map);
 						} else {
-							msg.channel.send("Manpower too low!");
+							msg.channel.send("Genocide % too low!");
 						}
 					} else {
-						msg.channel.send("Manpower too high!");
+						msg.channel.send("Genocide % too high!");
 					}
 				} else {
-					msg.channel.send("You need to give a valid percentage, `" + call + "manpower 25` will set manpower at 25% of your population");
+					msg.channel.send("You need to give a valid percentage, `" + call + "genocide 25` will set kill 25% of your population every turn.");
 
+				}
+			} else {
+				msg.channel.send("Sorry, you have to be facist to use this command.");
+			}
+		}
+
+		//###############################
+		//#            !war             #
+		//###############################
+
+		if (content[0] == call + "war") {
+			var dir = "";
+			var right = 2;
+			var left = 1;
+			var up = 1;
+			var down = 2;
+			if (content.includes("north") || content.includes("east") || content.includes("south") || content.includes("west") || content.includes("weast")) /*weast?*/ {
+				up = 0;
+				down = 1;
+				left = 0;
+				right = 1;
+				if (msg.content.includes("west")) {
+					up = 1;
+					dir += " west";
+				}
+				if (msg.content.includes("west")) {
+					down = 2;
+					dir += " west";
+				}
+				if (msg.content.includes("south")) {
+					right = 2;
+					dir += " south";
+				}
+				if (msg.content.includes("north")) {
+					left = 1;
+					dir += " north";
+				}
+				if (msg.content.includes("weast")) {
+					left = 1;
+					right = 2;
+					dir += " weast";
 				}
 			}
 
-			//###############################
-			//#          !economy           #
-			//###############################
 
-			if (content[0] == call + "economy") {
-				if (content[1] != undefined) {
+			if (content[1] != undefined) {
+				var target = "";
+				for (k in countries) {
 					try {
-						if (content[1] == "capitalist") {
-							countries[id].economyType = "capitalist";
-							save(countries, map);
-							msg.channel.send("Economy set!");
-						} else if (content[1] == "communist") {
-							countries[id].economyType = "communist";
-							save(countries, map);
-							msg.channel.send("Economy set!");
-						} else if (content[1] == "meritist") {
-							countries[id].economyType = "meritist";
-							save(countries, map);
-							msg.channel.send("Economy set!");
-						} else {
-							msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.");
+						if (countries[k].name.toLowerCase() == content[1]) {
+							target = k;
+							msg.channel.send("Now at war with " + content[1] + dir);
+							break;
 						}
 					} catch (err) {
-						msg.channel.send("Ow! Error!");
+						console.log(err.toString());
 					}
-				} else {
-					msg.channel.send("Options: capitalist, communist, or meritist.");
 				}
-			}
 
-			//###############################
-			//#        !government          #
-			//###############################
 
-			if (content[0] == call + "government") {
-				if (content[1] != undefined) {
-					try {
-						if (content[1] == "facist") {
-							countries[id].governmentType = "facist";
-							countries[id].loyalty = 0;
-							countries[id].sway = -0.5;
-							save(countries, map);
-							msg.channel.send("Government type set!");
-						} else if (content[1] == "dictatorship") {
-							countries[id].governmentType = "dictatorship";
-							countries[id].genocidePercent = 0;
-							countries[id].loyalty = 0;
-							countries[id].sway = -0.5;
-							save(countries, map);
-							msg.channel.send("Government type set!");
-						} else if (content[1] == "monarchy") {
-							countries[id].governmentType = "monarchy";
-							countries[id].genocidePercent = 0;
-							countries[id].loyalty = 0;
-							countries[id].sway = -0.5;
-							save(countries, map);
-							msg.channel.send("Government type set!");
-						} else if (content[1] == "democracy") {
-							countries[id].governmentType = "democracy";
-							countries[id].genocidePercent = 0;
-							countries[id].loyalty = 0;
-							countries[id].sway = -0.5;
-							save(countries, map);
-							msg.channel.send("Government type set!");
-						} else if (content[1] == "republic") {
-							countries[id].governmentType = "republic";
-							countries[id].genocidePercent = 0;
-							countries[id].loyalty = 0;
-							countries[id].sway = -0.5;
-							save(countries, map);
-							msg.channel.send("Government type set!");
-						} else {
-							msg.channel.send("Sorry, you can only be a republic, dictatorship, monarchy, democracy, or a facist.");
-						}
-					} catch (err) {
-						msg.channel.send("Ow! Error!");
-					}
-				} else {
-					msg.channel.send("Options: republic, dictatorship, monarchy, democracy, or facist.");
-				}
-			}
 
-			//###############################
-			//#         !genocide           #
-			//###############################
+				if (target != "") {
 
-			if (content[0] == call + "genocide") {
-				if (countries[id].governmentType == "facist") {
-					if (content[1] != undefined) {
-						if (content[1] <= 100) {
-							if (content[1] >= 0) {
-								countries[id].population.genocidePercent = parseFloat(content[1] / 100);
-								msg.channel.send("Genocide amount set to " + content[1] + "%");
-								save(countries, map);
-							} else {
-								msg.channel.send("Genocide % too low!");
+					for (var x in map) {
+						for (var y in map[x]) {
+							var warable = false;
+							if (map[x][y].owner == target) {
+								for (var i = parseInt(x) - left; i < parseInt(x) + right; i++) {
+									for (var j = parseInt(y) - up; j < parseInt(y) + down; j++) {
+										try {
+											if (map[i][j].owner == id) {
+												warable = true;
+												break;
+											}
+										} catch (err) {
+											console.log(err.toString);
+										}
+									}
+								}
 							}
-						} else {
-							msg.channel.send("Genocide % too high!");
-						}
-					} else {
-						msg.channel.send("You need to give a valid percentage, `" + call + "genocide 25` will set kill 25% of your population every turn.");
 
+							if (warable) {
+								declareWar(x, y, id, target, false, wars, map, countries);
+							}
+						}
 					}
 				} else {
-					msg.channel.send("Sorry, you have to be facist to use this command.");
-				}
-			}
-
-			//###############################
-			//#            !war             #
-			//###############################
-
-			if (content[0] == call + "war") {
-				var dir = "";
-				var right = 2;
-				var left = 1;
-				var up = 1;
-				var down = 2;
-				if (content.includes("north") || content.includes("east") || content.includes("south") || content.includes("west") || content.includes("weast")) /*weast?*/ {
-					up = 0;
-					down = 1;
-					left = 0;
-					right = 1;
-					if (msg.content.includes("west")) {
-						up = 1;
-						dir += " west";
-					}
-					if (msg.content.includes("west")) {
-						down = 2;
-						dir += " west";
-					}
-					if (msg.content.includes("south")) {
-						right = 2;
-						dir += " south";
-					}
-					if (msg.content.includes("north")) {
-						left = 1;
-						dir += " north";
-					}
-					if (msg.content.includes("weast")) {
-						left = 1;
-						right = 2;
-						dir += " weast";
-					}
-				}
-
-
-				if (content[1] != undefined) {
-					var target = "";
-					for (k in countries) {
-						try {
-							if (countries[k].name.toLowerCase() == content[1]) {
-								target = k;
-								msg.channel.send("Now at war with " + content[1] + dir);
-								break;
-							}
-						} catch (err) {
-							console.log(err.toString());
-						}
-					}
-
-
-
-					if (target != "") {
-
+					if (content[1] == "all") {
 						for (var x in map) {
 							for (var y in map[x]) {
 								var warable = false;
-								if (map[x][y].owner == target) {
-									for (var i = parseInt(x) - left; i < parseInt(x) + right; i++) {
-										for (var j = parseInt(y) - up; j < parseInt(y) + down; j++) {
+								if (map[x][y].owner != id) {
+									for (var i = parseInt(x) - left; i < parseInt(x) + (right); i++) {
+										for (var j = parseInt(y) - up; j < parseInt(y) + (down); j++) {
 											try {
 												if (map[i][j].owner == id) {
 													warable = true;
@@ -1079,71 +1009,46 @@ client.on("message", msg => {
 								}
 
 								if (warable) {
-									declareWar(x, y, id, target, false, wars, map, countries);
+									declareWar(x, y, id, map[x][y].owner, false, wars, map, countries);
 								}
 							}
 						}
+						msg.channel.send("War declared on all non-allies" + dir + "!");
+					} else if (content[1] == "none") {
+						for (var x in map) {
+							for (var y in map[x]) {
+								var warable = false;
+								if (map[x][y].owner == "none") {
+									for (var i = parseInt(x) - left; i < parseInt(x) + (right); i++) {
+										for (var j = parseInt(y) - up; j < parseInt(y) + (down); j++) {
+											try {
+												if (map[i][j].owner == id) {
+													warable = true;
+													break;
+												}
+											} catch (err) {
+												console.log(err.toString());
+											}
+										}
+									}
+								}
+
+								if (warable) {
+									declareWar(x, y, id, map[x][y].owner, false, wars, map, countries);
+								}
+							}
+						}
+						msg.channel.send("Now claiming all nearby unowned land" + dir + "!");
 					} else {
-						if (content[1] == "all") {
-							for (var x in map) {
-								for (var y in map[x]) {
-									var warable = false;
-									if (map[x][y].owner != id) {
-										for (var i = parseInt(x) - left; i < parseInt(x) + (right); i++) {
-											for (var j = parseInt(y) - up; j < parseInt(y) + (down); j++) {
-												try {
-													if (map[i][j].owner == id) {
-														warable = true;
-														break;
-													}
-												} catch (err) {
-													console.log(err.toString);
-												}
-											}
-										}
-									}
-
-									if (warable) {
-										declareWar(x, y, id, map[x][y].owner, false, wars, map, countries);
-									}
-								}
-							}
-							msg.channel.send("War declared on all non-allies" + dir + "!");
-						} else if (content[1] == "none") {
-							for (var x in map) {
-								for (var y in map[x]) {
-									var warable = false;
-									if (map[x][y].owner == "none") {
-										for (var i = parseInt(x) - left; i < parseInt(x) + (right); i++) {
-											for (var j = parseInt(y) - up; j < parseInt(y) + (down); j++) {
-												try {
-													if (map[i][j].owner == id) {
-														warable = true;
-														break;
-													}
-												} catch (err) {
-													console.log(err.toString());
-												}
-											}
-										}
-									}
-
-									if (warable) {
-										declareWar(x, y, id, map[x][y].owner, false, wars, map, countries);
-									}
-								}
-							}
-							msg.channel.send("Now claiming all nearby unowned land" + dir + "!");
-						} else {
-							msg.channel.send("You need to specify where to war, north, east, south, west. or a specific country!");
-						}
-
+						msg.channel.send("You need to specify where to war, north, east, south, west. or a specific country!");
 					}
-				} else {
-					msg.channel.send("You need to specify where to war, north, east, south, west. or a specific country!");
+
 				}
+			} else {
+				msg.channel.send("You need to specify where to war, north, east, south, west. or a specific country!");
 			}
-			/*
+		}
+		/*
 			if(content[0] == call+"randomwar"){
 				var repeat = 1;
 				if(content[1] != undefined){
@@ -1198,122 +1103,122 @@ client.on("message", msg => {
 			}
 		*/
 
-			//###############################
-			//#       !deletecountry        #
-			//###############################
+		//###############################
+		//#       !deletecountry        #
+		//###############################
 
-			if (content[0] == call + "deletecountry") {
-				for (var x in map) {
-					for (var y in map[x]) {
-						if (map[x][y].owner == id) {
-							map[x][y].owner = "none";
-						}
+		if (content[0] == call + "deletecountry") {
+			for (var x in map) {
+				for (var y in map[x]) {
+					if (map[x][y].owner == id) {
+						map[x][y].owner = "none";
 					}
 				}
-				delete countries[id];
-				msg.channel.send("Country disbanded!");
 			}
+			delete countries[id];
+			msg.channel.send("Country disbanded!");
+		}
 
-			//###############################
-			//#          !fullmap           #
-			//###############################
+		//###############################
+		//#          !fullmap           #
+		//###############################
 
-			if (content[0] == call + "fullmap") {
-				save(countries, map);
-				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
+		if (content[0] == call + "fullmap") {
+			save(countries, map);
+			//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
+			let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
+
+			setTimeout(function () {
+				msg.channel.send("Fullmap:", {
+					files: [{
+						attachment: buffer,
+						name: "map.png",
+					}],
+				});
+			}, 500);
+			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
+		}
+		if (content[0] == call + "rawdata") {
+			save(countries, map);
+			//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
+			setTimeout(function () {
+				msg.author.send("All the raw data:", {
+					files: ["./data/data.json"],
+				});
+				msg.author.send({
+					files: ["./data/map.json"],
+				});
+			}, 500);
+			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
+		}
+
+		//###############################
+		//#          !allymap           #
+		//###############################
+
+		if (content[0] == call + "allymap") {
+			var theCountry;
+			if (content[1] != undefined) {
+				Object.keys(countries).forEach(function (key) {
+
+					if (countries[key].name.toLowerCase() == content[1]) {
+						theCountry = countries[key];
+					}
+
+				});
+			}
+			save(countries, map);
+			if (content[1] != undefined) {
+				let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, theCountry.id);
 
 				setTimeout(function () {
-					msg.channel.send("Fullmap:", {
+					msg.channel.send(`Map of allies for ${theCountry.name}`, {
 						files: [{
 							attachment: buffer,
 							name: "map.png",
 						}],
 					});
 				}, 500);
-				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
-			}
-			if (content[0] == call + "rawdata") {
-				save(countries, map);
+			} else {
 				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
+				let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, msg.author.id);
+
 				setTimeout(function () {
-					msg.author.send("All the raw data:", {
-						files: ["./data/data.json"],
-					});
-					msg.author.send({
-						files: ["./data/map.json"],
+					msg.channel.send(`Map of allies for ${countries[msg.author.id].name}`, {
+						files: [{
+							attachment: buffer,
+							name: "map.png",
+						}],
 					});
 				}, 500);
-				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
 			}
-
-			//###############################
-			//#          !allymap           #
-			//###############################
-
-			if (content[0] == call + "allymap") {
-				var theCountry;
-				if (content[1] != undefined) {
-					Object.keys(countries).forEach(function (key) {
-
-						if (countries[key].name.toLowerCase() == content[1]) {
-							theCountry = countries[key];
-						}
-
-					});
-				}
-				save(countries, map);
-				if (content[1] != undefined) {
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, theCountry.id);
-
-					setTimeout(function () {
-						msg.channel.send(`Map of allies for ${theCountry.name}`, {
-							files: [{
-								attachment: buffer,
-								name: "map.png",
-							}],
-						});
-					}, 500);
-				} else {
-					//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, msg.author.id);
-
-					setTimeout(function () {
-						msg.channel.send(`Map of allies for ${countries[msg.author.id].name}`, {
-							files: [{
-								attachment: buffer,
-								name: "map.png",
-							}],
-						});
-					}, 500);
-				}
-				//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
-			}
-
-			//###############################
-			//#           !unally           # <-- needs fixing, sometimes requires 2 usages of the command to unally someone
-			//###############################
-
-			if (content[0] == call + "unally") {
-				var foundAlly = false;
-				for (k in countries[id].allies) {
-					try {
-						//console.log(countries[countries[id].allies[k]].name+"|"+content[1]+":"+countries[id].allies[k]);
-						if (countries[countries[id].allies[k]].name.toLowerCase() == content[1]) {
-							countries[id].allies[countries[id].allies[k]] = countries[id].allies.splice(k, 1);
-							msg.channel.send("You now have unallied " + content[1]);
-							foundAlly = true;
-						}
-					} catch (err) {
-						console.log(err);
-					}
-				}
-				if (!foundAlly) {
-					msg.channel.send("They dont exist!");
-				}
-			}
-
+			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
 		}
+
+		//###############################
+		//#           !unally           # <-- needs fixing, sometimes requires 2 usages of the command to unally someone
+		//###############################
+
+		if (content[0] == call + "unally") {
+			var foundAlly = false;
+			for (k in countries[id].allies) {
+				try {
+					//console.log(countries[countries[id].allies[k]].name+"|"+content[1]+":"+countries[id].allies[k]);
+					if (countries[countries[id].allies[k]].name.toLowerCase() == content[1]) {
+						countries[id].allies[countries[id].allies[k]] = countries[id].allies.splice(k, 1);
+						msg.channel.send("You now have unallied " + content[1]);
+						foundAlly = true;
+					}
+				} catch (err) {
+					console.log(err);
+				}
+			}
+			if (!foundAlly) {
+				msg.channel.send("They dont exist!");
+			}
+		}
+
+		
 
 		//###############################
 		//#           !whois            # <-- make an alternate that uses a country name to get the username of the person
