@@ -1184,18 +1184,20 @@ client.on('message', msg => {
 			//###############################
 
 			if (content[0] == call + "allymap") {
-				function findCountries(toFind) {
+				function findCountries() {
+					var toReturn;
 					Object.keys(countries).forEach(function(key) {
 
-						if(countries[key].name.toLowerCase() == toFind){
-							return countries[key].id;
+						if(countries[key].name.toLowerCase() == content[1]){
+							toReturn = countries[key].id;
 						}
 					  
-					  });
+					});
+					return toReturn;
 				}
 				save(countries, map);
 				if (content[1] != undefined) {
-					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries(content[1]));
+					let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, findCountries());
 
 					setTimeout(function () {
 						msg.channel.send(`Map of allies for ${findCountries(countries, content[1]).name}`,{
