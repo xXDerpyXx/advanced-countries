@@ -157,8 +157,8 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
-		if(countries[c].genocidePercent = undefined){}else{
-			countries[c].population.size = countries[c].population.size - countries[c].population.size * countries[c].genocidePercent;
+		if(countries[c].genocidePercent == undefined){}else{
+			countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);
 		}
 	}
 
@@ -1345,7 +1345,7 @@ class country {
 		this.allies[0] = id;
 		this.population = {};
 		this.ownedCells = 0;
-		this.genocidePercent = 0;
+		this.genocidePercent = 0.0;
 		this.population.size = 1000;
 		this.population.loyalty = 1;
 		this.population.sway = 0;
