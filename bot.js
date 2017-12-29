@@ -2,10 +2,28 @@
 // ##########################
 //       Dependencies
 // ##########################
-
+const sqlite = require("sqlite");
+const path = require("path");
+const oneLine = require("common-tags").oneLine;
+const Commando = require("discord.js-commando");
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const client = new Commando.Client({
+	commandPrefix: "!"
+});
 const fs = require("fs");
+client.setProvider(
+	sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
+).catch(console.error);
+client.registry
+	.registerGroups([
+		["war", "War commands"],
+		["map", "Map commands"],
+		["relations", "Manage your country relations"],
+		["info", "Get info on you or others"],
+		["options", "Change your country"]
+	])
+	.registerDefaults()
+	.registerCommandsIn(path.join(__dirname, "cmds"));
 
 // ##########################
 //    Functions and Config
@@ -53,7 +71,7 @@ const economy = require("./struct/Economy.js");
 const cell = require("./struct/Cell.js");
 const war = require("./struct/War.js");
 const gun = require("./struct/Gun.js");
-
+const country = require("./struct/country.js");
 // ########################
 //           Vars
 // ########################
@@ -157,7 +175,9 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
-		if (!countries[c].genocidePercent == undefined) {countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);}
+		if (!countries[c].genocidePercent == undefined) {
+			countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);
+		}
 	}
 
 	for (x in map) {
@@ -377,6 +397,48 @@ function tick(repeat) {
 //###############################
 //#        Message Event        #
 //###############################
+client.on("error", console.error);
+client.on("warn", console.warn);
+client.on("disconnect", () => { console.warn("Disconnected!"); });
+client.on("reconnecting", () => { console.warn("Reconecting..."); });
+client.on("commandError", (cmd, err) => {
+	if(err instanceof commando.FriendlyError) return;
+	console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
+});
+client.on("commandBlocked", (msg, reason) => {
+	console.log(oneLine`
+		Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ""}
+		blocked; ${reason}
+	`);
+});
+client.on("commandPrefixChange", (guild, prefix) => {
+	console.log(oneLine`
+		Prefix ${prefix === "" ? "removed" : `changed to ${prefix || "the default"}`}
+		${guild ? `in guild ${guild.name} (${guild.id})` : "globally"}.
+	`);
+});
+client.on("commandStatusChange", (guild, command, enabled) => {
+	console.log(oneLine`
+		Command ${command.groupID}:${command.memberName}
+		${enabled ? "enabled" : "disabled"}
+		${guild ? `in guild ${guild.name} (${guild.id})` : "globally"}.
+	`);
+});
+client.on("groupStatusChange", (guild, group, enabled) => {
+	console.log(oneLine`
+		Group ${group.id}
+		${enabled ? "enabled" : "disabled"}
+		${guild ? `in guild ${guild.name} (${guild.id})` : "globally"}.
+	`);
+});
+
+
+
+
+
+
+
+
 
 client.on("message", msg => {
 	try {
@@ -1353,6 +1415,7 @@ client.on("message", msg => {
 //###############################
 
 client.on("ready", () => {
+	console.log(`Client ready; logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
 	setTimeout(() => tick(true), 1000);
 });
 
@@ -1360,76 +1423,4 @@ client.on("ready", () => {
 //#        Country Class        #
 //###############################
 
-class country {
-	constructor(id, name, chosenEconomy = "capitalist", chosenGov = "dictatorship") {
-		this.id = id;
-		this.name = name;
-		this.owner = client.users.get(id).tag;
-		this.allies = [];
-		this.economyType = chosenEconomy;
-		this.governmentType = chosenGov;
-		this.resource = 0;
-		this.allies[0] = id;
-		this.population = {};
-		this.ownedCells = 0;
-		this.genocidePercent = 0.0;
-		this.population.size = 1000;
-		this.population.loyalty = 1;
-		this.population.sway = 0;
-		this.population.manpower = 0.2;
-		this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
-		//this.capital = new location(11, 15);
-		console.log(this.capital.x, this.capital.y);
-		var owner = map[this.capital.x][this.capital.y].owner;
-		let tries = 0;
-
-		while (map[this.capital.x][this.capital.y].elevation > 4 || map[this.capital.x][this.capital.y].elevation < 0) {
-			this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
-		}
-
-		if (owner != "none") {
-			while (owner != "none") { //&& tries < 200){
-				this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
-				try {
-					owner = map[this.capital.x][this.capital.y].owner;
-					if (map[this.capital.x][this.capital.y].elevation > 3 && map[this.capital.x][this.capital.y].elevation < 0) {
-						owner = "";
-					}
-				} catch (err) {
-					console.log(err.toString());
-				}
-
-				tries++;
-			}
-		}
-		if (tries > 1999) {
-			this.population.size = 0;
-		} else {
-			for (var x = this.capital.x - 2; x < this.capital.x + 3; x++) {
-				for (var y = this.capital.y - 2; y < this.capital.y + 3; y++) {
-					try {
-						if (map[x][y].owner == "none" && map[x][y].elevation < 10 && map[x][y].elevation > 0) {
-							map[x][y].owner = id;
-						}
-					} catch (err) {
-						console.log(err.toString());
-					}
-				}
-			}
-
-			for (var x = this.capital.x - 1; x < this.capital.x + 2; x++) {
-				for (var y = this.capital.y - 1; y < this.capital.y + 2; y++) {
-					try {
-						map[x][y].owner = id;
-					} catch (err) {
-						console.log(err.toString());
-					}
-				}
-			}
-
-			map[this.capital.x][this.capital.y].owner = id;
-			save(countries, map);
-		}
-	}
-}
 client.login(token);
