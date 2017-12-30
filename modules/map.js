@@ -65,7 +65,7 @@ exports.generateMapPerlin = () => {
 	for(var x = 0; x < width; x++) {
 		for(var y = 0; y < height; y++) {
 			var temp = simplex.noise2D(x/100,y/100);
-			temp - (temp * 20) + 5;
+			temp - (temp * 10) + 2;
 			if(temp > 5){
 				temp - ((temp-5)/2);
 			}
