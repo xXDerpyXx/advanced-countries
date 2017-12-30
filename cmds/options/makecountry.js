@@ -87,34 +87,3 @@ module.exports = class MakeCountryCommand extends Commando.Command {
 		}
 	}
 };
-
-
-
-
-/*
-if (parseInt(content[2]) == content[2] && parseInt(content[2]) + " " != "NaN ") {
-						var found = false;
-						var c = "";
-						for (k in countries) {
-							if (countries[k].name.toLowerCase() == content[1]) {
-								found = true;
-								c = k;
-							}
-						}
-						if (found) {
-							if (countries[id].population.size >= parseInt(content[2])) {
-								msg.channel.send("giving " + countries[c].name + " " + content[2] + " people!");
-								countries[id].population.size -= parseInt(content[2]);
-								countries[c].population.size += parseInt(content[2]);
-							} else {
-								msg.channel.send("you don't even have that many people!");
-							}
-						} else {
-							msg.channel.send("They don't exist!");
-						}
-
-
-					} else {
-						msg.channel.send("That's not a number...");
-					}
-					*/
