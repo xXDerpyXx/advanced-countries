@@ -44,7 +44,8 @@ module.exports = class ForceCommand extends Commando.Command {
 				{
 					key: "mention",
 					default: "idk",
-					type: "string"
+					type: "string",
+					prompt: "asdf"
 				}
 			]
 		});

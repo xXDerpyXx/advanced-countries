@@ -45,7 +45,8 @@ module.exports = class WhoIsCommand extends Commando.Command {
 					key: "mention",
 					label: "mention",
 					type: "string",
-					default: "idkwhatyouwant"
+					default: "idkwhatyouwant",
+					prompt: "asdf"
 				}
 			]
 		});

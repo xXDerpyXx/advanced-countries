@@ -44,7 +44,8 @@ module.exports = class StatsCommand extends Commando.Command {
 				{
 					key: "mention",
 					type: "string",
-					default: "whatdoyawant"
+					default: "whatdoyawant",
+					prompt: "asdf"
 				}
 			]
 		});

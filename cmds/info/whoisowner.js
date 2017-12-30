@@ -45,7 +45,8 @@ module.exports = class WhoIsOwnerCommand extends Commando.Command {
 					key: "mention",
 					label: "mention",
 					type: "string",
-					default: "notacountrylolpleasestop"
+					default: "notacountrylolpleasestop",
+					prompt: "asdf"
 				}
 			]
 		});

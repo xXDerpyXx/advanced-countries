@@ -47,7 +47,8 @@ module.exports = class AllyMapCommand extends Commando.Command {
 				{
 					key: "arg1",
 					type: "string",
-					default: "8090"
+					default: "8090",
+					prompt: "asdf"
 				}
 			]
 		});

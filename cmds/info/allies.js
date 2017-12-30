@@ -45,7 +45,8 @@ module.exports = class AlliesCommand extends Commando.Command {
 					key: "useless",
 					label: "mention",
 					type: "string",
-					default: "idkwhatyouwant"
+					default: "idkwhatyouwant",
+					prompt: "asdf"
 				}
 			]
 		});

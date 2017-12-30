@@ -52,12 +52,14 @@ module.exports = class MakeCountryCommand extends Commando.Command {
 				{
 					key: "economy",
 					type: "string",
-					default: "capitalist"
+					default: "capitalist",
+					prompt: "asdf"
 				},
 				{
 					key:"government",
 					type: "string",
-					default: "dictatorship"
+					default: "dictatorship",
+					prompt: "asdf"
 				}
 			]
 		});

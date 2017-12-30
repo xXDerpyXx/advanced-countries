@@ -44,17 +44,20 @@ module.exports = class MapCommand extends Commando.Command {
 				{
 					key: "x",
 					type: "integer",
-					default: 8759
+					default: 8759,
+					prompt: "asdf"
 				},
 				{
 					key: "y",
 					type: "integer",
-					default: 8759
+					default: 8759,
+					prompt: "asdf"
 				},
 				{
 					key: "size",
 					type: "integer",
-					default: 9089
+					default: 9089,
+					prompt: "asdf"
 				}
 			]
 		});
