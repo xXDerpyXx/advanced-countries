@@ -35,9 +35,9 @@ const {
 module.exports = class WhoIsOwnerCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "whoisownerowner",
+			name: "whoisowner",
 			group: "info",
-			memberName: "whois",
+			memberName: "whoisowner",
 			description: "Mention a country name to see who owns it.",
 			examples: ["!whoisowner DEV_Skeylis"],
 			args: [

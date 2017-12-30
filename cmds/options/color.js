@@ -32,16 +32,15 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class SetGunCommand extends Commando.Command {
+module.exports = class ColorCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "setgun",
+			name: "color",
 			group: "options",
-			memberName: "setgun",
-			description: "Set your gun, at the cost of 10% of your resource",
-			details: oneline`Use this to set your gun. Be warned, however, as it uses 10% of your resource!
-			Use it _wisely_.`,
-			examples: ["!setgun m1"],
+			memberName: "color",
+			description: "Sets your map color.",
+			details: oneline`Nothing else.`,
+			examples: ["!color 10 150 255"],
 			args: [
 				{
 					key: "r",

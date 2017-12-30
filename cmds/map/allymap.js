@@ -53,6 +53,9 @@ module.exports = class AllyMapCommand extends Commando.Command {
 		});
 	}
 	run(msg, {arg1}){
+		id = msg.author.id;
+		c = countries[id];
+		
 		var theCountry;
 		if (arg1 != "8090") {
 			Object.keys(countries).forEach(function (key) {

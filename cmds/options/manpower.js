@@ -32,7 +32,7 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class RepowerCommand extends Commando.Command {
+module.exports = class PowerCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
 			power: "manpower",

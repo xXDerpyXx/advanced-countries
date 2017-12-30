@@ -32,7 +32,7 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class AlliesCommand extends Commando.Command {
+module.exports = class MapCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "map",
