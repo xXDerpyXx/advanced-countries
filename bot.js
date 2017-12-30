@@ -121,14 +121,15 @@ loadGuns().then(g => guns = g);
 
 try {
 	console.log("[LOADING DATA]");
+	countries = require("./data/data.json");
+	map = require("./data/map.json");
 	if(map == undefined){
 		console.log("[FAILED TO LOAD, CREATING DATA]");
 
 		map = generateMapPerlin();
 		save(countries, map);
 	}
-	countries = require("./data/data.json");
-	map = require("./data/map.json");
+	
 } catch (err) {
 	console.log("[FAILED TO LOAD, CREATING DATA]");
 
