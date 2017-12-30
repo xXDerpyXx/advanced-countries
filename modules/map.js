@@ -1,5 +1,7 @@
 const { token, call, width, height, tickSpeed } = require("../config.js");
 const cell = require("../struct/Cell.js");
+var SimplexNoise = require("simplex-noise");
+const simplex = new SimplexNoise();
 
 exports.generateMap = () => {
 	let map = {};
@@ -45,6 +47,32 @@ exports.generateMap = () => {
     
 	return map;
 };
+
+
+
+
+exports.generateMapPerlin = () => {
+	let map = {};
+	
+	for(var x = 0; x < width; x++) {
+		map[x] = {};
+
+		for(var y = 0; y < height; y++) {
+			map[x][y] = new cell(x, y);
+		}
+	} 
+	
+	for(var x = 0; x < width; x++) {
+		for(var y = 0; y < height; y++) {
+			var temp = simplex.noise2D(x,y);
+			map[x][y].elevation = (temp * 20) + 5;
+		}
+	}
+	
+    
+	return map;
+};
+
 
 exports.getLocalMap = (sx,sy,width,height,c) => {
 	temp = "";

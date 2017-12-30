@@ -47,6 +47,7 @@ const {
 } = require("./config.js");
 const {
 	generateMap,
+	generateMapPerlin,
 	getLocalMap
 } = require("./modules/map.js");
 const {
@@ -126,7 +127,7 @@ try {
 } catch (err) {
 	console.log("[FAILED TO LOAD, CREATING DATA]");
 
-	map = generateMap();
+	map = generateMapPerlin();
 	save(countries, map);
 }
 
