@@ -60,18 +60,18 @@ module.exports = class MoveCapitalCommand extends Commando.Command {
 		id = msg.author.id;
 		c = countries[id];
 		save(countries, map);
-			//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-			let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
+		//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
+		let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
 
-			setTimeout(function () {
-				msg.channel.send("Fullmap:", {
-					files: [{
-						attachment: buffer,
-						name: "map.png",
-					}],
-				});
-			}, 500);
-			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
-		}
+		setTimeout(function () {
+			msg.channel.send("Fullmap:", {
+				files: [{
+					attachment: buffer,
+					name: "map.png",
+				}],
+			});
+		}, 500);
+		//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
+		
 	}
 };
