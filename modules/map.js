@@ -67,10 +67,10 @@ exports.generateMapPerlin = () => {
 			var temp = simplex.noise2D(x/50,y/50);
 			temp = (temp * 10) + 5;
 			if(temp > 5){
-				temp - ((temp)/2);
+				temp = temp - ((temp)/2);
 			}
-			if(temp < 5){
-				temp + (Math.abs(Math.abs(temp))/2)+5;
+			if(temp < 3){
+				temp = temp + (Math.abs(Math.abs(temp))/2)+5;
 			}
 			map[x][y].elevation = temp;
 			/*
