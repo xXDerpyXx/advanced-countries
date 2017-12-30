@@ -459,276 +459,45 @@ client.on("message", msg => {
 		//#          !setgun            #
 		//###############################
 
-		if (content[0] == call + "setgun") {
-			if (content[1] != null) {
-				if (guns[content[1]] != undefined) {
-					msg.channel.send("gun set!");
-					countries[id].gun = guns[content[1]];
-					countries[id].resource = countries[id].resource - (countries[id].resource * 0.1);
-				} else {
-					msg.channel.send(content[1] + " is not a gun that exists");
-				}
-			} else {
-				msg.channel.send("Specify the gun you want used");
-			}
-		}
-
 		//###############################
 		//#            !guns            #
 		//###############################
 
-		if (content[0] == call + "guns") {
-			var temp = "";
-			temp += "List of avalible guns\n";
-			temp += "=====================\n";
-
-			for (k in guns) {
-				temp += "-------\n";
-				temp += guns[k].name + "\n";
-				temp += "-------\n";
-				temp += "Counters: " + guns[k].counters + "\n";
-				temp += "Costs: " + guns[k].cost + " per 100 troops\n";
-				temp += "General Strength: " + guns[k].modifier + "\n";
-				//temp+="-------\n"
-			}
-			temp += "=====================\n";
-			msg.channel.send(temp);
-		}
 
 		//###############################
 		//#            !list            #
 		//###############################
 
-		if (content[0] == call + "list") {
-			temp = "";
-			for (k in countries) {
-				temp += countries[k].name + "\n";
-			}
-			msg.channel.send("List of countries:\n" + temp);
-		}
-
 		//###############################
 		//#           !allies           #
 		//###############################
-
-		if (content[0] == call + "allies") {
-			if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-
-			temp = "";
-			for (k in countries[id].allies) {
-				try {
-					temp += "" + countries[countries[id].allies[k]].name + "\n";
-				} catch (err) {
-					console.log(k + " had an error, it's ID = " + countries[id].allies[k]);
-				}
-			}
-			msg.channel.send(temp);
-		}
 
 		//###############################
 		//#            !ally            #
 		//###############################
 
-		if (content[0] == call + "ally") {
-			var foundAlly = false;
-			for (k in countries) {
-				//console.log(countries[k].name);
-				if (countries[k].name.toLowerCase() == content[1]) {
-					countries[id].allies[countries[id].allies.length] = countries[k].id;
-					msg.channel.send("You now have allied " + content[1]);
-					foundAlly = true;
-				}
-			}
-			if (!foundAlly) {
-				msg.channel.send("They dont exist!");
-			}
-		}
-
 		//###############################
 		//#          !giveland          #
 		//###############################
-
-		if (content[0] == call + "giveland") {
-			var foundTarget = false;
-			var target = "";
-			for (k in countries) {
-				//console.log(countries[k].name);
-				if (countries[k].name.toLowerCase() == content[1]) {
-					target = k;
-					foundTarget = true;
-				}
-			}
-			if (!foundTarget) {
-				msg.channel.send("They dont exist!");
-			} else {
-				if (parseInt(content[2]) == content[2] && parseInt(content[3]) == content[3] && parseInt(content[4]) == content[4]) {
-					var targetX = parseInt(content[3]);
-					var targetY = parseInt(content[2]);
-					var size = Math.floor(parseInt(content[4]) / 2);
-					var givenLand = 0;
-					for (var x = targetX - size; x < targetX + size + 1; x++) {
-						for (var y = targetY - size; y < targetY + size + 1; y++) {
-							try {
-								if (map[x][y].owner == id) {
-									map[x][y].owner = target;
-									givenLand++;
-								}
-							} catch (err) {
-								console.log(err.toString());
-							}
-						}
-					}
-					msg.channel.send("you gave " + countries[target].name + " " + givenLand + " cells");
-				} else {
-					msg.channel.send("you need the x, y and size, !giveland [country] [x] [y] [size]");
-				}
-			}
-		}
 
 		//###############################
 		//#           !force            #
 		//###############################
 
-		if (content[0] == call + "force") {
-			var toSend = "";
-			if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-			toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell";
-			if (countries[id].gun == undefined) {
-				countries[id].gun = guns["M1"];
-			}
-			var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
-			var armedPercent = 1;
-
-			/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
-
-				}*/
-			armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
-			if (armedPercent > 1) {
-				armedPercent = 1;
-			}
-			var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
-			if (content[1] == "webint") {
-				msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
-			} else {
-				msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
-			}
-		}
-
+		
 		//###############################
 		//#         !resource           #
 		//###############################
 
-		if (content[0] == call + "resource") {
-			var temp = "";
-			if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-			temp += (`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + countries[id].resource + " resource\n");
-			var total = 0;
-			for (x in map) {
-				for (y in map[x]) {
-					try {
-						if (map[x][y].owner == id) {
-							total += map[x][y].resource;
-						}
-					} catch (err) {
-						console.log(err.toString());
-					}
-				}
-			}
-
-			if (countries[id].gun == undefined) {
-				countries[id].gun = guns["M1"];
-			}
-			var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
-			var armedPercent = 1;
-			/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
-
-				}*/
-			armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
-			if (armedPercent > 1) {
-				armedPercent = 1;
-			}
-			var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
-			var profit = total - cost;
-			temp += ("you mine " + Math.round(total) + " resource per turn\n");
-			temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
-			temp += ("leaving you with " + Math.round(profit) + " per turn\n");
-			if (content[1] == "webint") {
-				msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
-			} else {
-				msg.channel.send(temp);
-			}
-		}
+	
 
 		//###############################
 		//#           !color            #
 		//###############################
 
-		if (content[0] == call + "color") {
-			if (content[1] != undefined && content[2] != undefined && content[3] != undefined) {
-				if (parseInt(content[1]) < 0 || parseInt(content[2]) < 0 || parseInt(content[3]) < 0) {
-					msg.channel.send("R, G and B needs to be 0 or more!");
-				} else if (content[1] == "null" || content[2] == "null" || content[3] == "null" || content[1] == "nan" || content[2] == "nan" || content[3] == "nan") {
-					msg.channel.send("No nulls please!");
-				} else {
-					if (parseInt(content[1]) > 255 || parseInt(content[2]) > 255 || parseInt(content[3]) > 255) {
-						msg.channel.send("R, G and B needs to be less than 256!");
-					} else {
-						msg.channel.send("Map color set!");
-						countries[id].color = {};
-						countries[id].color.r = parseInt(content[1]);
-						countries[id].color.g = parseInt(content[2]);
-						countries[id].color.b = parseInt(content[3]);
-
-					}
-				}
-			} else {
-				msg.channel.send("You need an R, G, and B value");
-			}
-
-		}
-
 		//###############################
 		//#         	!map            #
 		//###############################
-
-		if (content[0] == call + "map") {
-			if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
-
-			var x = content[1];
-			var y = content[2];
-			if (x == null || y == null) {
-				x = c.capital.x;
-				y = c.capital.y;
-			} else {
-				x = parseInt(content[1]);
-				y = parseInt(content[2]);
-			}
-			size = 10;
-			if (content[3] != undefined) {
-				size = parseInt(content[3]);
-			} else size = 10;
-
-			if (content[1] != undefined && content[2] == undefined && !isNaN(content[1]))
-				size = parseInt(content[1]);
-
-			console.log(size);
-			if (size <= 0) {
-				msg.channel.send("Don't use negatives, silly...");
-			} else {
-				let buffer = makeImage(map, wars, x - size, y - size, parseInt(x) + size, parseInt(y) + size, countries);
-
-				setTimeout(function () {
-					msg.channel.send(`Center of ${x} ${y}`, {
-						files: [{
-							attachment: buffer,
-							name: `${x}-${y}.png`,
-						}],
-					});
-				}, 500);
-			}
-			//msg.channel.send("```markdown\n"+getLocalMap(x,y,11,11,c)+"```");
-			//msg.channel.send("Center of ("+y+","+x+")");
-		}
 
 		//###############################
 		//#           !stats            #
