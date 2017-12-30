@@ -35,17 +35,17 @@ var {
 	declareWar
 } = require("../modules/war.js");
 
-var government = require("../struct/Government.js");
-var location   = require("../struct/Location.js");
-var economy    = require("../struct/Economy.js");
-var cell       = require("../struct/Cell.js");
-var war        = require("../struct/War.js");
-var gun        = require("../struct/Gun.js");
-countries      = require("../data/data.json");
-map            = require("../data/map.json");
+var government = require("../struct/Government.js"); // Government Structure
+var location   = require("../struct/Location.js");   // Location Structure
+var economy    = require("../struct/Economy.js");    // Economic Structure
+var cell       = require("../struct/Cell.js");       // Map Cell Structure
+var war        = require("../struct/War.js");        // War Structure
+var gun        = require("../struct/Gun.js");        // Gun Structure
+countries      = require("../data/data.json");       // Country Data
+map            = require("../data/map.json");        // Map Data
 //loadGuns().then(g => guns = g);
-guns           = require("../consts/guns.json");
-var country    = require("../struct/country.js");
+guns           = require("../consts/guns.json");     // Gun Data
+var country    = require("../struct/country.js");    // Country Structure
 
 module.exports = {
 	sqlite,
