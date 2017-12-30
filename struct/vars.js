@@ -71,6 +71,7 @@ module.exports = {
 	tickSpeed,
 	adminList,
 	generateMap,
+	generateMapPerlin,
 	getLocalMap,
 	makeImage,
 	declareWar,

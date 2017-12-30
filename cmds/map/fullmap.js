@@ -18,6 +18,7 @@ var {
 	tickSpeed,
 	adminList,
 	generateMap,
+	generateMapPerlin,
 	getLocalMap,
 	makeImage,
 	declareWar,
