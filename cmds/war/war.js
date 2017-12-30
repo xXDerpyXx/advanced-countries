@@ -57,7 +57,8 @@ module.exports = class WarCommand extends Commando.Command {
 				{
 					key: "direction",
 					type: "string",
-					default: "9089"
+					default: "9089",
+					prompt: "asdf"
 				}
 			]
 		});
