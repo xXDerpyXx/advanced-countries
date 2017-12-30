@@ -10,7 +10,7 @@ const {
 	getOwnedCells,
 	loadGuns,
 	saveImage
-} = require("../../modules/util.js");
+} = require("../modules/util.js");
 const {
 	token,
 	call,
@@ -18,27 +18,27 @@ const {
 	height,
 	tickSpeed,
 	adminList
-} = require("../../config.js");
+} = require("../config.js");
 const {
 	generateMap,
 	getLocalMap
-} = require("../../modules/map.js");
+} = require("../modules/map.js");
 const {
 	makeImage
-} = require("../../modules/canvas-map-gen.js");
+} = require("../modules/canvas-map-gen.js");
 const {
 	declareWar
-} = require("../../modules/war.js");
-const government = require("../../struct/Government.js");
-const location = require("../../struct/Location.js");
-const economy = require("../../struct/Economy.js");
-const cell = require("../../struct/Cell.js");
-const war = require("../../struct/War.js");
-const gun = require("../../struct/Gun.js");
-countries = require("./data/data.json");
-map = require("./data/map.json");
+} = require("../modules/war.js");
+const government = require("../struct/Government.js");
+const location = require("../struct/Location.js");
+const economy = require("../struct/Economy.js");
+const cell = require("../struct/Cell.js");
+const war = require("../struct/War.js");
+const gun = require("../struct/Gun.js");
+countries = require("../data/data.json");
+map = require("../data/map.json");
 loadGuns().then(g => guns = g);
-const country = require("./struct/country.js");
+const country = require("../struct/country.js");
 module.exports = {
 	sqlite,
 	path,
