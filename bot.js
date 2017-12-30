@@ -503,70 +503,17 @@ client.on("message", msg => {
 		//#           !stats            #
 		//###############################
 
-		if (content[0] == call + "stats") {
-			if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
-
-			var temp = "";
-			for (k in c) {
-				temp += k + ": " + c[k] + "\n";
-			}
-			for (k in c.population) {
-				temp += k + ": " + c.population[k] + "\n";
-			}
-			msg.channel.send(temp);
-		}
-
 		//###############################
 		//#        !movecapital         #
 		//###############################
-
-		if (content[0] == call + "movecapital") {
-			if (map[content[2]][content[1]].owner == id) {
-				countries[id].capital.x = content[2];
-				countries[id].capital.y = content[1];
-				msg.channel.send("Capital moved!");
-			} else {
-				msg.channel.send("You don't own that land!");
-			}
-
-		}
 
 		//###############################
 		//#           !rename           #
 		//###############################
 
-		if (content[0] == call + "rename") {
-			if (content[1] != undefined && content[1].charCodeAt(0) <= 255 && content[0].length > 1 && content[1].charAt(0) != "X" && content[1].charAt(0) != "*" && content[1].charAt(0) != "#" && !content[1].includes("@")) {
-				msg.channel.send("The country of " + countries[id].name + " is now " + msg.content.split(" ")[1]);
-				countries[id].name = msg.content.split(" ")[1];
-				save(countries, map);
-			} else {
-				msg.channel.send("You need a real name....");
-			}
-		}
-
 		//###############################
 		//#          !manpower          #
 		//###############################
-
-		if (content[0] == call + "manpower") {
-			if (content[1] != undefined) {
-				if (content[1] <= 100) {
-					if (content[1] >= 0) {
-						countries[id].population.manpower = parseFloat(content[1] / 100);
-						msg.channel.send("Manpower set to " + content[1] + "%");
-						save(countries, map);
-					} else {
-						msg.channel.send("Manpower too low!");
-					}
-				} else {
-					msg.channel.send("Manpower too high!");
-				}
-			} else {
-				msg.channel.send("You need to give a valid percentage, `" + call + "manpower 25` will set manpower at 25% of your population");
-
-			}
-		}
 
 		//###############################
 		//#          !economy           #
@@ -692,9 +639,9 @@ client.on("message", msg => {
 				down = 1;
 				left = 0;
 				right = 1;
-				if (msg.content.includes("west")) {
+				if (msg.content.includes("east")) {
 					up = 1;
-					dir += " west";
+					dir += " east";
 				}
 				if (msg.content.includes("west")) {
 					down = 2;
