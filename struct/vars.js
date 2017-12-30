@@ -46,7 +46,7 @@ countries      = require("../data/data.json");       // Country Data
 try{
 	map        = require("../data/map.json");        // Map Data
 }catch(err){
-	map        = generateMapPerlin();                // Generate if missing
+	map        = undefined;                          // Generate if missing
 }
 //loadGuns().then(g => guns = g);
 guns           = require("../consts/guns.json");     // Gun Data
