@@ -35,11 +35,11 @@ const {
 module.exports = class AlliesCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "allies",
-			group: "info",
-			memberName: "allies",
-			description: "List your or other's allies.",
-			examples: ["!allies", "!allies @TheBestCountry'sOwner"],
+			name: "map",
+			group: "map",
+			memberName: "map",
+			description: "Get a map of an area.",
+			examples: ["!map", "!map 50 50", "!map @Derpy"],
 			args: [
 				{
 					key: "x",
