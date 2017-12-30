@@ -32,15 +32,16 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class GivePeopleCommand extends Commando.Command {
+module.exports = class GiveLandCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "givepeople",
+			name: "giveland",
 			group: "relations",
-			memberName: "givepeople",
-			description: "Gives another country a certain amount of people.",
-			details: oneline`Use this command to send people, that's really all.`,
-			examples: ["!givepeople TheOtherAwesomeCountry 1000"],
+			memberName: "giveland",
+			description: "Gives another country a square of land.",
+			details: oneline`Will give a square to that country.
+			Useful for wars and payment.`,
+			examples: ["!giveland Skeylis 50 50 10"],
 			args: [
 				{
 					key: "sendTo",
@@ -49,36 +50,57 @@ module.exports = class GivePeopleCommand extends Commando.Command {
 					type: "string"
 				},
 				{
-					key: "numPpl",
-					label: "amount",
+					key: "x",
+					label: "x",
 					type: "integer",
-					prompt: "I'd recommend actually sending people..."
+					prompt: "Specify x & y!"
+				},
+				{
+					key: "y",
+					label: "y",
+					type: "integer",
+					prompt: "Specify x & y!"
+				},
+				{
+					key: "size",
+					type: "integer",
+					prompt: "Specify a size!"
 				}
 			]
 		});
 	}
-	run(msg, {sendTo, numPpl}){
-		id = msg.author.id;
-		c = countries[id];
-		var found = false;
-		var c = "";
+	run(msg, {sendTo, x, y, size}){
+		var foundTarget = false;
+		var target = "";
 		for (k in countries) {
+			//console.log(countries[k].name);
 			if (countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
-				found = true;
-				c = k;
+				target = k;
+				foundTarget = true;
 			}
 		}
-		if (found) {
-			if (countries[id].population.size >= numPpl) {
-				msg.channel.send("giving " + countries[c].name + " " + numPpl + " people!");
-				countries[id].population.size -= numPpl;
-				countries[c].population.size += numPpl;
-				save(countries, map);
-			} else {
-				msg.channel.send("you don't even have that many people!");
-			}
+		if (!foundTarget) {
+			msg.channel.send("They dont exist!");
 		} else {
-			msg.channel.send("They don't exist!");
+			
+			var targetX = y;
+			var targetY = x;
+			var size = Math.floor(size / 2);
+			var givenLand = 0;
+			for (var x = targetX - size; x < targetX + size + 1; x++) {
+				for (var y = targetY - size; y < targetY + size + 1; y++) {
+					try {
+						if (map[x][y].owner == id) {
+							map[x][y].owner = target;
+							givenLand++;
+						}
+					} catch (err) {
+						console.log(err.toString());
+					}
+				}
+			}
+			save(countries,map);
+			msg.channel.send("you gave " + countries[target].name + " " + givenLand + " cells");
 		}
 	}
 };

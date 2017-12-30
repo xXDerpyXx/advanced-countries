@@ -32,53 +32,37 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class GivePeopleCommand extends Commando.Command {
+module.exports = class AllyCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "givepeople",
+			name: "ally",
 			group: "relations",
-			memberName: "givepeople",
-			description: "Gives another country a certain amount of people.",
-			details: oneline`Use this command to send people, that's really all.`,
-			examples: ["!givepeople TheOtherAwesomeCountry 1000"],
+			memberName: "ally",
+			description: "Ally another country. Remember, it's one way!",
+			details: oneline`Ally another country. One-way means that you won't war them, but they can war you until they ally you back.`,
+			examples: ["!ally boi"],
 			args: [
 				{
-					key: "sendTo",
+					key: "alliance",
 					label: "country",
-					prompt: "You can't send to nobody!",
+					prompt: "Pick a country to ally!",
 					type: "string"
-				},
-				{
-					key: "numPpl",
-					label: "amount",
-					type: "integer",
-					prompt: "I'd recommend actually sending people..."
 				}
 			]
 		});
 	}
-	run(msg, {sendTo, numPpl}){
-		id = msg.author.id;
-		c = countries[id];
-		var found = false;
-		var c = "";
+	run(msg, {alliance}){
+		var foundAlly = false;
 		for (k in countries) {
-			if (countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
-				found = true;
-				c = k;
+			//console.log(countries[k].name);
+			if (countries[k].name.toLowerCase() == alliance.toLowerCase()) {
+				countries[id].allies[countries[id].allies.length] = countries[k].id;
+				msg.channel.send("You now have allied " + alliance);
+				foundAlly = true;
 			}
 		}
-		if (found) {
-			if (countries[id].population.size >= numPpl) {
-				msg.channel.send("giving " + countries[c].name + " " + numPpl + " people!");
-				countries[id].population.size -= numPpl;
-				countries[c].population.size += numPpl;
-				save(countries, map);
-			} else {
-				msg.channel.send("you don't even have that many people!");
-			}
-		} else {
-			msg.channel.send("They don't exist!");
+		if (!foundAlly) {
+			msg.channel.send("They dont exist!");
 		}
 	}
 };
