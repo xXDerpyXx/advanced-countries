@@ -79,7 +79,7 @@ exports.generateMapPerlin = () => {
 				temp = temp + (Math.abs(Math.abs(temp))/2)+5;
 			}
 			* */
-			temp += (Math.random()*4)-2
+			temp += (Math.random()*2)-1
 			map[x][y].elevation = temp;
 			/*
 			var temp = simplex.noise2D(x/16,y/16);
