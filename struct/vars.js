@@ -42,7 +42,11 @@ var cell       = require("../struct/Cell.js");       // Map Cell Structure
 var war        = require("../struct/War.js");        // War Structure
 var gun        = require("../struct/Gun.js");        // Gun Structure
 countries      = require("../data/data.json");       // Country Data
-map            = require("../data/map.json");        // Map Data
+try{
+	map        = require("../data/map.json");        // Map Data
+}catch(err){
+	map        = generateMapPerlin();                // Generate if missing
+}
 //loadGuns().then(g => guns = g);
 guns           = require("../consts/guns.json");     // Gun Data
 var country    = require("../struct/country.js");    // Country Structure
