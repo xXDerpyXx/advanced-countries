@@ -35,9 +35,9 @@ const {
 module.exports = class GenocideCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			power: "genocide",
+			name: "genocide",
 			group: "options",
-			memberpower: "genocide",
+			memberName: "genocide",
 			description: "Change the percentage of your population that's killed every turn.",
 			details: oneline`Only for facists.
 			Affects loyalty.

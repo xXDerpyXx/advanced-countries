@@ -37,7 +37,7 @@ module.exports = class WarCommand extends Commando.Command {
 		super(client, {
 			name: "war",
 			group: "war",
-			membername: "war",
+			memberName: "war",
 			description: "War people. Details for more info.",
 			details: oneline`!war none will claim unowned land.
 			!war all will war all non-allies.

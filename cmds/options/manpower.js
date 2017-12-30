@@ -35,9 +35,9 @@ const {
 module.exports = class PowerCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			power: "manpower",
+			name: "manpower",
 			group: "options",
-			memberpower: "manpower",
+			memberName: "manpower",
 			description: "Change the percentage of your army that's enlisted.",
 			details: oneline`_Very_ strategic.
 			Useful to overpower your enemies or manage your resource cost.

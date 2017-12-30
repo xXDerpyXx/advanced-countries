@@ -35,9 +35,9 @@ const {
 module.exports = class EconomyCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			power: "economy",
+			name: "economy",
 			group: "options",
-			memberpower: "economy",
+			memberName: "economy",
 			description: "Change your economy type. Check details for options.",
 			details: oneline`Options: capitalist, communist, or meritist.
 			Affects loyalty.

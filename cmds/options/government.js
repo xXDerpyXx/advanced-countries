@@ -35,9 +35,9 @@ const {
 module.exports = class GovernmentCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			power: "government",
+			name: "government",
 			group: "options",
-			memberpower: "government",
+			memberName: "government",
 			description: "Change your government type. Check details for options.",
 			details: oneline`Options: republic, dictatorship, monarchy, democracy, or facist.
 			Not very strategic, set your government at the start.
