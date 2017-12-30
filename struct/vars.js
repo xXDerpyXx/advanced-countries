@@ -26,6 +26,7 @@ var {
 } = require("../config.js");
 var {
 	generateMap,
+	generateMapPerlin,
 	getLocalMap
 } = require("../modules/map.js");
 var {
