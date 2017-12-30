@@ -32,31 +32,17 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class MoveCapitalCommand extends Commando.Command {
+module.exports = class FullMapCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "movecapital",
-			group: "options",
-			memberName: "movecapital",
-			description: "Moves your capital to said location.",
-			details: oneline`Can be used strategically.
-			If an enemy is near your capital, you can move it further away.`,
-			examples: ["!movecapital 50 50"],
-			args: [
-				{
-					key: "x",
-					prompt: "You need to have coords...",
-					type: "integer"
-				},
-				{
-					key: "y",
-					prompt: "You need to have coords...",
-					type: "integer"
-				}
-			]
+			name: "fullmap",
+			group: "map",
+			memberName: "fullmap",
+			description: "Gives you the full map. :O",
+			examples: ["!fullmap"],
 		});
 	}
-	run(msg, {x,y}){
+	run(msg, args){
 		id = msg.author.id;
 		c = countries[id];
 		save(countries, map);

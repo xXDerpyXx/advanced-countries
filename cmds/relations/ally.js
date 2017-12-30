@@ -52,6 +52,9 @@ module.exports = class AllyCommand extends Commando.Command {
 		});
 	}
 	run(msg, {alliance}){
+		id = msg.author.id;
+		c = countries[id];
+		
 		var foundAlly = false;
 		for (k in countries) {
 			//console.log(countries[k].name);

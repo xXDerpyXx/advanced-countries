@@ -70,6 +70,9 @@ module.exports = class GiveLandCommand extends Commando.Command {
 		});
 	}
 	run(msg, {sendTo, x, y, size}){
+		id = msg.author.id;
+		c = countries[id];	
+		
 		var foundTarget = false;
 		var target = "";
 		for (k in countries) {

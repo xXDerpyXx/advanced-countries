@@ -592,100 +592,17 @@ client.on("message", msg => {
 		//#          !fullmap           #
 		//###############################
 
-		if (content[0] == call + "fullmap") {
-			save(countries, map);
-			//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-			let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
-
-			setTimeout(function () {
-				msg.channel.send("Fullmap:", {
-					files: [{
-						attachment: buffer,
-						name: "map.png",
-					}],
-				});
-			}, 500);
 			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
-		}
-		if (content[0] == call + "rawdata") {
-			save(countries, map);
-			//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-			setTimeout(function () {
-				msg.author.send("All the raw data:", {
-					files: ["./data/data.json"],
-				});
-				msg.author.send({
-					files: ["./data/map.json"],
-				});
-			}, 500);
-			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
-		}
 
 		//###############################
 		//#          !allymap           #
 		//###############################
 
-		if (content[0] == call + "allymap") {
-			var theCountry;
-			if (content[1] != undefined) {
-				Object.keys(countries).forEach(function (key) {
-
-					if (countries[key].name.toLowerCase() == content[1]) {
-						theCountry = countries[key];
-					}
-
-				});
-			}
-			save(countries, map);
-			if (content[1] != undefined) {
-				let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, theCountry.id);
-
-				setTimeout(function () {
-					msg.channel.send(`Map of allies for ${theCountry.name}`, {
-						files: [{
-							attachment: buffer,
-							name: "map.png",
-						}],
-					});
-				}, 500);
-			} else {
-				//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-				let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, msg.author.id);
-
-				setTimeout(function () {
-					msg.channel.send(`Map of allies for ${countries[msg.author.id].name}`, {
-						files: [{
-							attachment: buffer,
-							name: "map.png",
-						}],
-					});
-				}, 500);
-			}
-			//console.log(getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"));
-		}
-
 		//###############################
 		//#           !unally           # <-- needs fixing, sometimes requires 2 usages of the command to unally someone
 		//###############################
 
-		if (content[0] == call + "unally") {
-			var foundAlly = false;
-			for (k in countries[id].allies) {
-				try {
-					//console.log(countries[countries[id].allies[k]].name+"|"+content[1]+":"+countries[id].allies[k]);
-					if (countries[countries[id].allies[k]].name.toLowerCase() == content[1]) {
-						countries[id].allies[countries[id].allies[k]] = countries[id].allies.splice(k, 1);
-						msg.channel.send("You now have unallied " + content[1]);
-						foundAlly = true;
-					}
-				} catch (err) {
-					console.log(err);
-				}
-			}
-			if (!foundAlly) {
-				msg.channel.send("They dont exist!");
-			}
-		}
+
 
 		
 
