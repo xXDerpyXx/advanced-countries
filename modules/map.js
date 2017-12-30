@@ -66,6 +66,7 @@ exports.generateMapPerlin = () => {
 		for(var y = 0; y < height; y++) {
 			var temp = simplex.noise2D(x,y);
 			map[x][y].elevation = (temp * 20) + 5;
+			console.log(map[x][y].elevation);
 		}
 	}
 	
