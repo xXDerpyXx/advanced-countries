@@ -1,6 +1,6 @@
 const sqlite = require("sqlite");
 const path = require("path");
-const oneLine = require("common-tags").oneLine;
+const oneline = require("common-tags").oneLine;
 const Commando = require("discord.js-commando");
 const fs = require("fs");
 const {
