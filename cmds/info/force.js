@@ -32,59 +32,50 @@ const {
 	country
 } = require("../../struct/vars.js");
 
-module.exports = class MakeCountryCommand extends Commando.Command {
+module.exports = class ForceCommand extends Commando.Command {
 	constructor(client){
 		super(client, {
-			name: "makecountry",
-			group: "options",
-			memberName: "makecountry",
-			description: "Create a country if you haven't!",
-			details: oneline`Use this to make a country, because that's kinda a requirement to play this game.
-			Economy Options: Communist, capitalist, meritist. Default is capitalist.
-			Government Options: Republic, monarchy, facist, democracy, dictatorship. Default is dictatorship.`,
-			examples: ["!makecountry TotallyTheBestCountry communist monarchy"],
+			name: "force",
+			group: "info",
+			memberName: "force",
+			description: "Tells you or another user's force.",
+			examples: ["!force", "!force @Derpy"],
 			args: [
 				{
-					key: "name",
-					prompt: "You gotta have a name...",
+					key: "mention",
+					default: "idk",
 					type: "string"
-				},
-				{
-					key: "economy",
-					type: "string",
-					default: "capitalist"
-				},
-				{
-					key:"government",
-					type: "string",
-					default: "dictatorship"
 				}
 			]
 		});
 	}
-	run(msg, {name, economy, government}){
+	run(msg, {mention}){
 		id = msg.author.id;
 		c = countries[id];
 
-		//###############################
-		//#        !makecountry         #
-		//###############################
-
-		if (c == undefined) {
-			if (name.charCodeAt(0) <= 255 && name.charAt(0) != "X" && name.charAt(0) != "*" && name.charAt(0) != "#" && !name.includes("@")) {
-				msg.channel.send("We can't accept that name, sorry...");
-
-			} else if (economy != "communist" && economy != "capitalist" && economy != "meritist" && economy != undefined) {
-				msg.channel.send("That isn't an economy type! Types: capitalist, communist, or meritist. Say nothing for capitalist");
-			} else if (government != "republic" && government != "monarchy" && government != "dictatorship" && government != "facist" && government != "democracy" && government != undefined) {
-				msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
-			} else {
-				countries[id] = new country(id, name, economy, government);
-				msg.channel.send("You've created the country of " + name);
-				save(countries, map);
-			}
-
+		var toSend = "";
+		if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
+		toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell";
+		if (countries[id].gun == undefined) {
+			countries[id].gun = guns["M1"];
 		}
+		var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
+		var armedPercent = 1;
+
+		/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
+
+				}*/
+		armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+		if (armedPercent > 1) {
+			armedPercent = 1;
+		}
+		var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
+		if (mention.toLowerCase() == "webint") {
+			msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
+		} else {
+			msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
+		}
+
 	}
 };
 
