@@ -27,6 +27,12 @@ exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAllia
 	ex = parseInt(ex);
 	ey = parseInt(ey);
 
+	sx = sx - 1;
+	ex = ex - 1;
+
+	sy = sy + 2;
+	ey = ey + 2;
+
 	console.time("Time");
 	var ySize = WIDTH * (ey - sy);
 	if (showList) {
