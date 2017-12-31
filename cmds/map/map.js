@@ -67,7 +67,8 @@ module.exports = class MapCommand extends Commando.Command {
 	run(msg, {x, y, size}){
 		id = msg.author.id;
 		c = countries[id];
-
+		if (x!=8759 && y == 8759)
+			size = x;
 		if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
 
 		if (x == 8759 || y == 8759) {
@@ -78,8 +79,7 @@ module.exports = class MapCommand extends Commando.Command {
 			size = 10;
 		}
 
-		if (x!=8759 && y == 8759)
-			size = x;
+		
 
 		console.log(size);
 		if (size <= 0) {
