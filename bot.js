@@ -518,7 +518,7 @@ client.on("ready", () => {
 //###############################
 //#            Login            #
 //###############################
-module.exports = class country {
+module.country = class country {
 	constructor(id, name, chosenEconomy = "capitalist", chosenGov = "dictatorship") {
 		this.id = id;
 		this.name = name;
