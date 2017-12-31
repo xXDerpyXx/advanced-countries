@@ -3,6 +3,11 @@ const path = require("path");
 const oneline = require("common-tags").oneLine;
 const Commando = require("discord.js-commando");
 const fs = require("fs");
+const countries = {};
+const map = {};
+
+var wars = {};
+const guns = {};
 const {
 	formatMass,
 	save,
@@ -69,5 +74,7 @@ module.exports = {
 	gun,
 	countries,
 	map,
-	country
+	country,
+	wars,
+	guns
 };

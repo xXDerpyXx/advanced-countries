@@ -29,7 +29,9 @@ const {
 	gun,
 	countries,
 	map,
-	country
+	country,
+	wars,
+	guns
 } = require("../../struct/vars.js");
 
 module.exports = class SetGunCommand extends Commando.Command {
