@@ -78,7 +78,7 @@ module.exports = class MapCommand extends Commando.Command {
 			size = 10;
 		}
 
-		if (!(x==8759) && y == 8759)
+		if (x!=8759 && y == 8759)
 			size = parseInt(content[1]);
 
 		console.log(size);
