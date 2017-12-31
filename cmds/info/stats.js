@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-const {
+var {
 	sqlite,
 	path,
 	oneline,

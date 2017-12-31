@@ -1,14 +1,14 @@
-const sqlite = require("sqlite");
-const path = require("path");
-const oneline = require("common-tags").oneLine;
-const Commando = require("discord.js-commando");
-const fs = require("fs");
-const countries = {};
-const map = {};
+var sqlite = require("sqlite");
+var path = require("path");
+var oneline = require("common-tags").oneLine;
+var Commando = require("discord.js-commando");
+var fs = require("fs");
+var countries = {};
+var map = {};
 
 var wars = {};
-const guns = {};
-const {
+var guns = {};
+var {
 	formatMass,
 	save,
 	recursiveWait,
@@ -16,7 +16,7 @@ const {
 	loadGuns,
 	saveImage
 } = require("../modules/util.js");
-const {
+var {
 	token,
 	call,
 	width,
@@ -24,26 +24,26 @@ const {
 	tickSpeed,
 	adminList
 } = require("../config.js");
-const {
+var {
 	generateMap,
 	getLocalMap
 } = require("../modules/map.js");
-const {
+var {
 	makeImage
 } = require("../modules/canvas-map-gen.js");
-const {
+var {
 	declareWar
 } = require("../modules/war.js");
-const government = require("../struct/Government.js");
-const location = require("../struct/Location.js");
-const economy = require("../struct/Economy.js");
-const cell = require("../struct/Cell.js");
-const war = require("../struct/War.js");
-const gun = require("../struct/Gun.js");
+var government = require("../struct/Government.js");
+var location = require("../struct/Location.js");
+var economy = require("../struct/Economy.js");
+var cell = require("../struct/Cell.js");
+var war = require("../struct/War.js");
+var gun = require("../struct/Gun.js");
 countries = require("../data/data.json");
 map = require("../data/map.json");
 loadGuns().then(g => guns = g);
-const country = require("../struct/country.js");
+var country = require("../struct/country.js");
 module.exports = {
 	sqlite,
 	path,
