@@ -10,6 +10,11 @@ const Discord = require("discord.js");
 const client = new Commando.Client({
 	commandPrefix: "!"
 });
+const commitCount = require('git-commit-count');
+
+//commitCount(); // number of process.cwd()
+//commitCount('any/git/repo'); // number
+
 const fs = require("fs");
 client.setProvider(
 	sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
@@ -158,7 +163,7 @@ try {
 		map = generateMapPerlin();
 		save(countries, map);
 	}
-	
+
 } catch (err) {
 	console.log("[FAILED TO LOAD, CREATING DATA]");
 
@@ -181,7 +186,7 @@ function tick(repeat) {
 	console.log("   Today is a new day");
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
 	report += "========================\n";
-	report += "Daily news!\n";
+	report += "Daily news! (V"+commitCount('https://github.com/xXDerpyXx/advanced-countries')+")\n";
 	report += "========================\n";
 
 	warVictories = {};
@@ -628,6 +633,3 @@ class country {
 //###############################
 exports.country = country;
 client.login(token);
-
-
-
