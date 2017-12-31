@@ -1,0 +1,12 @@
+node_modules
+index.js
+.nyc_output
+npm-debug.log
+coverage
+test
+test.js
+.babelrc
+.eslintrc.json
+.travis.yml
+.appveyor.yml
+yarn.lock
