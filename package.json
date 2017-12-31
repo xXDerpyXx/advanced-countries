@@ -22,6 +22,7 @@
     "discord.js": "^11.2.1",
     "discord.js-commando": "^0.9.0",
     "erlpack": "^0.1.2",
+    "git-commit-count": "^1.1.3",
     "libsodium-wrappers": "^0.7.3",
     "node-opus": "^0.2.7",
     "opusscript": "0.0.6",
