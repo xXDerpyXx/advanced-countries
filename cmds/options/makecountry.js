@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 var vars = require("../../struct/vars.js");
-
+var {client} = require("../../bot.js");
 module.exports = class MakeCountryCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {

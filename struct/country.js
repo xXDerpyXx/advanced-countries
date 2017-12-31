@@ -1,9 +1,10 @@
 var vars = require("./vars.js");
+var {client} = require("../bot.js");
 module.exports = class country {
 	constructor(id, name, chosenEconomy = "capitalist", chosenGov = "dictatorship") {
 		this.id = id;
 		this.name = name;
-		this.owner = vars.client.users.get(id).tag;
+		this.owner = client.users.get(id).tag;
 		this.allies = [];
 		this.economyType = chosenEconomy;
 		this.governmentType = chosenGov;
