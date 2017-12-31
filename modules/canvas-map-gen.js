@@ -23,7 +23,7 @@ Object.size = function (obj) {
 };
 
 
-exports.makeImage = function (data, war, sx, sy, ex, ey, c, showList, showAlliances, mainCountry) {
+exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAlliances, mainCountry) {
 	ex = parseInt(ex);
 	ey = parseInt(ey);
 
