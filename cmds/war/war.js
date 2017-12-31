@@ -106,7 +106,7 @@ module.exports = class WarCommand extends vars.Commando.Command {
 						}
 
 						if (warable) {
-							vars.declareWar(x, y, id, target, false, wars, vars.map, vars.countries);
+							vars.declareWar(x, y, id, target, false, vars.wars, vars.map, vars.countries);
 						}
 					}
 				}
@@ -131,7 +131,7 @@ module.exports = class WarCommand extends vars.Commando.Command {
 							}
 
 							if (warable) {
-								vars.declareWar(x, y, id, vars.map[x][y].owner, false, wars, vars.map, vars.countries);
+								vars.declareWar(x, y, id, vars.map[x][y].owner, false, vars.wars, vars.map, vars.countries);
 							}
 						}
 					}
@@ -156,7 +156,7 @@ module.exports = class WarCommand extends vars.Commando.Command {
 							}
 
 							if (warable) {
-								vars.declareWar(x, y, id, vars.map[x][y].owner, false, wars, vars.map, vars.countries);
+								vars.declareWar(x, y, id, vars.map[x][y].owner, false, vars.wars, vars.map, vars.countries);
 							}
 						}
 					}
