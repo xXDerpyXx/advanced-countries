@@ -55,8 +55,8 @@ module.exports = class GiveLandCommand extends vars.Commando.Command {
 			msg.channel.send("They dont exist!");
 		} else {
 			
-			var targetX = y;
-			var targetY = x;
+			var targetX = x;
+			var targetY = y;
 			var size = Math.floor(size / 2);
 			var givenLand = 0;
 			for (var x1 = targetX - size; x1 < targetX + size + 1; x1++) {

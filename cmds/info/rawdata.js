@@ -15,7 +15,7 @@ module.exports = class RawDataCommand extends vars.Commando.Command {
 		id = msg.author.id;
 		c = vars.countries[id];
 
-		save(vars.countries, vars.map);
+		vars.save(vars.countries, vars.map);
 		//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
 		setTimeout(function () {
 			msg.author.send("All the raw data:", {
