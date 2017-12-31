@@ -16,7 +16,7 @@ module.exports = class FullMapCommand extends vars.Commando.Command {
 		c = vars.countries[id];
 		vars.save(vars.countries, vars.map);
 		//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-		let buffer = makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true);
+		let buffer = vars.makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true);
 
 		setTimeout(function () {
 			msg.channel.send("Fullmap:", {
