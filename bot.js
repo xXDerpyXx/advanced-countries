@@ -152,8 +152,6 @@ loadGuns().then(g => guns = g);
 */
 try {
 	console.log("[LOADING DATA]");
-	countries = require("./data/data.json");
-	map = require("./data/map.json");
 	if(map == undefined){
 		console.log("[FAILED TO LOAD, CREATING DATA]");
 
@@ -212,7 +210,7 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
-		if (!countries[c].genocidePercent == undefined) {
+		if (countries[c].genocidePercent != undefined) {
 			countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);
 		}
 	}
