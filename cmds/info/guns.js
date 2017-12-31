@@ -22,7 +22,7 @@ module.exports = class ListGunCommand extends vars.Commando.Command {
 
 		for (k in vars.guns) {
 			temp += "-------\n";
-			temp += vars.guns[k].name + "\n";
+			temp += k + "\n";
 			temp += "-------\n";
 			temp += "Counters: " + vars.guns[k].counters + "\n";
 			temp += "Costs: " + vars.guns[k].cost + " per 100 troops\n";
