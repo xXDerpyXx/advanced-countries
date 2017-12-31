@@ -59,15 +59,15 @@ module.exports = class GiveLandCommand extends vars.Commando.Command {
 			var targetY = x;
 			var size = Math.floor(size / 2);
 			var givenLand = 0;
-			for (var x = targetX - size; x < targetX + size + 1; x++) {
-				for (var y = targetY - size; y < targetY + size + 1; y++) {
+			for (var x1 = targetX - size; x1 < targetX + size + 1; x1++) {
+				for (var y1 = targetY - size; y1 < targetY + size + 1; y1++) {
 					try {
-						if (vars.map[x][y].owner == id) {
-							vars.map[x][y].owner = target;
+						if (vars.map[x1][y1].owner == id) {
+							vars.map[x1][y1].owner = target;
 							givenLand++;
 						}
 					} catch (err) {
-						console.log(err.toString());
+						msg.channel.send(err.toString());
 					}
 				}
 			}
