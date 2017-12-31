@@ -76,7 +76,7 @@ module.exports = class MakeCountryCommand extends Commando.Command {
 		//###############################
 
 		if (c == undefined) {
-			if (name.charCodeAt(0) <= 255 && name.charAt(0) != "X" && name.charAt(0) != "*" && name.charAt(0) != "#" && !name.includes("@")) {
+			if (false){//name.charCodeAt(0) <= 255 && name.charAt(0) != "X" && name.charAt(0) != "*" && name.charAt(0) != "#" && !name.includes("@")) {
 				msg.channel.send("We can't accept that name, sorry...");
 
 			} else if (economy != "communist" && economy != "capitalist" && economy != "meritist" && economy != undefined) {
