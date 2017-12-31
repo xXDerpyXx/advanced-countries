@@ -57,7 +57,7 @@ module.exports = class ResourceCommand extends vars.Commando.Command {
 		temp += ("you mine " + Math.round(total) + " resource per turn\n");
 		temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
 		temp += ("leaving you with " + Math.round(profit) + " per turn\n");
-		if (mention == "webint") {
+		if (mention.toLowerCase() == "webint") {
 			msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
 		} else {
 			msg.channel.send(temp);
