@@ -91,7 +91,6 @@ module.exports = {
 	gun,
 	countries,
 	map,
-	country,
 	wars,
 	guns
 };
