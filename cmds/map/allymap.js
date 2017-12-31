@@ -27,17 +27,18 @@ module.exports = class AllymapCommand extends vars.Commando.Command {
 		c = vars.countries[id];
 		
 		var theCountry;
+		var found = false;
 		if (arg1 != "8090") {
 			Object.keys(vars.countries).forEach(function (key) {
 
-				if (vars.countries[key].name.toLowerCase() == arg1) {
+				if (vars.countries[key].name.toLowerCase() == arg1.toLowerCase()) {
 					theCountry = vars.countries[key];
 				}
 
 			});
 		}
 		vars.save(vars.countries, vars.map);
-		if (arg1 != "8090") {
+		if (arg1 != "8090" && found) {
 			let buffer = vars.makeImage(vars.map, vars.wars, 0, 0, vars.width, vars.height, vars.countries, true, true, theCountry.id);
 
 			setTimeout(function () {
