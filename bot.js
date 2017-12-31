@@ -118,7 +118,9 @@ guns["Minigun"].cost = 15;
 */
 
 loadGuns().then(g => guns = g);
-module.client = client;
+module.exports = {
+	client
+};
 try {
 	console.log("[LOADING DATA]");
 	countries = require("./data/data.json");
