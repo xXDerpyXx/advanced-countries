@@ -1,41 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	generateMapPerlin,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class FullMapCommand extends Commando.Command {
+module.exports = class FullMapCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "fullmap",
@@ -47,10 +13,10 @@ module.exports = class FullMapCommand extends Commando.Command {
 	}
 	run(msg, args){
 		id = msg.author.id;
-		c = countries[id];
-		save(countries, map);
+		c = vars.countries[id];
+		save(vars.countries, vars.map);
 		//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-		let buffer = makeImage(map, wars, 0, 0, width, height, countries, true);
+		let buffer = makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true);
 
 		setTimeout(function () {
 			msg.channel.send("Fullmap:", {

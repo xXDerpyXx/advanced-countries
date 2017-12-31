@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 var vars = require("../../struct/vars.js");
 
-module.exports = class RenameCommand extends Commando.Command {
+module.exports = class RenameCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "rename",

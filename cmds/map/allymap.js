@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class AllyMapCommand extends Commando.Command {
+module.exports = class AllymapCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "allymap",
@@ -57,36 +24,36 @@ module.exports = class AllyMapCommand extends Commando.Command {
 	}
 	run(msg, {arg1}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		
 		var theCountry;
 		if (arg1 != "8090") {
-			Object.keys(countries).forEach(function (key) {
+			Object.keys(vars.countries).forEach(function (key) {
 
-				if (countries[key].name.toLowerCase() == arg1) {
-					theCountry = countries[key];
+				if (vars.countries[key].name.toLowerCase() == arg1) {
+					theCountry = vars.countries[key];
 				}
 
 			});
 		}
-		save(countries, map);
+		save(vars.countries, vars.map);
 		if (arg1 != "8090") {
-			let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, theCountry.id);
+			let buffer = makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true, true, theCountry.id);
 
 			setTimeout(function () {
-				msg.channel.send(`Map of allies for ${theCountry.name}`, {
+				msg.channel.send(`vars.map of allies for ${theCountry.name}`, {
 					files: [{
 						attachment: buffer,
-						name: "map.png",
+						name: "vars.map.png",
 					}],
 				});
 			}, 500);
 		} else {
-			//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
-			let buffer = makeImage(map, wars, 0, 0, width, height, countries, true, true, msg.author.id);
+			//msg.author.send('The Whole vars.map!',  {files: ["./vars.map.txt"]});
+			let buffer = makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true, true, msg.author.id);
 
 			setTimeout(function () {
-				msg.channel.send(`Map of allies for ${countries[msg.author.id].name}`, {
+				msg.channel.send(`Map of allies for ${vars.countries[msg.author.id].name}`, {
 					files: [{
 						attachment: buffer,
 						name: "map.png",
