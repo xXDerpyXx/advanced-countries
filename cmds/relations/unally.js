@@ -8,7 +8,7 @@ module.exports = class UnAllyCommand extends vars.Commando.Command {
 			group: "relations",
 			memberName: "unally",
 			description: "Unally another country. Remember, it's one way!",
-			details: oneline`Unally another country. One-way means that you won't war them, but they can war you until they ally you back.`,
+			details: vars.oneline`Unally another country. One-way means that you won't war them, but they can war you until they ally you back.`,
 			examples: ["!unally boi"],
 			args: [
 				{

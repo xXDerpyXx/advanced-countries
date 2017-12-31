@@ -8,7 +8,7 @@ module.exports = class GiveResourceCommand extends vars.Commando.Command {
 			group: "relations",
 			memberName: "giveresource",
 			description: "Gives another country a certain amount of resource.",
-			details: oneline`Use this command to send resources, that's really all.`,
+			details: vars.oneline`Use this command to send resources, that's really all.`,
 			examples: ["!giveresource xXxTheSuperAwesomeCountryxXx 1000"],
 			args: [
 				{

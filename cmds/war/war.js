@@ -8,7 +8,7 @@ module.exports = class WarCommand extends vars.Commando.Command {
 			group: "war",
 			memberName: "war",
 			description: "War people. Details for more info.",
-			details: oneline`!war none will claim unowned land.
+			details: vars.oneline`!war none will claim unowned land.
 			!war all will war all non-allies.
 			!war <all/none> west/east/north/south will war in that direction.
 			Affects loyalty.

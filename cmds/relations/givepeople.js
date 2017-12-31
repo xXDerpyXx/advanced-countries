@@ -8,7 +8,7 @@ module.exports = class GivePeopleCommand extends vars.Commando.Command {
 			group: "relations",
 			memberName: "givepeople",
 			description: "Gives another country a certain amount of people.",
-			details: oneline`Use this command to send people, that's really all.`,
+			details: vars.oneline`Use this command to send people, that's really all.`,
 			examples: ["!givepeople TheOtherAwesomeCountry 1000"],
 			args: [
 				{

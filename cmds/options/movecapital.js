@@ -8,7 +8,7 @@ module.exports = class MoveCapitalCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "movecapital",
 			description: "Moves your capital to said location.",
-			details: oneline`Can be used strategically.
+			details: vars.oneline`Can be used strategically.
 			If an enemy is near your capital, you can move it further away.`,
 			examples: ["!movecapital 50 50"],
 			args: [

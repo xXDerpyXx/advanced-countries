@@ -8,7 +8,7 @@ module.exports = class MakeCountryCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "makecountry",
 			description: "Create a country if you haven't!",
-			details: oneline`Use this to make a country, because that's kinda a requirement to play this game.
+			details: vars.oneline`Use this to make a country, because that's kinda a requirement to play this game.
 			Economy Options: Communist, capitalist, meritist. Default is capitalist.
 			Government Options: Republic, monarchy, facist, democracy, dictatorship. Default is dictatorship.`,
 			examples: ["!makecountry TotallyTheBestCountry communist monarchy"],

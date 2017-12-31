@@ -8,7 +8,7 @@ module.exports = class PowerCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "manpower",
 			description: "Change the percentage of your army that's enlisted.",
-			details: oneline`_Very_ strategic.
+			details: vars.oneline`_Very_ strategic.
 			Useful to overpower your enemies or manage your resource cost.
 			Changes resource cost.
 			Changes war ability.`,

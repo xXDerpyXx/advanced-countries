@@ -8,7 +8,7 @@ module.exports = class SetGunCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "setgun",
 			description: "Set your gun, at the cost of 10% of your resource",
-			details: oneline`Use this to set your gun. Be warned, however, as it uses 10% of your resource!
+			details: vars.oneline`Use this to set your gun. Be warned, however, as it uses 10% of your resource!
 			Use it _wisely_.`,
 			examples: ["!setgun m1"],
 			args: [

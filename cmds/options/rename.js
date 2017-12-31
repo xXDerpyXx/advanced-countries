@@ -8,7 +8,7 @@ module.exports = class RenameCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "rename",
 			description: "Rename yourself to something else.",
-			details: oneline`Renames your country.
+			details: vars.oneline`Renames your country.
 			Not really useful, more just confuses your allies and enemies.`,
 			examples: ["!rename hahaha"],
 			args: [

@@ -8,7 +8,7 @@ module.exports = class ColorCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "color",
 			description: "Sets your map color.",
-			details: oneline`Nothing else.`,
+			details: vars.oneline`Nothing else.`,
 			examples: ["!color 10 150 255"],
 			args: [
 				{

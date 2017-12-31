@@ -8,7 +8,7 @@ module.exports = class EconomyCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "economy",
 			description: "Change your economy type. Check details for options.",
-			details: oneline`Options: capitalist, communist, or meritist.
+			details: vars.oneline`Options: capitalist, communist, or meritist.
 			Affects loyalty.
 			Affects resource.
 			Affects war ability.`,

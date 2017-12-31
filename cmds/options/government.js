@@ -8,7 +8,7 @@ module.exports = class GovernmentCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "government",
 			description: "Change your government type. Check details for options.",
-			details: oneline`Options: republic, dictatorship, monarchy, democracy, or facist.
+			details: vars.oneline`Options: republic, dictatorship, monarchy, democracy, or facist.
 			Not very strategic, set your government at the start.
 			Affects loyalty _very_ negatively.
 			Affects sway _very_ negatively.

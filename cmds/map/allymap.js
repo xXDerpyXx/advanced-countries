@@ -8,7 +8,7 @@ module.exports = class AllymapCommand extends vars.Commando.Command {
 			group: "map",
 			memberName: "allymap",
 			description: "Gets the map of allies for you or others. Details for color key.",
-			details: oneline`Red: No allies.
+			details: vars.oneline`Red: No allies.
 			Green: One-way alliance; either they allied you or you allied them, but both of you did not ally eachother.
 			Blue: Full alliance.`,
 			examples: ["!allymap", "!allymap DEV_boi"],

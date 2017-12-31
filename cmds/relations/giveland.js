@@ -8,7 +8,7 @@ module.exports = class GiveLandCommand extends vars.Commando.Command {
 			group: "relations",
 			memberName: "giveland",
 			description: "Gives another country a square of land.",
-			details: oneline`Will give a square to that country.
+			details: vars.oneline`Will give a square to that country.
 			Useful for wars and payment.`,
 			examples: ["!giveland Skeylis 50 50 10"],
 			args: [

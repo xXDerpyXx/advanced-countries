@@ -8,7 +8,7 @@ module.exports = class ListGunCommand extends vars.Commando.Command {
 			group: "info",
 			memberName: "guns",
 			description: "List guns.",
-			details: oneline`There's really not much else to say.`,
+			details: vars.oneline`There's really not much else to say.`,
 			examples: ["!guns"],
 		});
 	}

@@ -8,7 +8,7 @@ module.exports = class GenocideCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "genocide",
 			description: "Change the percentage of your population that's killed every turn.",
-			details: oneline`Only for facists.
+			details: vars.oneline`Only for facists.
 			Affects loyalty.
 			Affects war abillity.`,
 			examples: ["!genocide 25"],

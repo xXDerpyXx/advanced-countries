@@ -8,7 +8,7 @@ module.exports = class DeleteCountryCommand extends vars.Commando.Command {
 			group: "options",
 			memberName: "deletecountry",
 			description: "Deletes your country. ***IRREVERSIBLE.***",
-			details: oneline`Be ***VERY*** careful.`,
+			details: vars.oneline`Be ***VERY*** careful.`,
 			examples: ["!deletecountry"],
 		});
 	}
