@@ -28,7 +28,7 @@ module.exports = class MoveCapitalCommand extends vars.Commando.Command {
 	run(msg, {x,y}){
 		id = msg.author.id;
 		c = vars.countries[id];
-		if (vars.map[y[x]].owner == id) {
+		if (vars.map[y][x].owner == id) {
 			vars.countries[id].capital.x = y;
 			vars.countries[id].capital.y = x;
 			msg.channel.send("Capital moved!");
