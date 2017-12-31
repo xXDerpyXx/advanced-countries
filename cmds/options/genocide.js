@@ -30,7 +30,7 @@ module.exports = class GenocideCommand extends vars.Commando.Command {
 					if (genocideAmt >= 0) {
 						vars.countries[id].population.genocidePercent = parseFloat(genocideAmt / 100);
 						msg.channel.send("Genocide percent set to " + genocideAmt + "%");
-						save(vars.countries, vars.map);
+						vars.save(vars.countries, vars.map);
 					} else {
 						msg.channel.send("Genocide % too low!");
 					}

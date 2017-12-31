@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class GiveResourceCommand extends Commando.Command {
+module.exports = class GiveResourceCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "giveresource",
@@ -61,20 +28,20 @@ module.exports = class GiveResourceCommand extends Commando.Command {
 	}
 	run(msg, {sendTo, numRes}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		var found = false;
 		var c = "";
-		for (k in countries) {
-			if (countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
+		for (k in vars.countries) {
+			if (vars.countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
 				found = true;
 				c = k;
 			}
 		}
 		if (found) {
-			if (countries[id].resource >= numRes) {
-				msg.channel.send("giving " + countries[c].name + " " + numRes + " resource!");
-				countries[id].resource -= numRes;
-				countries[c].resource += numRes;
+			if (vars.countries[id].resource >= numRes) {
+				msg.channel.send("giving " + vars.countries[c].name + " " + numRes + " resource!");
+				vars.countries[id].resource -= numRes;
+				vars.countries[c].resource += numRes;
 			} else {
 				msg.channel.send("you don't even have that much resource!");
 			}

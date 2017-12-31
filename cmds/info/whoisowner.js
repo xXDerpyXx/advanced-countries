@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class WhoIsOwnerCommand extends Commando.Command {
+module.exports = class WhoIsOwnerCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "whoisowner",
@@ -55,14 +22,14 @@ module.exports = class WhoIsOwnerCommand extends Commando.Command {
 	}
 	run(msg, {mention}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		
 		var toSend = "";
 		if (mention != undefined) {
-			Object.keys(countries).forEach(function (key) {
+			Object.keys(vars.countries).forEach(function (key) {
 
-				if (countries[key].name.toLowerCase() == mention) {
-					toSend += `The owner of ${countries[key].name} is ${countries[key].owner}.`;
+				if (vars.countries[key].name.toLowerCase() == mention) {
+					toSend += `The owner of ${vars.countries[key].name} is ${vars.countries[key].owner}.`;
 				}
 
 			});

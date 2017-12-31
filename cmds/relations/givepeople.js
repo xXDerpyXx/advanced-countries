@@ -1,38 +1,5 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
 module.exports = class GivePeopleCommand extends Commando.Command {
 	constructor(client){
@@ -61,21 +28,21 @@ module.exports = class GivePeopleCommand extends Commando.Command {
 	}
 	run(msg, {sendTo, numPpl}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		var found = false;
 		var c = "";
-		for (k in countries) {
-			if (countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
+		for (k in vars.countries) {
+			if (vars.countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
 				found = true;
 				c = k;
 			}
 		}
 		if (found) {
-			if (countries[id].population.size >= numPpl) {
-				msg.channel.send("giving " + countries[c].name + " " + numPpl + " people!");
-				countries[id].population.size -= numPpl;
-				countries[c].population.size += numPpl;
-				save(countries, map);
+			if (vars.countries[id].population.size >= numPpl) {
+				msg.channel.send("giving " + vars.countries[c].name + " " + numPpl + " people!");
+				vars.countries[id].population.size -= numPpl;
+				vars.countries[c].population.size += numPpl;
+				vars.save(vars.countries, vars.map);
 			} else {
 				msg.channel.send("you don't even have that many people!");
 			}

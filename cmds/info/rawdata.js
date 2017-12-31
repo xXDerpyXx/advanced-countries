@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 var vars = require("../../struct/vars.js");
 
-module.exports = class RawDataCommand extends Commando.Command {
+module.exports = class RawDataCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "rawdata",
@@ -13,9 +13,9 @@ module.exports = class RawDataCommand extends Commando.Command {
 	}
 	run(msg, args){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
-		save(countries, map);
+		save(vars.countries, vars.map);
 		//msg.author.send('The Whole Map!',  {files: ["./map.txt"]});
 		setTimeout(function () {
 			msg.author.send("All the raw data:", {

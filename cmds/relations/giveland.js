@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class GiveLandCommand extends Commando.Command {
+module.exports = class GiveLandCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "giveland",
@@ -73,13 +40,13 @@ module.exports = class GiveLandCommand extends Commando.Command {
 	}
 	run(msg, {sendTo, x, y, size}){
 		id = msg.author.id;
-		c = countries[id];	
+		c = vars.countries[id];	
 		
 		var foundTarget = false;
 		var target = "";
-		for (k in countries) {
-			//console.log(countries[k].name);
-			if (countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
+		for (k in vars.countries) {
+			//console.log(vars.countries[k].name);
+			if (vars.countries[k].name.toLowerCase() == sendTo.toLowerCase()) {
 				target = k;
 				foundTarget = true;
 			}
@@ -95,8 +62,8 @@ module.exports = class GiveLandCommand extends Commando.Command {
 			for (var x = targetX - size; x < targetX + size + 1; x++) {
 				for (var y = targetY - size; y < targetY + size + 1; y++) {
 					try {
-						if (map[x][y].owner == id) {
-							map[x][y].owner = target;
+						if (vars.map[x][y].owner == id) {
+							vars.map[x][y].owner = target;
 							givenLand++;
 						}
 					} catch (err) {
@@ -104,8 +71,8 @@ module.exports = class GiveLandCommand extends Commando.Command {
 					}
 				}
 			}
-			save(countries,map);
-			msg.channel.send("you gave " + countries[target].name + " " + givenLand + " cells");
+			vars.save(vars.countries,vars.map);
+			msg.channel.send("you gave " + vars.countries[target].name + " " + givenLand + " cells");
 		}
 	}
 };

@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class AllyCommand extends Commando.Command {
+module.exports = class AllyCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "ally",
@@ -55,13 +22,13 @@ module.exports = class AllyCommand extends Commando.Command {
 	}
 	run(msg, {alliance}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		
 		var foundAlly = false;
-		for (k in countries) {
-			//console.log(countries[k].name);
-			if (countries[k].name.toLowerCase() == alliance.toLowerCase()) {
-				countries[id].allies[countries[id].allies.length] = countries[k].id;
+		for (k in vars.countries) {
+			//console.log(vars.countries[k].name);
+			if (vars.countries[k].name.toLowerCase() == alliance.toLowerCase()) {
+				vars.countries[id].allies[vars.countries[id].allies.length] = vars.countries[k].id;
 				msg.channel.send("You now have allied " + alliance);
 				foundAlly = true;
 			}

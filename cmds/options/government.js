@@ -31,35 +31,35 @@ module.exports = class GovernmentCommand extends vars.Commando.Command {
 			vars.countries[id].governmentType = "facist";
 			vars.countries[id].loyalty = 0;
 			vars.countries[id].sway = -0.5;
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "dictatorship") {
 			vars.countries[id].governmentType = "dictatorship";
 			vars.countries[id].genocidePercent = 0;
 			vars.countries[id].loyalty = 0;
 			vars.countries[id].sway = -0.5;
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "monarchy") {
 			vars.countries[id].governmentType = "monarchy";
 			vars.countries[id].genocidePercent = 0;
 			vars.countries[id].loyalty = 0;
 			vars.countries[id].sway = -0.5;
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "democracy") {
 			vars.countries[id].governmentType = "democracy";
 			vars.countries[id].genocidePercent = 0;
 			vars.countries[id].loyalty = 0;
 			vars.countries[id].sway = -0.5;
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "republic") {
 			vars.countries[id].governmentType = "republic";
 			vars.countries[id].genocidePercent = 0;
 			vars.countries[id].loyalty = 0;
 			vars.countries[id].sway = -0.5;
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else {
 			msg.channel.send("Sorry, you can only be a republic, dictatorship, monarchy, democracy, or a facist.");

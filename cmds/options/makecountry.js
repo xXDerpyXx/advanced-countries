@@ -47,9 +47,9 @@ module.exports = class MakeCountryCommand extends vars.Commando.Command {
 			} else if (government != "republic" && government != "monarchy" && government != "dictatorship" && government != "facist" && government != "democracy" && government != undefined) {
 				msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
 			} else {
-				vars.countries[id] = new country(id, name, economy, government);
+				vars.countries[id] = new vars.country(id, name, economy, government);
 				msg.channel.send("You've created the country of " + name);
-				save(vars.countries, vars.map);
+				vars.save(vars.countries, vars.map);
 			}
 
 		}

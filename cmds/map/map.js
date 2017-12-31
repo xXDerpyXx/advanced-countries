@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class MapCommand extends Commando.Command {
+module.exports = class MapCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "map",
@@ -66,10 +33,10 @@ module.exports = class MapCommand extends Commando.Command {
 	}
 	run(msg, {x, y, size}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		if (x!=8759 && y == 8759)
 			size = x;
-		if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = countries[id];
+		if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = vars.countries[id];
 
 		if (x == 8759 || y == 8759) {
 			x = c.capital.x;
@@ -85,7 +52,7 @@ module.exports = class MapCommand extends Commando.Command {
 		if (size <= 0) {
 			msg.channel.send("Don't use negatives, silly...");
 		} else {
-			let buffer = makeImage(map, wars, x - size, y - size, x + size, y + size, countries);
+			let buffer = vars.makeImage(vars.map, vars.wars, x - size, y - size, x + size, y + size, vars.countries);
 
 			setTimeout(function () {
 				msg.channel.send(`Center of ${x} ${y}`, {

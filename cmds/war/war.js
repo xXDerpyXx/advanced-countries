@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class WarCommand extends Commando.Command {
+module.exports = class WarCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "war",
@@ -67,7 +34,7 @@ module.exports = class WarCommand extends Commando.Command {
 	}
 	run(msg, {subject, direction}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		var dir = "";
 		var right = 2;
 		var left = 1;
@@ -104,9 +71,9 @@ module.exports = class WarCommand extends Commando.Command {
 
 		if (subject != undefined) {
 			var target = "";
-			for (k in countries) {
+			for (k in vars.countries) {
 				try {
-					if (countries[k].name.toLowerCase() == subject) {
+					if (vars.countries[k].name.toLowerCase() == subject) {
 						target = k;
 						msg.channel.send("Now at war with " + subject + dir);
 						break;
@@ -120,14 +87,14 @@ module.exports = class WarCommand extends Commando.Command {
 
 			if (target != "") {
 
-				for (var x in map) {
-					for (var y in map[x]) {
+				for (var x in vars.map) {
+					for (var y in vars.map[x]) {
 						var warable = false;
-						if (map[x][y].owner == target) {
+						if (vars.map[x][y].owner == target) {
 							for (var i = parseInt(x) - left; i < parseInt(x) + right; i++) {
 								for (var j = parseInt(y) - up; j < parseInt(y) + down; j++) {
 									try {
-										if (map[i][j].owner == id) {
+										if (vars.map[i][j].owner == id) {
 											warable = true;
 											break;
 										}
@@ -139,20 +106,20 @@ module.exports = class WarCommand extends Commando.Command {
 						}
 
 						if (warable) {
-							declareWar(x, y, id, target, false, wars, map, countries);
+							vars.declareWar(x, y, id, target, false, wars, vars.map, vars.countries);
 						}
 					}
 				}
 			} else {
 				if (subject == "all") {
-					for (var x in map) {
-						for (var y in map[x]) {
+					for (var x in vars.map) {
+						for (var y in vars.map[x]) {
 							var warable = false;
-							if (map[x][y].owner != id) {
+							if (vars.map[x][y].owner != id) {
 								for (var i = parseInt(x) - left; i < parseInt(x) + (right); i++) {
 									for (var j = parseInt(y) - up; j < parseInt(y) + (down); j++) {
 										try {
-											if (map[i][j].owner == id) {
+											if (vars.map[i][j].owner == id) {
 												warable = true;
 												break;
 											}
@@ -164,20 +131,20 @@ module.exports = class WarCommand extends Commando.Command {
 							}
 
 							if (warable) {
-								declareWar(x, y, id, map[x][y].owner, false, wars, map, countries);
+								vars.declareWar(x, y, id, vars.map[x][y].owner, false, wars, vars.map, vars.countries);
 							}
 						}
 					}
 					msg.channel.send("War declared on all non-allies" + dir + "!");
 				} else if (subject == "none") {
-					for (var x in map) {
-						for (var y in map[x]) {
+					for (var x in vars.map) {
+						for (var y in vars.map[x]) {
 							var warable = false;
-							if (map[x][y].owner == "none") {
+							if (vars.map[x][y].owner == "none") {
 								for (var i = parseInt(x) - left; i < parseInt(x) + (right); i++) {
 									for (var j = parseInt(y) - up; j < parseInt(y) + (down); j++) {
 										try {
-											if (map[i][j].owner == id) {
+											if (vars.map[i][j].owner == id) {
 												warable = true;
 												break;
 											}
@@ -189,7 +156,7 @@ module.exports = class WarCommand extends Commando.Command {
 							}
 
 							if (warable) {
-								declareWar(x, y, id, map[x][y].owner, false, wars, map, countries);
+								vars.declareWar(x, y, id, vars.map[x][y].owner, false, wars, vars.map, vars.countries);
 							}
 						}
 					}

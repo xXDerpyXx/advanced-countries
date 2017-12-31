@@ -27,15 +27,15 @@ module.exports = class EconomyCommand extends vars.Commando.Command {
 		c = vars.countries[id];
 		if (economyChosen == "capitalist") {
 			vars.countries[id].economyType = "capitalist";
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Economy set!");
 		} else if (economyChosen == "communist") {
 			vars.countries[id].economyType = "communist";
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Economy set!");
 		} else if (economyChosen == "meritist") {
 			vars.countries[id].economyType = "meritist";
-			save(vars.countries, vars.map);
+			vars.save(vars.countries, vars.map);
 			msg.channel.send("Economy set!");
 		} else {
 			msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.");

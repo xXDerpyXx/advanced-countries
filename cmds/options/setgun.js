@@ -28,7 +28,7 @@ module.exports = class SetGunCommand extends vars.Commando.Command {
 			msg.channel.send("gun set!");
 			vars.countries[id].gun = vars.guns[theGun];
 			vars.countries[id].resource = vars.countries[id].resource - (vars.countries[id].resource * 0.1);
-			save(vars.countries,map);
+			vars.save(vars.countries,vars.map);
 		} else {
 			msg.channel.send(theGun + " is not a gun that exists");
 		}

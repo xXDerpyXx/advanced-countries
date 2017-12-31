@@ -27,9 +27,9 @@ module.exports = class PowerCommand extends Commando.Command {
 		c = vars.countries[id];
 		if (power <= 100) {
 			if (power >= 0) {
-				countries[id].population.manpower = parseFloat(power / 100);
+				vars.countries[id].population.manpower = parseFloat(power / 100);
 				msg.channel.send("Manpower set to " + power + "%");
-				save(countries, map);
+				vars.save(vars.countries, vars.map);
 			} else {
 				msg.channel.send("Manpower too low!");
 			}

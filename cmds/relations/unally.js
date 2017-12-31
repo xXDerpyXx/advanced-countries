@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class UnAllyCommand extends Commando.Command {
+module.exports = class UnAllyCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "unally",
@@ -55,14 +22,14 @@ module.exports = class UnAllyCommand extends Commando.Command {
 	}
 	run(msg, {alliance}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
 		var foundAlly = false;
-		for (k in countries[id].allies) {
+		for (k in vars.countries[id].allies) {
 			try {
-				//console.log(countries[countries[id].allies[k]].name+"|"+alliance+":"+countries[id].allies[k]);
-				if (countries[countries[id].allies[k]].name.toLowerCase() == alliance) {
-					countries[id].allies[countries[id].allies[k]] = countries[id].allies.splice(k, 1);
+				//console.log(vars.countries[vars.countries[id].allies[k]].name+"|"+alliance+":"+vars.countries[id].allies[k]);
+				if (vars.countries[vars.countries[id].allies[k]].name.toLowerCase() == alliance) {
+					vars.countries[id].allies[vars.countries[id].allies[k]] = vars.countries[id].allies.splice(k, 1);
 					msg.channel.send("You now have unallied " + alliance);
 					foundAlly = true;
 				}

@@ -25,6 +25,6 @@ module.exports = class RenameCommand extends Commando.Command {
 		c = vars.countries[id];
 		msg.channel.send("The country of " + countries[id].name + " is now " + name);
 		vars.countries[id].name = name;
-		save(vars.countries, vars.map);
+		vars.save(vars.countries, vars.map);
 	}
 };
