@@ -41,9 +41,9 @@ module.exports = class ForceCommand extends vars.Commando.Command {
 		}
 		var cost = Math.round(vars.countries[id].gun.cost * cMilitaryPop) * armedPercent;
 		if (mention.toLowerCase() == "webint") {
-			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
+			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
 		} else {
-			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
+			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
 		}
 
 	}
