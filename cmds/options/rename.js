@@ -23,7 +23,7 @@ module.exports = class RenameCommand extends vars.Commando.Command {
 	run(msg, {name}){
 		id = msg.author.id;
 		c = vars.countries[id];
-		msg.channel.send("The country of " + countries[id].name + " is now " + name);
+		msg.channel.send("The country of " + vars.countries[id].name + " is now " + name);
 		vars.countries[id].name = name;
 		vars.save(vars.countries, vars.map);
 	}
