@@ -36,29 +36,29 @@ module.exports = class GovernmentCommand extends vars.Commando.Command {
 		} else if (govChosen == "dictatorship") {
 			vars.countries[id].governmentType = "dictatorship";
 			vars.countries[id].genocidePercent = 0;
-			vars.countries[id].loyalty = 0;
-			vars.countries[id].sway = -0.5;
+			vars.countries[id].population.loyalty = 0;
+			vars.countries[id].population.sway = -0.5;
 			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "monarchy") {
 			vars.countries[id].governmentType = "monarchy";
 			vars.countries[id].genocidePercent = 0;
-			vars.countries[id].loyalty = 0;
-			vars.countries[id].sway = -0.5;
+			vars.countries[id].population.loyalty = 0;
+			vars.countries[id].population.sway = -0.5;
 			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "democracy") {
 			vars.countries[id].governmentType = "democracy";
 			vars.countries[id].genocidePercent = 0;
-			vars.countries[id].loyalty = 0;
-			vars.countries[id].sway = -0.5;
+			vars.countries[id].population.loyalty = 0;
+			vars.countries[id].population.sway = -0.5;
 			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "republic") {
 			vars.countries[id].governmentType = "republic";
 			vars.countries[id].genocidePercent = 0;
-			vars.countries[id].loyalty = 0;
-			vars.countries[id].sway = -0.5;
+			vars.countries[id].population.loyalty = 0;
+			vars.countries[id].population.sway = -0.5;
 			vars.save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else {

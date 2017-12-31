@@ -25,10 +25,42 @@ client.registry
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, "cmds"));
 
+
+
+var {
+	oneline,
+	formatMass,
+	save,
+	recursiveWait,
+	getOwnedCells,
+	loadGuns,
+	saveImage,
+	token,
+	call,
+	width,
+	height,
+	tickSpeed,
+	adminList,
+	generateMap,
+	generateMapPerlin,
+	getLocalMap,
+	makeImage,
+	declareWar,
+	government,
+	location,
+	economy,
+	cell,
+	war,
+	gun,
+	countries,
+	map,
+	wars,
+	guns
+} = require("./struct/vars.js");
 // ##########################
 //    Functions and Config
 // ##########################
-
+/*
 const {
 	formatMass,
 	save,
@@ -115,13 +147,11 @@ guns["Minigun"].counters = ["AK47","Rocks","Shotgun"];
 guns["Minigun"].modifier = 1.2;
 guns["Minigun"].cost = 15;
 */
-
+/*
 loadGuns().then(g => guns = g);
-
+*/
 try {
 	console.log("[LOADING DATA]");
-	countries = require("./data/data.json");
-	map = require("./data/map.json");
 	if(map == undefined){
 		console.log("[FAILED TO LOAD, CREATING DATA]");
 
@@ -180,7 +210,7 @@ function tick(repeat) {
 		if (countries[c].resource < 0)
 			countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
-		if (!countries[c].genocidePercent == undefined) {
+		if (countries[c].genocidePercent != undefined) {
 			countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);
 		}
 	}
