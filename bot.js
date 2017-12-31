@@ -596,7 +596,7 @@ class country {
 //###############################
 //#            Login            #
 //###############################
-module.country = country;
+exports.country = country;
 client.login(token);
 
 
