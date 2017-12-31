@@ -7,6 +7,7 @@ var countries = {};
 var map = {};
 var wars = {};
 var guns = {};
+var {client} = require("../bot.js");
 var {
 	formatMass,
 	save,
@@ -165,4 +166,5 @@ module.exports = {
 	country,
 	wars,
 	guns,
+	client
 };
