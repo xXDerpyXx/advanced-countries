@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 var vars = require("../../struct/vars.js");
 
-module.exports = class StatsCommand extends Commando.Command {
+module.exports = class StatsCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "stats",
