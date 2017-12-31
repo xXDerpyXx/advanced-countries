@@ -34,7 +34,7 @@ module.exports = class ColorCommand extends vars.Commando.Command {
 		c = vars.countries[id];
 		if (r < 0 || g < 0 || b < 0) {
 			msg.channel.send("R, G and B needs to be 0 or more!");
-		} else if (r == null || g == null || b == null || r.isNaN || g.isNaN || b.isNaN) {
+		} else if (r == null || g == null || b == null || isNaN(r) || isNaN(g) || isNaN(b)) {
 			msg.channel.send("No nulls please!");
 		} else {
 			if (r > 255 || g > 255 || b > 255) {
