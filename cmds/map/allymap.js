@@ -38,7 +38,7 @@ module.exports = class AllymapCommand extends vars.Commando.Command {
 		}
 		vars.save(vars.countries, vars.map);
 		if (arg1 != "8090") {
-			let buffer = vars.makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true, true, theCountry.id);
+			let buffer = vars.makeImage(vars.map, vars.wars, 0, 0, vars.width, vars.height, vars.countries, true, true, theCountry.id);
 
 			setTimeout(function () {
 				msg.channel.send(`vars.map of allies for ${theCountry.name}`, {
@@ -50,7 +50,7 @@ module.exports = class AllymapCommand extends vars.Commando.Command {
 			}, 500);
 		} else {
 			//msg.author.send('The Whole vars.map!',  {files: ["./vars.map.txt"]});
-			let buffer = vars.makeImage(vars.map, vars.wars, 0, 0, width, height, vars.countries, true, true, msg.author.id);
+			let buffer = vars.makeImage(vars.map, vars.wars, 0, 0, vars.width, vars.height, vars.countries, true, true, msg.author.id);
 
 			setTimeout(function () {
 				msg.channel.send(`Map of allies for ${vars.countries[msg.author.id].name}`, {
