@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class EconomyCommand extends Commando.Command {
+module.exports = class EconomyCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "economy",
@@ -57,18 +24,18 @@ module.exports = class EconomyCommand extends Commando.Command {
 	}
 	run(msg, {economyChosen}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		if (economyChosen == "capitalist") {
-			countries[id].economyType = "capitalist";
-			save(countries, map);
+			vars.countries[id].economyType = "capitalist";
+			save(vars.countries, vars.map);
 			msg.channel.send("Economy set!");
 		} else if (economyChosen == "communist") {
-			countries[id].economyType = "communist";
-			save(countries, map);
+			vars.countries[id].economyType = "communist";
+			save(vars.countries, vars.map);
 			msg.channel.send("Economy set!");
 		} else if (economyChosen == "meritist") {
-			countries[id].economyType = "meritist";
-			save(countries, map);
+			vars.countries[id].economyType = "meritist";
+			save(vars.countries, vars.map);
 			msg.channel.send("Economy set!");
 		} else {
 			msg.channel.send("Sorry, you can only be capitalist, communist, or meritist.");

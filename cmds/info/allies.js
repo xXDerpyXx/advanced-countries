@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class AlliesCommand extends Commando.Command {
+module.exports = class AlliesCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "allies",
@@ -55,16 +22,16 @@ module.exports = class AlliesCommand extends Commando.Command {
 	}
 	run(msg, {useless}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
 		if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
 
 		temp = "";
-		for (k in countries[id].allies) {
+		for (k in vars.countries[id].allies) {
 			try {
-				temp += "" + countries[countries[id].allies[k]].name + "\n";
+				temp += "" + vars.countries[vars.countries[id].allies[k]].name + "\n";
 			} catch (err) {
-				console.log(k + " had an error, it's ID = " + countries[id].allies[k]);
+				console.log(k + " had an error, it's ID = " + vars.countries[id].allies[k]);
 			}
 		}
 		msg.channel.send(temp);

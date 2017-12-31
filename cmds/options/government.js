@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class GovernmentCommand extends Commando.Command {
+module.exports = class GovernmentCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "government",
@@ -59,40 +26,40 @@ module.exports = class GovernmentCommand extends Commando.Command {
 	}
 	run(msg, {govChosen}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		if (govChosen == "facist") {
-			countries[id].governmentType = "facist";
-			countries[id].loyalty = 0;
-			countries[id].sway = -0.5;
-			save(countries, map);
+			vars.countries[id].governmentType = "facist";
+			vars.countries[id].loyalty = 0;
+			vars.countries[id].sway = -0.5;
+			save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "dictatorship") {
-			countries[id].governmentType = "dictatorship";
-			countries[id].genocidePercent = 0;
-			countries[id].loyalty = 0;
-			countries[id].sway = -0.5;
-			save(countries, map);
+			vars.countries[id].governmentType = "dictatorship";
+			vars.countries[id].genocidePercent = 0;
+			vars.countries[id].loyalty = 0;
+			vars.countries[id].sway = -0.5;
+			save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "monarchy") {
-			countries[id].governmentType = "monarchy";
-			countries[id].genocidePercent = 0;
-			countries[id].loyalty = 0;
-			countries[id].sway = -0.5;
-			save(countries, map);
+			vars.countries[id].governmentType = "monarchy";
+			vars.countries[id].genocidePercent = 0;
+			vars.countries[id].loyalty = 0;
+			vars.countries[id].sway = -0.5;
+			save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "democracy") {
-			countries[id].governmentType = "democracy";
-			countries[id].genocidePercent = 0;
-			countries[id].loyalty = 0;
-			countries[id].sway = -0.5;
-			save(countries, map);
+			vars.countries[id].governmentType = "democracy";
+			vars.countries[id].genocidePercent = 0;
+			vars.countries[id].loyalty = 0;
+			vars.countries[id].sway = -0.5;
+			save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else if (govChosen == "republic") {
-			countries[id].governmentType = "republic";
-			countries[id].genocidePercent = 0;
-			countries[id].loyalty = 0;
-			countries[id].sway = -0.5;
-			save(countries, map);
+			vars.countries[id].governmentType = "republic";
+			vars.countries[id].genocidePercent = 0;
+			vars.countries[id].loyalty = 0;
+			vars.countries[id].sway = -0.5;
+			save(vars.countries, vars.map);
 			msg.channel.send("Government type set!");
 		} else {
 			msg.channel.send("Sorry, you can only be a republic, dictatorship, monarchy, democracy, or a facist.");

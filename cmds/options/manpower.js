@@ -1,38 +1,5 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
 module.exports = class PowerCommand extends Commando.Command {
 	constructor(client){
@@ -57,7 +24,7 @@ module.exports = class PowerCommand extends Commando.Command {
 	}
 	run(msg, {power}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		if (power <= 100) {
 			if (power >= 0) {
 				countries[id].population.manpower = parseFloat(power / 100);

@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class MoveCapitalCommand extends Commando.Command {
+module.exports = class MoveCapitalCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "movecapital",
@@ -60,10 +27,10 @@ module.exports = class MoveCapitalCommand extends Commando.Command {
 	}
 	run(msg, {x,y}){
 		id = msg.author.id;
-		c = countries[id];
-		if (map[y[x]].owner == id) {
-			countries[id].capital.x = y;
-			countries[id].capital.y = x;
+		c = vars.countries[id];
+		if (vars.map[y[x]].owner == id) {
+			vars.countries[id].capital.x = y;
+			vars.countries[id].capital.y = x;
 			msg.channel.send("Capital moved!");
 		} else {
 			msg.channel.send("You don't own that land!");

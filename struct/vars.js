@@ -5,7 +5,7 @@ var Commando = require("discord.js-commando");
 var fs = require("fs");
 var countries = {};
 var map = {};
-
+var client = require("../bot.js");
 var wars = {};
 var guns = {};
 var {
@@ -85,5 +85,6 @@ module.exports = {
 	map,
 	country,
 	wars,
-	guns
+	guns,
+	client
 };

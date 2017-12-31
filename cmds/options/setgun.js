@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class SetGunCommand extends Commando.Command {
+module.exports = class SetGunCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "setgun",
@@ -56,12 +23,12 @@ module.exports = class SetGunCommand extends Commando.Command {
 	}
 	run(msg, {theGun}){
 		id = msg.author.id;
-		c = countries[id];
-		if (guns[theGun] != undefined) {
+		c = vars.countries[id];
+		if (vars.guns[theGun] != undefined) {
 			msg.channel.send("gun set!");
-			countries[id].gun = guns[theGun];
-			countries[id].resource = countries[id].resource - (countries[id].resource * 0.1);
-			save(countries,map);
+			vars.countries[id].gun = vars.guns[theGun];
+			vars.countries[id].resource = vars.countries[id].resource - (vars.countries[id].resource * 0.1);
+			save(vars.countries,map);
 		} else {
 			msg.channel.send(theGun + " is not a gun that exists");
 		}

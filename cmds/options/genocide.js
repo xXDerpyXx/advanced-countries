@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class GenocideCommand extends Commando.Command {
+module.exports = class GenocideCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "genocide",
@@ -56,14 +23,14 @@ module.exports = class GenocideCommand extends Commando.Command {
 	}
 	run(msg, {genocideAmt}){
 		id = msg.author.id;
-		c = countries[id];
-		if (countries[id].governmentType == "facist") {
+		c = vars.countries[id];
+		if (vars.countries[id].governmentType == "facist") {
 			if (genocideAmt != undefined) {
 				if (genocideAmt <= 100) {
 					if (genocideAmt >= 0) {
-						countries[id].population.genocidePercent = parseFloat(genocideAmt / 100);
+						vars.countries[id].population.genocidePercent = parseFloat(genocideAmt / 100);
 						msg.channel.send("Genocide percent set to " + genocideAmt + "%");
-						save(countries, map);
+						save(vars.countries, vars.map);
 					} else {
 						msg.channel.send("Genocide % too low!");
 					}
@@ -71,7 +38,7 @@ module.exports = class GenocideCommand extends Commando.Command {
 					msg.channel.send("Genocide % too high!");
 				}
 			} else {
-				msg.channel.send("You need to give a valid percentage, `" + call + "genocide 25` will kill 25% of your population every turn.");
+				msg.channel.send("You need to give a valid percentage, `" + vars.call + "genocide 25` will kill 25% of your population every turn.");
 
 			}
 		} else {

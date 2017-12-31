@@ -1,41 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	generateMapPerlin,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class MakeCountryCommand extends Commando.Command {
+module.exports = class MakeCountryCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "makecountry",
@@ -69,24 +35,21 @@ module.exports = class MakeCountryCommand extends Commando.Command {
 	}
 	run(msg, {name, economy, government}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
 		//###############################
 		//#        !makecountry         #
 		//###############################
 
 		if (c == undefined) {
-			if (false){//name.charCodeAt(0) <= 255 && name.charAt(0) != "X" && name.charAt(0) != "*" && name.charAt(0) != "#" && !name.includes("@")) {
-				msg.channel.send("We can't accept that name, sorry...");
-
-			} else if (economy != "communist" && economy != "capitalist" && economy != "meritist" && economy != undefined) {
+			if (economy != "communist" && economy != "capitalist" && economy != "meritist" && economy != undefined) {
 				msg.channel.send("That isn't an economy type! Types: capitalist, communist, or meritist. Say nothing for capitalist");
 			} else if (government != "republic" && government != "monarchy" && government != "dictatorship" && government != "facist" && government != "democracy" && government != undefined) {
 				msg.channel.send("That isn't a government type! Types: republic, dictatorship, monarchy, democracy, or facist. Say nothing for dictatorship");
 			} else {
-				countries[id] = new country(id, name, economy, government);
+				vars.countries[id] = new country(id, name, economy, government);
 				msg.channel.send("You've created the country of " + name);
-				save(countries, map);
+				save(vars.countries, vars.map);
 			}
 
 		}

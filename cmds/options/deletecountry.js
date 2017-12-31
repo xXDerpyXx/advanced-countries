@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class DeleteCountryCommand extends Commando.Command {
+module.exports = class DeleteCountryCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "deletecountry",
@@ -47,15 +14,15 @@ module.exports = class DeleteCountryCommand extends Commando.Command {
 	}
 	run(msg, args){
 		id = msg.author.id;
-		c = countries[id];
-		for (var x in map) {
-			for (var y in map[x]) {
-				if (map[x][y].owner == id) {
-					map[x][y].owner = "none";
+		c = vars.countries[id];
+		for (var x in vars.map) {
+			for (var y in vars.map[x]) {
+				if (vars.map[x][y].owner == id) {
+					vars.map[x][y].owner = "none";
 				}
 			}
 		}
-		delete countries[id];
+		delete vars.countries[id];
 		msg.channel.send("Country disbanded!");
 	}
 };

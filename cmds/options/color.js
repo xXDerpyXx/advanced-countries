@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class ColorCommand extends Commando.Command {
+module.exports = class ColorCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "color",
@@ -64,7 +31,7 @@ module.exports = class ColorCommand extends Commando.Command {
 	}
 	run(msg, {r,g,b}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 		if (r < 0 || g < 0 || b < 0) {
 			msg.channel.send("R, G and B needs to be 0 or more!");
 		} else if (r == null || g == null || b == null || r.isNaN() || g.isNaN() || b.isNaN()) {
@@ -74,10 +41,10 @@ module.exports = class ColorCommand extends Commando.Command {
 				msg.channel.send("R, G and B needs to be less than 256!");
 			} else {
 				msg.channel.send("Map color set!");
-				countries[id].color = {};
-				countries[id].color.r = r;
-				countries[id].color.g = g;
-				countries[id].color.b = b;
+				vars.countries[id].color = {};
+				vars.countries[id].color.r = r;
+				vars.countries[id].color.g = g;
+				vars.countries[id].color.b = b;
 
 			}
 		}

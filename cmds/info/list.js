@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class ListCommand extends Commando.Command {
+module.exports = class ListCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "list",
@@ -46,11 +13,11 @@ module.exports = class ListCommand extends Commando.Command {
 	}
 	run(msg, args){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
 		temp = "";
-		for (k in countries) {
-			temp += countries[k].name + "\n";
+		for (k in vars.countries) {
+			temp += vars.countries[k].name + "\n";
 		}
 		msg.channel.send("List of countries:\n" + temp);
 	}

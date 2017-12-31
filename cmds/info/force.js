@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class ForceCommand extends Commando.Command {
+module.exports = class ForceCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "force",
@@ -54,29 +21,29 @@ module.exports = class ForceCommand extends Commando.Command {
 	}
 	run(msg, {mention}){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
 		var toSend = "";
 		if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-		toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((countries[id].population.size * countries[id].population.manpower) / (countries[id].ownedCells)) * countries[id].gun.modifier) + " force on average per cell";
-		if (countries[id].gun == undefined) {
-			countries[id].gun = guns["M1"];
+		toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((vars.countries[id].population.size * vars.countries[id].population.manpower) / (vars.countries[id].ownedCells)) * vars.countries[id].gun.modifier) + " force on average per cell";
+		if (vars.countries[id].gun == undefined) {
+			vars.countries[id].gun = guns["M1"];
 		}
-		var cMilitaryPop = Math.round((countries[id].population.size * countries[id].population.manpower) / 100);
+		var cMilitaryPop = Math.round((vars.countries[id].population.size * vars.countries[id].population.manpower) / 100);
 		var armedPercent = 1;
 
-		/*if (countries.resource < countries[id].gun.cost * cMilitaryPop) {
+		/*if (vars.countries.resource < vars.countries[id].gun.cost * cMilitaryPop) {
 
 				}*/
-		armedPercent = countries[id].resource / (cMilitaryPop * countries[id].gun.cost);
+		armedPercent = vars.countries[id].resource / (cMilitaryPop * vars.countries[id].gun.cost);
 		if (armedPercent > 1) {
 			armedPercent = 1;
 		}
-		var cost = Math.round(countries[id].gun.cost * cMilitaryPop) * armedPercent;
+		var cost = Math.round(vars.countries[id].gun.cost * cMilitaryPop) * armedPercent;
 		if (mention.toLowerCase() == "webint") {
-			msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
+			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource\n" + msg.author.id + "WEBINT_FORCE");
 		} else {
-			msg.channel.send(toSend + "\nYour army is armed with " + countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
+			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + Math.round(cost) + " resource");
 		}
 
 	}
@@ -89,17 +56,17 @@ module.exports = class ForceCommand extends Commando.Command {
 if (parseInt(content[2]) == content[2] && parseInt(content[2]) + " " != "NaN ") {
 						var found = false;
 						var c = "";
-						for (k in countries) {
-							if (countries[k].name.toLowerCase() == content[1]) {
+						for (k in vars.countries) {
+							if (vars.countries[k].name.toLowerCase() == content[1]) {
 								found = true;
 								c = k;
 							}
 						}
 						if (found) {
-							if (countries[id].population.size >= parseInt(content[2])) {
-								msg.channel.send("giving " + countries[c].name + " " + content[2] + " people!");
-								countries[id].population.size -= parseInt(content[2]);
-								countries[c].population.size += parseInt(content[2]);
+							if (vars.countries[id].population.size >= parseInt(content[2])) {
+								msg.channel.send("giving " + vars.countries[c].name + " " + content[2] + " people!");
+								vars.countries[id].population.size -= parseInt(content[2]);
+								vars.countries[c].population.size += parseInt(content[2]);
 							} else {
 								msg.channel.send("you don't even have that many people!");
 							}

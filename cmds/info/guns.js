@@ -1,40 +1,7 @@
 /*jshint esversion: 6 */
-var {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
-	formatMass,
-	save,
-	recursiveWait,
-	getOwnedCells,
-	loadGuns,
-	saveImage,
-	token,
-	call,
-	width,
-	height,
-	tickSpeed,
-	adminList,
-	generateMap,
-	getLocalMap,
-	makeImage,
-	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
-	map,
-	country,
-	wars,
-	guns
-} = require("../../struct/vars.js");
+var vars = require("../../struct/vars.js");
 
-module.exports = class ListGunCommand extends Commando.Command {
+module.exports = class ListGunCommand extends vars.Commando.Command {
 	constructor(client){
 		super(client, {
 			name: "guns",
@@ -47,19 +14,19 @@ module.exports = class ListGunCommand extends Commando.Command {
 	}
 	run(msg, args){
 		id = msg.author.id;
-		c = countries[id];
+		c = vars.countries[id];
 
 		var temp = "";
 		temp += "List of avalible guns\n";
 		temp += "=====================\n";
 
-		for (k in guns) {
+		for (k in vars.guns) {
 			temp += "-------\n";
-			temp += guns[k].name + "\n";
+			temp += vars.guns[k].name + "\n";
 			temp += "-------\n";
-			temp += "Counters: " + guns[k].counters + "\n";
-			temp += "Costs: " + guns[k].cost + " per 100 troops\n";
-			temp += "General Strength: " + guns[k].modifier + "\n";
+			temp += "Counters: " + vars.guns[k].counters + "\n";
+			temp += "Costs: " + vars.guns[k].cost + " per 100 troops\n";
+			temp += "General Strength: " + vars.guns[k].modifier + "\n";
 			//temp+="-------\n"
 		}
 		temp += "=====================\n";
