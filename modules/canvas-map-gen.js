@@ -27,12 +27,6 @@ exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAllia
 	ex = parseInt(ex);
 	ey = parseInt(ey);
 
-	sx = sx - 1;
-	ex = ex - 1;
-
-	sy = sy + 2;
-	ey = ey + 2;
-
 	console.time("Time");
 	var ySize = WIDTH * (ey - sy);
 	if (showList) {
@@ -70,8 +64,8 @@ exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAllia
 				border = false;
 				currOwner = data[x][y].owner;
 
-				for (let i = parseInt(x) - 1; i < parseInt(x) + 2; i++) {
-					for (let j = parseInt(y) - 1; j < parseInt(y) + 2; j++) {
+				for (let i = parseInt(x) /*- 1*/; i < parseInt(x) /*+ 2*/; i++) {
+					for (let j = parseInt(y) /*- 1*/; j < parseInt(y) /*+ 2*/; j++) {
 						try {
 							if (colonised && data[i][j].owner != currOwner) {
 								border = true;
