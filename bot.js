@@ -71,7 +71,6 @@ const economy = require("./struct/Economy.js");
 const cell = require("./struct/Cell.js");
 const war = require("./struct/War.js");
 const gun = require("./struct/Gun.js");
-const country = require("./struct/country.js");
 // ########################
 //           Vars
 // ########################
@@ -515,10 +514,10 @@ client.on("ready", () => {
 	setTimeout(() => tick(true), 1000);
 });
 
-//###############################
-//#            Login            #
-//###############################
-module.country = class country {
+
+
+
+class country {
 	constructor(id, name, chosenEconomy = "capitalist", chosenGov = "dictatorship") {
 		this.id = id;
 		this.name = name;
@@ -589,7 +588,15 @@ module.country = class country {
 			save(countries, map);
 		}
 	}
-} ;   // Country Structure
+}  // Country Structure
+
+
+
+
+//###############################
+//#            Login            #
+//###############################
+module.country = country;
 client.login(token);
 
 
