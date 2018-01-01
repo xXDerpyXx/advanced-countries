@@ -24,6 +24,7 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 		console.log(vars.countries);
 		var c = vars.countries[id];
 		console.log(c);
+		console.log(vars.factions);
 		if(c.inFaction == undefined){
 			c.inFaction = false;
 		}
