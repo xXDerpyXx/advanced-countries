@@ -185,9 +185,9 @@ function tick(repeat) {
 	console.log("===================================");
 	console.log("   Today is a new day");
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
-	report += "========================\n";
+	report += "------------------------\n";
 	report += "Daily news! (V"+commitCount('https://github.com/xXDerpyXx/advanced-countries')+")\n";
-	report += "========================\n";
+	report += "------------------------\n";
 
 	warVictories = {};
 	popGrowth = {};
@@ -257,7 +257,7 @@ function tick(repeat) {
 	var wcount = 0;
 	for (w in wars) wcount++;
 
-	console.log("===================================");
+	report += "------------------------\n";
 	console.log("there are " + wcount + " wars currently");
 
 	for (w in wars) {
