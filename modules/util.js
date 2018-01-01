@@ -24,7 +24,7 @@ module.exports = {
     
 		return val + "g";
 	},
-	save: (countries, map) => {
+	save: (countries, map, factions) => {
 		temp = JSON.stringify(countries);
 		fs.writeFile(process.env.PWD + "/data/data.json",temp,function(err) {
 			if(err) return console.error(err);
@@ -35,6 +35,11 @@ module.exports = {
 		});
         
 		fs.writeFile(process.env.PWD + "/data/map.txt", getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"),function(err) {
+			if(err) return console.error(err);
+		});
+		
+		temp = JSON.stringify(factions);
+		fs.writeFile(process.env.PWD + "/data/factions.json",temp,(err) => {
 			if(err) return console.error(err);
 		});
 	},
