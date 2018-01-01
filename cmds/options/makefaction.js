@@ -35,7 +35,7 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 			msg.channel.send(`${name} faction has been created!`);
 			vars.save(vars.countries, vars.map);
 		} else {
-			msg.channel.send("You're already in a faction!");
+			msg.channel.send("You're already in a faction!  Go make one!");
 		}
 	}
 };
