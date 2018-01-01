@@ -3,28 +3,28 @@ const gun = require("../struct/Gun.js");
 const { getLocalMap } = require("../modules/map.js");
 const { makeImage }   = require("../modules/canvas-map-gen.js");
 const { token, call, width, height, tickSpeed } = require("../config.js");
-
+var { factions } = require("../struct/vars.js");
 module.exports = {
 	formatMass: (val) => {
-        
+
 		if(Math.floor(val/1000) > 1000) {
 			var ton = Math.floor(val / (1000 * 1000));
 			var kg = Math.floor((val - ton) / 1000);
 			var gram = Math.round((val - ton - kg) * 10) / 10;
 			var s = "";
-    
+
 			if(ton > 1) {
 				s = "s";
 			}
-    
+
 			return ton + " metric crap ton" + s + " " + kg + "kg " + gram + "g";
 		} else if(val > 1000) {
 			return Math.floor(val/1000) + "kg " + val%1000 + "g";
 		}
-    
+
 		return val + "g";
 	},
-	save: (countries, map, factions) => {
+	save: (countries, map) => {
 		temp = JSON.stringify(countries);
 		fs.writeFile(process.env.PWD + "/data/data.json",temp,function(err) {
 			if(err) return console.error(err);
@@ -33,11 +33,11 @@ module.exports = {
 		fs.writeFile(process.env.PWD + "/data/map.json",temp,function(err) {
 			if(err) return console.error(err);
 		});
-        
+
 		fs.writeFile(process.env.PWD + "/data/map.txt", getLocalMap(width/2,height/2,(width/2)+2,(height/2)+2,"sgkj;ljsfg"),function(err) {
 			if(err) return console.error(err);
 		});
-		
+
 		temp = JSON.stringify(factions);
 		fs.writeFile(process.env.PWD + "/data/factions.json",temp,(err) => {
 			if(err) return console.error(err);
@@ -65,7 +65,7 @@ module.exports = {
 				}
 			}
 		}
-    
+
 		return temp;
 	},
 
@@ -107,7 +107,7 @@ module.exports = {
 
 		let name = fs.readdirSync(process.env.PWD + "/maps").length + 1;
 
-		fs.writeFile(process.env.PWD + `/maps/${name}.png`, canvas.toBuffer(), (err) => { 
+		fs.writeFile(process.env.PWD + `/maps/${name}.png`, canvas.toBuffer(), (err) => {
 			if(err) console.log(err);
 		});
 	}

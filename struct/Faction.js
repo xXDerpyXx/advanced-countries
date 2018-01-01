@@ -6,7 +6,8 @@ class Faction{
 		this.name = name;
 		this.owner = id;
 		this.members= new Array(id);
-		this.color = vars.countries[id].color
+		this.color = vars.countries[id].color;
+		vars.countries[id].inFaction = true;
 		/*
 		this.color.r = ownerColor.r;
 		this.color.g = ownerColor.g;
