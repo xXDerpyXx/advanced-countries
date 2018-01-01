@@ -441,7 +441,7 @@ client.on("warn", console.warn);
 client.on("disconnect", () => { console.warn("Disconnected!"); });
 client.on("reconnecting", () => { console.warn("Reconecting..."); });
 client.on("commandError", (cmd, err) => {
-	client.channels.find("name", "spam").send(err.toString()); 
+	client.channels.find("name", "spam").send(err.toString()); //
 	if(err instanceof Commando.FriendlyError) return;//hold up. cant we use like the dev console? and add a tab with irc?
 	console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 });
