@@ -182,7 +182,7 @@ function tick(repeat) {
 	//###############################
 
 	var report = "";
-	console.log("`===================================");
+	console.log("===================================");
 	console.log("   Today is a new day");
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
 	report += "```========================\n";
