@@ -21,7 +21,9 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 	run(msg, {name, economy, government}){
 		id = msg.author.id;
 		c = vars.countries[id];
-
+		if(c.inFaction == undefined){
+			c.inFaction = false;
+		}
 		if(!c.inFaction){
 			vars.factions[id] = new vars.Faction(id, name);
 			msg.channel.send(`${name} faction has been created!`);

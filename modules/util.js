@@ -3,7 +3,7 @@ const gun = require("../struct/Gun.js");
 const { getLocalMap } = require("../modules/map.js");
 const { makeImage }   = require("../modules/canvas-map-gen.js");
 const { token, call, width, height, tickSpeed } = require("../config.js");
-var { factions } = require("../struct/vars.js");
+var vars = require("../struct/vars.js");
 module.exports = {
 	formatMass: (val) => {
 
@@ -38,7 +38,8 @@ module.exports = {
 			if(err) return console.error(err);
 		});
 
-		temp = JSON.stringify(factions);
+		//temp = JSON.stringify(factions); <-- your code
+		temp = JSON.stringify(vars.factions);
 		fs.writeFile(process.env.PWD + "/data/factions.json",temp,(err) => {
 			if(err) return console.error(err);
 		});
