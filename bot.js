@@ -185,7 +185,7 @@ function tick(repeat) {
 	console.log("===================================");
 	console.log("   Today is a new day");
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
-	report += "------------------------\n";
+	report += "========================\n";
 	report += "Daily news! (V"+commitCount('https://github.com/xXDerpyXx/advanced-countries')+")\n";
 	report += "------------------------\n";
 
@@ -256,7 +256,7 @@ function tick(repeat) {
 
 	var wcount = 0;
 	for (w in wars) wcount++;
-	report += "------------------------\n";
+	//report += "------------------------\n";
 	console.log("there are " + wcount + " wars currently");
 
 	for (w in wars) {
@@ -282,7 +282,7 @@ function tick(repeat) {
 
 								if (wars[w].defender != "none") {
 									if (map[x][y].owner == wars[w].defender) {
-										var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2)) * armorment[wars[w].defender].percent) * countries[wars[w].defender].gun.modifier;
+										var tFoand that person torce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2)) * armorment[wars[w].defender].percent) * countries[wars[w].defender].gun.modifier;
 										if (countries[wars[w].defender].gun.counters.includes(countries[wars[w].attacker].gun.name)) {
 											tForce = tForce * 1.5;
 										}
@@ -376,9 +376,9 @@ function tick(repeat) {
 	}
 	if (tempCount == 0) report += "The world is at peace!\n";
 
-	report += "========================\n";
+	report += "------------------------\n";
 	report += "Census ( Average force per cell )\n";
-	report += "========================\n";
+	report += "------------------------\n";
 
 	var forceList = [];
 	var f = -1;
@@ -405,9 +405,9 @@ function tick(repeat) {
 		report += forceList[f].name + ": " + (Math.round(forceList[f].force * 100) / 100) + "\n";
 	}
 
-	report += "========================\n";
+	report += "------------------------\n";
 	report += "   Population Growth\n";
-	report += "========================\n";
+	report += "------------------------\n";
 
 	for (c in countries) {
 		prefix = "";
