@@ -51,7 +51,7 @@ try{
 }
 //loadGuns().then(g => guns = g);
 guns           = require("../consts/guns.json");     // Gun Data
-var Faction    = require("./Faction.js");            // Faction Stucture
+var {Faction}    = require("./Faction.js");            // Faction Stucture
 
 
 

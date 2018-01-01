@@ -38,7 +38,7 @@ module.exports = class WarCommand extends vars.Commando.Command {
 		if(c.inFaction && c.id == vars.factions[c.faction].owner){
 			msg.channel.send("Having faction war...");
 
-
+			
 			vars.factions[c.faction].members.forEach((id) => {
 				c = vars.countries[id];
 		var dir = "";
