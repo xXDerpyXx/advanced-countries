@@ -1,5 +1,6 @@
 vars = require("./vars.js");
-exports.Faction = class Faction{
+//exports.Faction = class Faction{ <--your code
+module.exports = class Faction{
 	constructor(id, name){
 		//ownerColor = vars.countries[id].color;
 		this.id = id;
