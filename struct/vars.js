@@ -42,7 +42,7 @@ var economy    = require("../struct/Economy.js");    // Economic Structure
 var cell       = require("../struct/Cell.js");       // Map Cell Structure
 var war        = require("../struct/War.js");        // War Structure
 var gun        = require("../struct/Gun.js");        // Gun Structure
-countries      = require("../data/data.json");       // Country Data
+var countries  = require("../data/data.json");       // Country Data
 var factions = {};
 try{
 	factions   = require("../data/factions.json");   // Faction Data

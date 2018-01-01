@@ -1,4 +1,4 @@
-vars = require("./vars.js");
+var vars = require("./vars.js");
 //exports.Faction = class Faction{ <--your code
 module.exports = class Faction{
 	constructor(id, name){
@@ -7,7 +7,7 @@ module.exports = class Faction{
 		this.name = name;
 		this.owner = id;
 		this.members = new Array(id);
-		console.log("FACTION"+vars.countries);
+		console.log("FACTION "+vars.countries);
 		this.color = vars.countries[id].color;
 		vars.countries[id].inFaction = true;
 		/*
