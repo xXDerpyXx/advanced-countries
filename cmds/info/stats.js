@@ -2,7 +2,7 @@
 var vars = require("../../struct/vars.js");
 
 module.exports = class StatsCommand extends vars.Commando.Command {
-	constructor(client){
+	constructor(client) {
 		super(client, {
 			name: "stats",
 			group: "info",
@@ -19,11 +19,12 @@ module.exports = class StatsCommand extends vars.Commando.Command {
 			]
 		});
 	}
-	run(msg, args){
+	run(msg, args) {
 		id = msg.author.id;
 		c = vars.countries[id];
 
-		if (msg.mentions.members.first()) id = msg.mentions.members.first().id, c = vars.countries[id];
+		if (msg.mentions.members.first())
+			(id = msg.mentions.members.first().id), (c = vars.countries[id]);
 
 		var temp = "";
 		for (k in c) {
@@ -35,7 +36,3 @@ module.exports = class StatsCommand extends vars.Commando.Command {
 		msg.channel.send(temp);
 	}
 };
-
-
-
-

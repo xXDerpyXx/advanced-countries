@@ -10,15 +10,19 @@ const Discord = require("discord.js");
 const client = new Commando.Client({
 	commandPrefix: "!"
 });
-const commitCount = require('git-commit-count');
+const commitCount = require("git-commit-count");
 
 //commitCount(); // number of process.cwd()
 //commitCount('any/git/repo'); // number
 
 const fs = require("fs");
-client.setProvider(
-	sqlite.open(path.join(__dirname, "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
-).catch(console.error);
+client
+	.setProvider(
+		sqlite
+			.open(path.join(__dirname, "settings.sqlite3"))
+			.then(db => new Commando.SQLiteProvider(db))
+	)
+	.catch(console.error);
 client.registry
 	.registerGroups([
 		["war", "War commands"],
@@ -29,8 +33,6 @@ client.registry
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, "cmds"));
-
-
 
 var {
 	oneline,
@@ -157,13 +159,12 @@ loadGuns().then(g => guns = g);
 */
 try {
 	console.log("[LOADING DATA]");
-	if(map == undefined){
+	if (map == undefined) {
 		console.log("[FAILED TO LOAD, CREATING DATA]");
 
 		map = generateMapPerlin();
 		save(countries, map);
 	}
-
 } catch (err) {
 	console.log("[FAILED TO LOAD, CREATING DATA]");
 
@@ -176,7 +177,6 @@ try {
 //###############################
 
 function tick(repeat) {
-
 	//###############################
 	//#     Generate daily-news     #
 	//###############################
@@ -185,8 +185,11 @@ function tick(repeat) {
 	console.log("`===================================");
 	console.log("   Today is a new day");
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
-	report += "`========================\n";
-	report += "Daily news! (V"+commitCount('https://github.com/xXDerpyXx/advanced-countries')+")\n";
+	report += "```========================\n";
+	report +=
+		"Daily news! (V" +
+		commitCount("https://github.com/xXDerpyXx/advanced-countries") +
+		")\n";
 	report += "------------------------\n";
 
 	warVictories = {};
@@ -201,22 +204,27 @@ function tick(repeat) {
 		if (countries[c].gun == undefined) {
 			countries[c].gun = guns["m1"];
 		}
-		var cMilitaryPop = Math.round((countries[c].population.size * countries[c].population.manpower) / 100);
+		var cMilitaryPop = Math.round(
+			countries[c].population.size * countries[c].population.manpower / 100
+		);
 		var armedPercent = 1;
 		/*if (countries.resource < countries[c].gun.cost * cMilitaryPop) {
 
 		}*/
-		armedPercent = countries[c].resource / (cMilitaryPop * countries[c].gun.cost);
+		armedPercent =
+			countries[c].resource / (cMilitaryPop * countries[c].gun.cost);
 		if (armedPercent > 1) {
 			armedPercent = 1;
 		}
 
-		countries[c].resource -= Math.round(countries[c].gun.cost * cMilitaryPop) * armedPercent;
-		if (countries[c].resource < 0)
-			countries[c].resource = 0;
+		countries[c].resource -=
+			Math.round(countries[c].gun.cost * cMilitaryPop) * armedPercent;
+		if (countries[c].resource < 0) countries[c].resource = 0;
 		armorment[c]["percent"] = armedPercent;
 		if (countries[c].genocidePercent != undefined) {
-			countries[c].population.size = countries[c].population.size - (countries[c].population.size * countries[c].genocidePercent);
+			countries[c].population.size =
+				countries[c].population.size -
+				countries[c].population.size * countries[c].genocidePercent;
 		}
 	}
 
@@ -224,8 +232,12 @@ function tick(repeat) {
 		for (y in map[x]) {
 			if (countries[map[x][y].owner] != undefined) {
 				countries[map[x][y].owner].resource += map[x][y].resource;
-				if (countries[map[x][y].owner].population.size > countries[map[x][y].owner].ownedCells * 1000) {
-					countries[map[x][y].owner].population.size = countries[map[x][y].owner].ownedCells * 1000;
+				if (
+					countries[map[x][y].owner].population.size >
+					countries[map[x][y].owner].ownedCells * 1000
+				) {
+					countries[map[x][y].owner].population.size =
+						countries[map[x][y].owner].ownedCells * 1000;
 				}
 			}
 		}
@@ -245,9 +257,10 @@ function tick(repeat) {
 			}
 
 			delete countries[c];
-
 		} else {
-			countries[c].population.size += Math.round(countries[c].population.size * 0.01);
+			countries[c].population.size += Math.round(
+				countries[c].population.size * 0.01
+			);
 			if (countries[c].population.size > countries[c].ownedCells * 1000) {
 				countries[c].population.size = countries[c].ownedCells * 1000;
 			}
@@ -261,29 +274,64 @@ function tick(repeat) {
 
 	for (w in wars) {
 		try {
-			if (map[wars[w].x][wars[w].y].elevation > 0 && map[wars[w].x][wars[w].y].elevation < 10 && (countries[wars[w].attacker].population.manpower) * 10 > (Math.random() * (map[wars[w].x][wars[w].y].elevation))) {
+			if (
+				map[wars[w].x][wars[w].y].elevation > 0 &&
+				map[wars[w].x][wars[w].y].elevation < 10 &&
+				countries[wars[w].attacker].population.manpower * 10 >
+					Math.random() * map[wars[w].x][wars[w].y].elevation
+			) {
 				if (map[wars[w].x][wars[w].y].owner == "none") {
 					if (Math.random() < 0.8) {
 						map[wars[w].x][wars[w].y].owner = wars[w].attacker;
 					}
 				} else {
-					for (var x = parseInt(wars[w].x) - 1; x < parseInt(wars[w].x) + 2; x++) {
-						for (var y = parseInt(wars[w].y) - 1; y < parseInt(wars[w].y) + 2; y++) {
-							try {//lol
-								if (map[x][y].owner == wars[w].attacker) { //one sec, brb
+					for (
+						var x = parseInt(wars[w].x) - 1;
+						x < parseInt(wars[w].x) + 2;
+						x++
+					) {
+						for (
+							var y = parseInt(wars[w].y) - 1;
+							y < parseInt(wars[w].y) + 2;
+							y++
+						) {
+							try {
+								//lol
+								if (map[x][y].owner == wars[w].attacker) {
+									//one sec, brb
 
-									var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells) * 1.25) * (Math.random() * 2)) * armorment[wars[w].attacker].percent) * countries[wars[w].attacker].gun.modifier;
-									if (countries[wars[w].attacker].gun.counters.includes(countries[wars[w].defender].gun.name)) {
+									var tForce =
+										countries[map[x][y].owner].population.size *
+										countries[map[x][y].owner].population.manpower /
+										countries[map[x][y].owner].ownedCells *
+										1.25 *
+										(Math.random() * 2) *
+										armorment[wars[w].attacker].percent *
+										countries[wars[w].attacker].gun.modifier;
+									if (
+										countries[wars[w].attacker].gun.counters.includes(
+											countries[wars[w].defender].gun.name
+										)
+									) {
 										tForce = tForce * 1.5;
 									}
 									wars[w].aForce += tForce;
-
 								}
 
 								if (wars[w].defender != "none") {
 									if (map[x][y].owner == wars[w].defender) {
-										var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2)) * armorment[wars[w].defender].percent) * countries[wars[w].defender].gun.modifier;
-										if (countries[wars[w].defender].gun.counters.includes(countries[wars[w].attacker].gun.name)) {
+										var tForce =
+											countries[map[x][y].owner].population.size *
+											countries[map[x][y].owner].population.manpower /
+											countries[map[x][y].owner].ownedCells *
+											(Math.random() * 2) *
+											armorment[wars[w].defender].percent *
+											countries[wars[w].defender].gun.modifier;
+										if (
+											countries[wars[w].defender].gun.counters.includes(
+												countries[wars[w].attacker].gun.name
+											)
+										) {
 											tForce = tForce * 1.5;
 										}
 										wars[w].dForce += tForce;
@@ -305,12 +353,23 @@ function tick(repeat) {
 
 						map[wars[w].x][wars[w].y].owner = wars[w].attacker;
 						if (wars[w].defender != "none") {
-							countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
-							countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
+							countries[wars[w].attacker].population.size -=
+								countries[wars[w].attacker].population.size *
+								countries[wars[w].attacker].population.manpower /
+								countries[wars[w].attacker].ownedCells *
+								1;
+							countries[wars[w].defender].population.size -=
+								countries[wars[w].defender].population.size *
+								countries[wars[w].defender].population.manpower /
+								countries[wars[w].defender].ownedCells *
+								0.5;
 						}
 
 						if (wars[w].defender != "none") {
-							if (wars[w].x == countries[wars[w].defender].capital.x && wars[w].y == countries[wars[w].defender].capital.y) {
+							if (
+								wars[w].x == countries[wars[w].defender].capital.x &&
+								wars[w].y == countries[wars[w].defender].capital.y
+							) {
 								//client.channels.find("id","386688984845123587").send(countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">");
 								for (x in map) {
 									for (y in map[x]) {
@@ -319,31 +378,59 @@ function tick(repeat) {
 										}
 									}
 								}
-								report += countries[wars[w].defender].name + " HAS FALLEN!!! <@" + wars[w].defender + ">\n";
+								report +=
+									countries[wars[w].defender].name +
+									" HAS FALLEN!!! <@" +
+									wars[w].defender +
+									">\n";
 
 								delete countries[wars[w].defender];
 
 								if (countries[v].name != undefined) {
 									tempCount++;
 									try {
-										report += countries[v].name + " claimed " + warVictories[v] + " cells of land\n";
+										report +=
+											countries[v].name +
+											" claimed " +
+											warVictories[v] +
+											" cells of land\n";
 									} catch (err) {
 										console.log(err.toString());
 									}
 								}
 								//console.log(countries[wars[w].defender].name+" fell due to loosing a war");
-
 							}
 						}
 						var tempd = "none";
-						if (wars[w].defender != "none") tempd = countries[wars[w].defender].name;
-						console.log(countries[wars[w].attacker].name + ":" + wars[w].aForce + " captured " + wars[w].x + "," + wars[w].y + " from " + tempd + ":" + wars[w].dForce);
+						if (wars[w].defender != "none")
+							tempd = countries[wars[w].defender].name;
+						console.log(
+							countries[wars[w].attacker].name +
+								":" +
+								wars[w].aForce +
+								" captured " +
+								wars[w].x +
+								"," +
+								wars[w].y +
+								" from " +
+								tempd +
+								":" +
+								wars[w].dForce
+						);
 					} else {
 						//client.channels.find("id","386688984845123587").send("War lost by "+countries[wars[w].attacker].name+", lost to "+wars[w].dForce+" force");
 						//console.log(countries[wars[w].defender].name+":"+wars[w].dForce+" defended "+wars[w].x+","+wars[w].y+" from "+countries[wars[w].attacker].name+":"+wars[w].aForce);
 						if (countries[wars[w].defender] != undefined) {
-							countries[wars[w].attacker].population.size -= (((countries[wars[w].attacker].population.size * countries[wars[w].attacker].population.manpower) / (countries[wars[w].attacker].ownedCells)) * 1);
-							countries[wars[w].defender].population.size -= (((countries[wars[w].defender].population.size * countries[wars[w].defender].population.manpower) / (countries[wars[w].defender].ownedCells)) * 0.5);
+							countries[wars[w].attacker].population.size -=
+								countries[wars[w].attacker].population.size *
+								countries[wars[w].attacker].population.manpower /
+								countries[wars[w].attacker].ownedCells *
+								1;
+							countries[wars[w].defender].population.size -=
+								countries[wars[w].defender].population.size *
+								countries[wars[w].defender].population.manpower /
+								countries[wars[w].defender].ownedCells *
+								0.5;
 						}
 					}
 				}
@@ -361,10 +448,14 @@ function tick(repeat) {
 	for (v in warVictories) {
 		try {
 			if (countries[v].name != undefined) {
-				tempCount++;https://youtu.be/WZJAsARQ8c4?t=28
+				tempCount++;
 
 				try {
-					report += countries[v].name + " claimed " + warVictories[v] + " cells of land\n";
+					report +=
+						countries[v].name +
+						" claimed " +
+						warVictories[v] +
+						" cells of land\n";
 				} catch (err) {
 					console.log(err.toString());
 				}
@@ -372,7 +463,6 @@ function tick(repeat) {
 		} catch (err) {
 			console.log(err.toString());
 		}
-
 	}
 	if (tempCount == 0) report += "The world is at peace!\n";
 
@@ -388,7 +478,10 @@ function tick(repeat) {
 		f++;
 		forceList[f] = {};
 		forceList[f]["name"] = countries[c].name;
-		forceList[f]["force"] = (countries[c].population.size * countries[c].population.manpower) / (countries[c].ownedCells);
+		forceList[f]["force"] =
+			countries[c].population.size *
+			countries[c].population.manpower /
+			countries[c].ownedCells;
 	}
 
 	for (var j = 0; j < forceList.length; j++) {
@@ -402,7 +495,11 @@ function tick(repeat) {
 	}
 
 	for (var f = 0; f < forceList.length; f++) {
-		report += forceList[f].name + ": " + (Math.round(forceList[f].force * 100) / 100) + "\n";
+		report +=
+			forceList[f].name +
+			": " +
+			Math.round(forceList[f].force * 100) / 100 +
+			"\n";
 	}
 
 	report += "------------------------\n";
@@ -416,25 +513,24 @@ function tick(repeat) {
 			prefix = "+";
 		}
 
-		report += countries[c].name + ": " + prefix + (countries[c].population.size - popGrowth[c]["start"]) + "\n";
+		report +=
+			countries[c].name +
+			": " +
+			prefix +
+			(countries[c].population.size - popGrowth[c]["start"]) +
+			"\n";
 	}
 
-	report += "========================`\n";
+	report += "========================```\n";
 
-	client.guilds.first().channels.find("name", "daily-news").send(report);
-
-	//WARNING: IMPORTANT FEATURE COMMING UP. BE CAREFUL
-
-
-
-	/*IMPORTANT FEATURE*/
-  //client.guilds.first().channels.find("name", "general").send("It is a new day ☭***c o m r a d e s***☭!"); //VERY IMPORTANT
-	/*DO NOT REMOVE*/
-
-
-
-	//IMPORTANT FEATURE ZONE ENDS HERE
-
+	client.guilds
+		.first()
+		.channels.find("name", "daily-news")
+		.send(report);
+	client.guilds
+		.first()
+		.channels.find("name", "general")
+		.send("It is a new day!");
 	saveImage(map, wars, countries);
 	save(countries, map);
 	//no >:(
@@ -450,11 +546,15 @@ function tick(repeat) {
 //###############################
 client.on("error", console.error);
 client.on("warn", console.warn);
-client.on("disconnect", () => { console.warn("Disconnected!"); });
-client.on("reconnecting", () => { console.warn("Reconecting..."); });
+client.on("disconnect", () => {
+	console.warn("Disconnected!");
+});
+client.on("reconnecting", () => {
+	console.warn("Reconecting...");
+});
 client.on("commandError", (cmd, err) => {
 	client.channels.find("name", "spam").send(err.toString()); //
-	if(err instanceof Commando.FriendlyError) return;//hold up. cant we use like the dev console? and add a tab with irc?
+	if (err instanceof Commando.FriendlyError) return; //hold up. cant we use like the dev console? and add a tab with irc?
 	console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 });
 client.on("commandBlocked", (msg, reason) => {
@@ -484,20 +584,13 @@ client.on("groupStatusChange", (guild, group, enabled) => {
 	`);
 });
 
-
-
-
-
-
-
-
-
 client.on("message", msg => {
 	try {
 		id = msg.author.id;
 		c = countries[id];
 		content = msg.content.toLowerCase().split(" ");
-		if (adminList.includes(msg.author.id)) { // == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
+		if (adminList.includes(msg.author.id)) {
+			// == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
 			if (content[0] == call + "tick") {
 				tick(false);
 				msg.channel.send("tick forced!!! do not do this unless bugfixing!!!");
@@ -535,7 +628,9 @@ client.on("message", msg => {
 				}
 				msg.channel.send("to " + value);
 				if (things[4] != undefined) {
-					countries[target][things[3].prop][things[4].prop] = parseFloat(countries[target][things[3].prop][things[4].prop]);
+					countries[target][things[3].prop][things[4].prop] = parseFloat(
+						countries[target][things[3].prop][things[4].prop]
+					);
 					countries[target][things[3].prop][things[4].prop] = parseFloat(value);
 				} else {
 					if (things[3] != undefined) {
@@ -543,7 +638,6 @@ client.on("message", msg => {
 					}
 				}
 			}
-
 		}
 	} catch (err) {
 		console.log(err);
@@ -556,15 +650,21 @@ client.on("message", msg => {
 //###############################
 
 client.on("ready", () => {
-	console.log(`Client ready; logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
+	console.log(
+		`Client ready; logged in as ${client.user.username}#${
+			client.user.discriminator
+		} (${client.user.id})`
+	);
 	setTimeout(() => tick(true), 1000);
 });
 
-
-
-
 class country {
-	constructor(id, name, chosenEconomy = "capitalist", chosenGov = "dictatorship") {
+	constructor(
+		id,
+		name,
+		chosenEconomy = "capitalist",
+		chosenGov = "dictatorship"
+	) {
 		this.id = id;
 		this.name = name;
 		this.owner = client.users.get(id).tag;
@@ -582,22 +682,38 @@ class country {
 		this.population.manpower = 0.2;
 		this.inFaction = false;
 		this.faction = "none";
-		this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+		this.capital = new location(
+			Math.round(Math.random() * width),
+			Math.round(Math.random() * height)
+		);
 		//this.capital = new location(11, 15);
 		console.log(this.capital.x, this.capital.y);
 		var owner = map[this.capital.x][this.capital.y].owner;
 		let tries = 0;
 
-		while (map[this.capital.x][this.capital.y].elevation > 4 || map[this.capital.x][this.capital.y].elevation < 0) {
-			this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+		while (
+			map[this.capital.x][this.capital.y].elevation > 4 ||
+			map[this.capital.x][this.capital.y].elevation < 0
+		) {
+			this.capital = new location(
+				Math.round(Math.random() * width),
+				Math.round(Math.random() * height)
+			);
 		}
 
 		if (owner != "none") {
-			while (owner != "none") { //&& tries < 200){
-				this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
+			while (owner != "none") {
+				//&& tries < 200){
+				this.capital = new location(
+					Math.round(Math.random() * width),
+					Math.round(Math.random() * height)
+				);
 				try {
 					owner = map[this.capital.x][this.capital.y].owner;
-					if (map[this.capital.x][this.capital.y].elevation > 3 && map[this.capital.x][this.capital.y].elevation < 0) {
+					if (
+						map[this.capital.x][this.capital.y].elevation > 3 &&
+						map[this.capital.x][this.capital.y].elevation < 0
+					) {
 						owner = "";
 					}
 				} catch (err) {
@@ -613,7 +729,11 @@ class country {
 			for (var x = this.capital.x - 2; x < this.capital.x + 3; x++) {
 				for (var y = this.capital.y - 2; y < this.capital.y + 3; y++) {
 					try {
-						if (map[x][y].owner == "none" && map[x][y].elevation < 10 && map[x][y].elevation > 0) {
+						if (
+							map[x][y].owner == "none" &&
+							map[x][y].elevation < 10 &&
+							map[x][y].elevation > 0
+						) {
 							map[x][y].owner = id;
 						}
 					} catch (err) {
@@ -636,10 +756,7 @@ class country {
 			save(countries, map);
 		}
 	}
-}  // Country Structure
-
-
-
+} // Country Structure
 
 //###############################
 //#            Login            #
