@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
-var vars = require("../../struct/vars.js");
 module.exports = class MakeFactionCommand extends vars.Commando.Command {
+	var vars = require("../../struct/vars.js");
 	constructor(client){
 		super(client, {
 			name: "joinfaction",
@@ -30,7 +30,6 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 					c.faction = key;
 					found = true;
 					msg.channel.send(`You've joined the faction of ${name}!`);
-					break;
 				}
 			});
 			if(found){
