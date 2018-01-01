@@ -422,6 +422,7 @@ function tick(repeat) {
 	report += "========================`\n";
 
 	client.guilds.first().channels.find("name", "daily-news").send(report);
+<<<<<<< HEAD
 	//WARNING: IMPORTANT FEATURE COMMING UP. BE CAREFUL
 
 
@@ -433,6 +434,9 @@ function tick(repeat) {
 
 
 	//IMPORTANT FEATURE ZONE ENDS HERE
+=======
+	//client.guilds.first().channels.find("name", "general").send("It is a new day ☭***comrades***☭!");
+>>>>>>> e32edc6ffb86d2ec1ad8a852654a4a7f2fc8b962
 	saveImage(map, wars, countries);
 	save(countries, map);
 	//no >:(
