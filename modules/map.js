@@ -11,7 +11,7 @@ exports.generateMap = () => {
 
 		for(var y = 0; y < height; y++) {
 			map[x][y] = new cell(x, y);
-		}
+		}//
 	}
 
 	for(var k = 0; k < 10; k++) {
@@ -173,4 +173,5 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 	}
 };
 /*
-lol*/
+lol
+yes*/
