@@ -21,9 +21,9 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 	}
 	run(msg, {name}){
 		var vars = require("../../struct/vars.js");
-		id = msg.author.id;
-		c = vars.countries[id];
-		found = false
+		var id = msg.author.id;
+		var c = vars.countries[id];
+		var found = false
 		if(!c.inFaction){
 			Object.keys(vars.factions).forEach((key) => {
 				if(vars.factions[key].name.toLowerCase() == name.toLowerCase()){
