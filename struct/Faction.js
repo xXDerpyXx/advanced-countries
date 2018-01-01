@@ -6,7 +6,8 @@ module.exports = class Faction{
 		this.id = id;
 		this.name = name;
 		this.owner = id;
-		this.members= new Array(id);
+		this.members = new Array(id);
+		console.log("FACTION"+vars.countries);
 		this.color = vars.countries[id].color;
 		vars.countries[id].inFaction = true;
 		/*
