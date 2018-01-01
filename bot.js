@@ -182,7 +182,7 @@ function tick(repeat) {
 	//###############################
 
 	var report = "";
-	console.log("===================================");
+	console.log("`===================================");
 	console.log("   Today is a new day");
 	//client.channels.find("id","386688984845123587").send("A day has passed!");
 	report += "========================\n";
@@ -419,7 +419,7 @@ function tick(repeat) {
 		report += countries[c].name + ": " + prefix + (countries[c].population.size - popGrowth[c]["start"]) + "\n";
 	}
 
-	report += "========================\n";
+	report += "========================`\n";
 
 	client.guilds.first().channels.find("name", "daily-news").send(report);
 
