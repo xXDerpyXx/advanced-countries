@@ -26,7 +26,7 @@ module.exports = class ResourceCommand extends vars.Commando.Command {
 
 		var temp = "";
 		if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-		temp += (`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + vars.countries[id].resource + " resource\n");
+		temp += (`${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + vars.formatMass(vars.countries[id].resource) + " resource\n");
 		var total = 0;
 		for (x in vars.map) {
 			for (y in vars.map[x]) {
@@ -54,9 +54,9 @@ module.exports = class ResourceCommand extends vars.Commando.Command {
 		}
 		var cost = Math.round(vars.countries[id].gun.cost * cMilitaryPop) * armedPercent;
 		var profit = total - cost;
-		temp += ("you mine " + Math.round(total) + " resource per turn\n");
-		temp += ("and spend " + Math.round(cost) + " per turn on weapons\n");
-		temp += ("leaving you with " + Math.round(profit) + " per turn\n");
+		temp += ("you mine " + vars.formatMass(Math.round(total)) + " resource per turn\n");
+		temp += ("and spend " + vars.formatMass(Math.round(cost)) + " per turn on weapons\n");
+		temp += ("leaving you with " + vars.formatMass(Math.round(profit)) + " per turn\n");
 		if (mention.toLowerCase() == "webint") {
 			msg.channel.send(temp + msg.author.id + "WEBINT_RESOURCE");
 		} else {
@@ -64,6 +64,3 @@ module.exports = class ResourceCommand extends vars.Commando.Command {
 		}
 	}
 };
-
-
-
