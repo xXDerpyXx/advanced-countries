@@ -8,7 +8,7 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 			memberName: "joinfaction",
 			description: "Join a faction if you haven't!",
 			details: vars.oneline`Join a faction. The owner of the faction can have all members war a country, and set their color.`,
-			examples: ["!makefaction TotallyTheBestFaction"],
+			examples: ["!joinfaction TotallyTheBestFaction"],
 			args: [
 				{
 					key: "name",
