@@ -19,8 +19,11 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 		});
 	}
 	run(msg, {name, economy, government}){
-		id = msg.author.id;
-		c = vars.countries[id];
+		var id = msg.author.id;
+		console.log(id);
+		console.log(vars.countries);
+		var c = vars.countries[id];
+		console.log(c);
 		if(c.inFaction == undefined){
 			c.inFaction = false;
 		}
