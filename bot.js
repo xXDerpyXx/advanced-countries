@@ -422,10 +422,20 @@ function tick(repeat) {
 	report += "========================`\n";
 
 	client.guilds.first().channels.find("name", "daily-news").send(report);
-	client.guilds.first().channels.find("name", "general").send("It is a new day ☭***comrades***☭!");
+	//WARNING: IMPORTANT FEATURE COMMING UP. BE CAREFUL
+
+
+
+	/*IMPORTANT FEATURE*/
+  //client.guilds.first().channels.find("name", "general").send("It is a new day ☭***c o m r a d e s***☭!"); //VERY IMPORTANT
+	/*DO NOT REMOVE*/
+
+
+
+	//IMPORTANT FEATURE ZONE ENDS HERE
 	saveImage(map, wars, countries);
 	save(countries, map);
-
+	//no >:(
 	if (repeat) {
 		setTimeout(() => {
 			tick(true);
