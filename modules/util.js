@@ -39,6 +39,7 @@ module.exports = {
 		});
 
 		//temp = JSON.stringify(factions); <-- your code
+		var vars = require("../struct/vars.js");
 		temp = JSON.stringify(vars.factions);
 		fs.writeFile(process.env.PWD + "/data/factions.json",temp,(err) => {
 			if(err) return console.error(err);

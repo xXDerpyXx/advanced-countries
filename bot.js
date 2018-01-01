@@ -422,7 +422,7 @@ function tick(repeat) {
 	report += "========================`\n";
 
 	client.guilds.first().channels.find("name", "daily-news").send(report);
-
+	client.guilds.first().channels.find("name", "general").send("It is a new day ☭***comrades***☭!");
 	saveImage(map, wars, countries);
 	save(countries, map);
 

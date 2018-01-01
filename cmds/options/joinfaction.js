@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 var vars = require("../../struct/vars.js");
-module.exports = class MakeFactionCommand extends vars.Commando.Command {
+module.exports = class JoinFactionCommand extends vars.Commando.Command {
 	constructor(client){
 		var vars = require("../../struct/vars.js");
 		super(client, {
@@ -26,13 +26,15 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 		var found = false
 		if(!c.inFaction){
 			Object.keys(vars.factions).forEach((key) => {
-				console.log("FACTION "+vars.factions[key].name);
+				console.log("FACTION "+vars.factions[key].name);//open bot.js ples
 				if(vars.factions[key].name.toLowerCase() == name.toLowerCase()){
 					vars.factions[key].members[vars.factions[key].members.length] = id;
 					c.inFaction = true;
 					c.faction = key;//
+					c.color = vars.factions[key].color;
 					found = true;//lets see
 					msg.channel.send(`You've joined the faction of ${name}!`);
+					vars.save(vars.countries, vars.map);
 				}
 			});
 			if(!found){
