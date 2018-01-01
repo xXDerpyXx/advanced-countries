@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 module.exports = class MakeFactionCommand extends vars.Commando.Command {
 	constructor(client){
+		var vars = require("../../struct/vars.js");
 		super(client, {
 			name: "joinfaction",
 			group: "options",
