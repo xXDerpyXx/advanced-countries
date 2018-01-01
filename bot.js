@@ -568,6 +568,7 @@ class country {
 		this.population.loyalty = 1;
 		this.population.sway = 0;
 		this.population.manpower = 0.2;
+		this.inFaction = false;
 		this.capital = new location(Math.round(Math.random() * width), Math.round(Math.random() * height));
 		//this.capital = new location(11, 15);
 		console.log(this.capital.x, this.capital.y);

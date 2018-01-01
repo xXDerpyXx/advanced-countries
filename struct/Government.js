@@ -8,13 +8,3 @@ module.exports = class government {
 		this.swayEffect = 0;
 	}
 };
-
-/*
- OO OO
-O  O  O
-O     O
- O   O
-  O O
-   O
-
-*/
