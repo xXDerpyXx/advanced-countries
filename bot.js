@@ -282,7 +282,7 @@ function tick(repeat) {
 
 								if (wars[w].defender != "none") {
 									if (map[x][y].owner == wars[w].defender) {
-										var tFoand that person torce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2)) * armorment[wars[w].defender].percent) * countries[wars[w].defender].gun.modifier;
+										var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells)) * (Math.random() * 2)) * armorment[wars[w].defender].percent) * countries[wars[w].defender].gun.modifier;
 										if (countries[wars[w].defender].gun.counters.includes(countries[wars[w].attacker].gun.name)) {
 											tForce = tForce * 1.5;
 										}
