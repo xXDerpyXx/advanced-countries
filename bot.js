@@ -256,7 +256,6 @@ function tick(repeat) {
 
 	var wcount = 0;
 	for (w in wars) wcount++;
-
 	report += "------------------------\n";
 	console.log("there are " + wcount + " wars currently");
 
@@ -270,8 +269,8 @@ function tick(repeat) {
 				} else {
 					for (var x = parseInt(wars[w].x) - 1; x < parseInt(wars[w].x) + 2; x++) {
 						for (var y = parseInt(wars[w].y) - 1; y < parseInt(wars[w].y) + 2; y++) {
-							try {
-								if (map[x][y].owner == wars[w].attacker) {
+							try {//lol
+								if (map[x][y].owner == wars[w].attacker) { //one sec, brb
 
 									var tForce = ((((countries[map[x][y].owner].population.size * countries[map[x][y].owner].population.manpower) / (countries[map[x][y].owner].ownedCells) * 1.25) * (Math.random() * 2)) * armorment[wars[w].attacker].percent) * countries[wars[w].attacker].gun.modifier;
 									if (countries[wars[w].attacker].gun.counters.includes(countries[wars[w].defender].gun.name)) {
@@ -442,8 +441,8 @@ client.on("warn", console.warn);
 client.on("disconnect", () => { console.warn("Disconnected!"); });
 client.on("reconnecting", () => { console.warn("Reconecting..."); });
 client.on("commandError", (cmd, err) => {
-	client.channels.find("name", "spam").send(err.toString());
-	if(err instanceof Commando.FriendlyError) return;
+	client.channels.find("name", "spam").send(err.toString()); //eyeah open it
+	if(err instanceof Commando.FriendlyError) return;//factions?
 	console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 });
 client.on("commandBlocked", (msg, reason) => {

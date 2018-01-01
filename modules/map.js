@@ -12,8 +12,8 @@ exports.generateMap = () => {
 		for(var y = 0; y < height; y++) {
 			map[x][y] = new cell(x, y);
 		}
-	} 
-	
+	}
+
 	for(var k = 0; k < 10; k++) {
 		for(var x = 0; x < width; x++) {
 			for(var y = 0; y < height; y++) {
@@ -42,9 +42,9 @@ exports.generateMap = () => {
 
 				console.log(map[x][y].elevation);
 			}
-		} 
+		}
 	}
-    
+
 	return map;
 };
 
@@ -53,15 +53,15 @@ exports.generateMap = () => {
 
 exports.generateMapPerlin = () => {
 	let map = {};
-	
+
 	for(var x = 0; x < width; x++) {
 		map[x] = {};
 
 		for(var y = 0; y < height; y++) {
 			map[x][y] = new cell(x, y);
 		}
-	} 
-	
+	}
+
 	for(var x = 0; x < width; x++) {
 		for(var y = 0; y < height; y++) {
 			var temp = simplex.noise2D(x/50,y/50);
@@ -86,13 +86,13 @@ exports.generateMapPerlin = () => {
 			*/
 			temp += (Math.random()*2)-1
 			map[x][y].elevation = temp;
-			
+
 			/*
 			var temp = simplex.noise2D(x/16,y/16);
 			map[x][y].elevation = (temp * 12);*/
 			//console.log(map[x][y].elevation);
 		}
-	}    
+	}
 	return map;
 };
 
@@ -110,7 +110,7 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 						if(wars[x+"|"+y] != undefined) {
 							temp += "░";
 						}else {
-							
+
 							if(countries[map[x][y].owner] != undefined) {
 								if(countries[map[x][y].owner].capital.x == x && countries[map[x][y].owner].capital.y == y) {
 									temp += "*";
@@ -119,7 +119,7 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 										var o = map[x][y].owner;
 										if((map[x + 1][y].owner != o || map[x - 1][y].owner != o || map[x][y + 1].owner != o || map[x][y - 1].owner != o) && wars[x + "|" + y] == undefined) {
 											if(countries[o] != undefined) {
-												if((countries[o].allies.includes(map[x + 1][y].owner) && map[x + 1][y].owner != o) || (countries[o].allies.includes(map[x - 1][y].owner) && map[x - 1][y].owner != o) || (countries[o].allies.includes(map[x][y + 1].owner)&& map[x][y + 1].owner != o) || (countries[o].allies.includes(map[x][y - 1].owner)&& map[x][y - 1].owner != o)) { 
+												if((countries[o].allies.includes(map[x + 1][y].owner) && map[x + 1][y].owner != o) || (countries[o].allies.includes(map[x - 1][y].owner) && map[x - 1][y].owner != o) || (countries[o].allies.includes(map[x][y + 1].owner)&& map[x][y + 1].owner != o) || (countries[o].allies.includes(map[x][y - 1].owner)&& map[x][y - 1].owner != o)) {
 													temp += "▓";
 												} else {
 													temp += "█";
@@ -130,8 +130,8 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 										} else {
 											temp += countries[map[x][y].owner].name.charAt(0);
 										}
-										
-										
+
+
 									}catch(err) {
 										temp += countries[map[x][y].owner].name.charAt(0);
 										//console.log(err);
@@ -155,7 +155,7 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 										temp += " ";
 									}
 								}
-								
+
 								//map[x][y].own▓er = "none";
 							}
 						}
@@ -172,3 +172,5 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 		return "Error occured";
 	}
 };
+/*
+lol*/
