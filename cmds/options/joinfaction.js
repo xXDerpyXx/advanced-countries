@@ -1,6 +1,5 @@
 /*jshint esversion: 6 */
 module.exports = class MakeFactionCommand extends vars.Commando.Command {
-	var vars = require("../../struct/vars.js");
 	constructor(client){
 		super(client, {
 			name: "joinfaction",
@@ -19,6 +18,7 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 		});
 	}
 	run(msg, {name}){
+		var vars = require("../../struct/vars.js");
 		id = msg.author.id;
 		c = vars.countries[id];
 		found = false
