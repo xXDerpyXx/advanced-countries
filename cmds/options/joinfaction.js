@@ -26,15 +26,16 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 		var found = false
 		if(!c.inFaction){
 			Object.keys(vars.factions).forEach((key) => {
+				console.log("FACTION "+vars.factions[key].name);
 				if(vars.factions[key].name.toLowerCase() == name.toLowerCase()){
 					vars.factions[key].members[vars.factions[key].members.length] = id;
 					c.inFaction = true;
-					c.faction = key;
-					found = true;
+					c.faction = key;//
+					found = true;//lets see
 					msg.channel.send(`You've joined the faction of ${name}!`);
 				}
 			});
-			if(found){
+			if(!found){
 				msg.channel.send("That faction doesnt exist!");
 			}
 		}else{
