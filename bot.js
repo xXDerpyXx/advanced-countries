@@ -559,7 +559,7 @@ client.on("ready", () => {
 	setTimeout(() => tick(true), 1000);
 });
 
-country = require("./struct/country.js");
+var country = require("./struct/country.js");
 
 
 
