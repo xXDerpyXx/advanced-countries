@@ -9,5 +9,6 @@ module.exports = class Event{
 		this.maxManpower = maxManpower;
 		this.requiresWar = requiresWar;
 		this.affectsAllies = affectsAllies;
+		this.description = "Something happened!";
 	}
-};  
+};
