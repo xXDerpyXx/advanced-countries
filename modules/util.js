@@ -112,7 +112,7 @@ module.exports = {
 		fs.writeFile(process.env.PWD + `/maps/${name}.png`, canvas.toBuffer(), (err) => {
 			if(err) console.log(err);
 		});
-	}
+	},
 
 	randInt: (min,max) => {
 		return Math.round((Math.random()*(max-min))+min)
