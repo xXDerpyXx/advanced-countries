@@ -1,12 +1,12 @@
 
 module.exports = class country {
-    var vars = require("./vars.js");
 	constructor(
 		id,
 		name,
 		chosenEconomy = "capitalist",
 		chosenGov = "dictatorship"
 	) {
+    var vars = require("./vars.js");
 		this.id = id;
 		this.name = name;
 		this.owner = client.users.get(id).tag;
