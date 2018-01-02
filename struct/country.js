@@ -38,7 +38,7 @@ module.exports = class country {
 			vars.map[this.capital.x][this.capital.y].elevation > 4 ||
 			vars.map[this.capital.x][this.capital.y].elevation < 0
 		) {
-			this.capital = new location(
+			this.capital = new vars.location(
 				Math.round(Math.random() * vars.width),
 				Math.round(Math.random() * vars.height)
 			);
