@@ -2,7 +2,7 @@ const { token, call, width, height, tickSpeed } = require("../config.js");
 const cell = require("../struct/Cell.js");
 var SimplexNoise = require("simplex-noise");
 const simplex = new SimplexNoise();
-
+var vars = require("../struct/vars.js");
 exports.generateMap = () => {
 	let map = {};
 
@@ -84,7 +84,7 @@ exports.generateMapPerlin = () => {
 				temp = (temp/2)+1;
 			}
 			*/
-			temp += (Math.random()*2)-1
+			temp += (Math.random()*2)-1;
 			map[x][y].elevation = temp;
 
 			/*
@@ -99,6 +99,7 @@ exports.generateMapPerlin = () => {
 
 exports.getLocalMap = (sx,sy,width,height,c) => {
 	temp = "";
+	map = vars.map;
 	//console.log((sx-width)+","+(sx+width)+"|"+(sy-height)+","+(sy+height));
 	try {
 		for(var x = parseInt(sx) + parseInt(width); x > (sx-width) - 1; x--) {
@@ -107,19 +108,19 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 					if(x == sx && y == sy) {
 						temp += "+";
 					} else {
-						if(wars[x+"|"+y] != undefined) {
+						if(vars.wars[x+"|"+y] != undefined) {
 							temp += "░";
 						}else {
 
-							if(countries[map[x][y].owner] != undefined) {
-								if(countries[map[x][y].owner].capital.x == x && countries[map[x][y].owner].capital.y == y) {
+							if(vars.countries[map[x][y].owner] != undefined) {
+								if(vars.countries[map[x][y].owner].capital.x == x && vars.countries[map[x][y].owner].capital.y == y) {
 									temp += "*";
 								} else {
 									try {
 										var o = map[x][y].owner;
 										if((map[x + 1][y].owner != o || map[x - 1][y].owner != o || map[x][y + 1].owner != o || map[x][y - 1].owner != o) && wars[x + "|" + y] == undefined) {
-											if(countries[o] != undefined) {
-												if((countries[o].allies.includes(map[x + 1][y].owner) && map[x + 1][y].owner != o) || (countries[o].allies.includes(map[x - 1][y].owner) && map[x - 1][y].owner != o) || (countries[o].allies.includes(map[x][y + 1].owner)&& map[x][y + 1].owner != o) || (countries[o].allies.includes(map[x][y - 1].owner)&& map[x][y - 1].owner != o)) {
+											if(vars.countries[o] != undefined) {
+												if((vars.countries[o].allies.includes(map[x + 1][y].owner) && map[x + 1][y].owner != o) || (vars.countries[o].allies.includes(map[x - 1][y].owner) && map[x - 1][y].owner != o) || (vars.countries[o].allies.includes(map[x][y + 1].owner)&& map[x][y + 1].owner != o) || (vars.countries[o].allies.includes(map[x][y - 1].owner)&& map[x][y - 1].owner != o)) {
 													temp += "▓";
 												} else {
 													temp += "█";
@@ -128,12 +129,12 @@ exports.getLocalMap = (sx,sy,width,height,c) => {
 												temp += "█";
 											}
 										} else {
-											temp += countries[map[x][y].owner].name.charAt(0);
+											temp += vars.countries[map[x][y].owner].name.charAt(0);
 										}
 
 
 									}catch(err) {
-										temp += countries[map[x][y].owner].name.charAt(0);
+										temp += vars.countries[map[x][y].owner].name.charAt(0);
 										//console.log(err);
 									}
 								}

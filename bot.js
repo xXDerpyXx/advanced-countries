@@ -50,8 +50,8 @@ const {
 const {
 	token,
 	call,
-	width,
-	height,
+	vars.width,
+	vars.height,
 	tickSpeed,
 	adminList
 } = require("./config.js");
@@ -168,7 +168,11 @@ function tick(repeat) {
 	armorment = {};
 
 	for (c in vars.countries) {
-		vars.countries[c].ownedCells = getOwnedCells(vars.countries[c], vars.map, vars.countries);
+		vars.countries[c].ownedCells = vars.getOwnedCells(
+			vars.countries[c],
+			vars.map,
+			vars.countries
+		);
 		popGrowth[c] = {};
 		popGrowth[c]["start"] = vars.countries[c].population.size;
 		armorment[c] = {};
@@ -176,7 +180,9 @@ function tick(repeat) {
 			vars.countries[c].gun = vars.guns["m1"];
 		}
 		var cMilitaryPop = Math.round(
-			vars.countries[c].population.size * vars.countries[c].population.manpower / 100
+			vars.countries[c].population.size *
+				vars.countries[c].population.manpower /
+				100
 		);
 		var armedPercent = 1;
 		/*if (countries.resource < countries[c].gun.cost * cMilitaryPop) {
@@ -184,8 +190,8 @@ function tick(repeat) {
 		}*/
 		armedPercent =
 			vars.countries[c].resource / (cMilitaryPop * vars.countries[c].gun.cost);
-		if (armedPercent > 1) {vars.
-			armedPercent = 1;
+		if (armedPercent > 1) {
+			vars.armedPercent = 1;
 		}
 
 		vars.countries[c].resource -=
@@ -195,14 +201,15 @@ function tick(repeat) {
 		if (vars.countries[c].genocidePercent != undefined) {
 			vars.countries[c].population.size =
 				vars.countries[c].population.size -
-				vars.countries[c].population.size * countries[c].genocidePercent;
+				vars.countries[c].population.size * vars.countries[c].genocidePercent;
 		}
 	}
 
 	for (x in vars.map) {
 		for (y in vars.map[x]) {
 			if (vars.countries[vars.map[x][y].owner] != undefined) {
-				vars.countries[vars.map[x][y].owner].resource += map[x][y].resource;
+				vars.countries[vars.map[x][y].owner].resource +=
+					vars.map[x][y].resource;
 				if (
 					vars.countries[vars.map[x][y].owner].population.size >
 					vars.countries[vars.map[x][y].owner].ownedCells * 1000
@@ -232,7 +239,10 @@ function tick(repeat) {
 			vars.countries[c].population.size += Math.round(
 				vars.countries[c].population.size * 0.01
 			);
-			if (vars.countries[c].population.size > vars.countries[c].ownedCells * 1000) {
+			if (
+				vars.countries[c].population.size >
+				vars.countries[c].ownedCells * 1000
+			) {
 				vars.countries[c].population.size = vars.countries[c].ownedCells * 1000;
 			}
 		}
@@ -248,12 +258,13 @@ function tick(repeat) {
 			if (
 				vars.map[vars.wars[w].x][vars.wars[w].y].elevation > 0 &&
 				vars.map[vars.wars[w].x][vars.wars[w].y].elevation < 10 &&
-				vars.countries[wars[w].attacker].population.manpower * 10 >
+				vars.countries[vars.wars[w].attacker].population.manpower * 10 >
 					Math.random() * vars.map[vars.wars[w].x][vars.wars[w].y].elevation
 			) {
 				if (vars.map[vars.wars[w].x][vars.wars[w].y].owner == "none") {
 					if (Math.random() < 0.8) {
-						vars.map[vars.wars[w].x][vars.wars[w].y].owner =vars.wars[w].attacker;
+						vars.map[vars.wars[w].x][vars.wars[w].y].owner =
+							vars.wars[w].attacker;
 					}
 				} else {
 					for (
@@ -268,7 +279,7 @@ function tick(repeat) {
 						) {
 							try {
 								//lol
-								if (vars.map[x][y].owner == wars[w].attacker) {
+								if (vars.map[x][y].owner == vars.wars[w].attacker) {
 									//one sec, brb
 
 									var tForce =
@@ -299,7 +310,9 @@ function tick(repeat) {
 											vars.armorment[vars.wars[w].defender].percent *
 											vars.countries[vars.wars[w].defender].gun.modifier;
 										if (
-											vars.countries[vars.wars[w].defender].gun.counters.includes(
+											vars.countries[
+												vars.wars[w].defender
+											].gun.counters.includes(
 												vars.countries[vars.wars[w].attacker].gun.name
 											)
 										) {
@@ -314,7 +327,10 @@ function tick(repeat) {
 						}
 					}
 					//client.channels.find("id","386688984845123587").send("War, "+wars[w].aForce+" force vs "+wars[w].dForce+" force");
-					if (vars.wars[w].aForce > vars.wars[w].dForce && Math.random() < 0.8) {
+					if (
+						vars.wars[w].aForce > vars.wars[w].dForce &&
+						Math.random() < 0.8
+					) {
 						//client.channels.find("id","386688984845123587").send("War won by "+countries[wars[w].attacker].name+", won with "+wars[w].aForce+" force");
 						if (warVictories[vars.wars[w].attacker] == undefined) {
 							warVictories[vars.wars[w].attacker] = 1;
@@ -322,7 +338,8 @@ function tick(repeat) {
 							warVictories[wars[w].attacker] += 1;
 						}
 
-						vars.map[vars.wars[w].x][vars.wars[w].y].owner = vars.wars[w].attacker;
+						vars.map[vars.wars[w].x][vars.wars[w].y].owner =
+							vars.wars[w].attacker;
 						if (vars.wars[w].defender != "none") {
 							vars.countries[vars.wars[w].attacker].population.size -=
 								vars.countries[vars.wars[w].attacker].population.size *
@@ -338,8 +355,10 @@ function tick(repeat) {
 
 						if (vars.wars[w].defender != "none") {
 							if (
-								vars.wars[w].x == vars.countries[vars.wars[w].defender].capital.x &&
-								vars.wars[w].y == vars.countries[vars.wars[w].defender].capital.y
+								vars.wars[w].x ==
+									vars.countries[vars.wars[w].defender].capital.x &&
+								vars.wars[w].y ==
+									vars.countries[vars.wars[w].defender].capital.y
 							) {
 								//client.channels.find("id","386688984845123587").send(countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">");
 								for (x in vars.map) {
@@ -444,8 +463,12 @@ function tick(repeat) {
 	var forceList = [];
 	var f = -1;
 
-	for (c in countries) {
-		vars.countries[c].ownedCells = getOwnedCells(vars.countries[c], vars.map, vars.countries);
+	for (c in vars.countries) {
+		vars.countries[c].ownedCells = vars.getOwnedCells(
+			vars.countries[c],
+			vars.map,
+			vars.countries
+		);
 		f++;
 		forceList[f] = {};
 		forceList[f]["name"] = vars.countries[c].name;
@@ -501,14 +524,14 @@ function tick(repeat) {
 	client.guilds
 		.first()
 		.channels.find("name", "general")
-		.send("It is a new day!");
-	saveImage(vars.map, vars.wars, vars.countries);
+		.send("It is a new day!"); //k i think ittl work now
+	vars.saveImage(vars.map, vars.wars, vars.countries);
 	vars.save(vars.countries, vars.map);
 	//no >:(
 	if (repeat) {
 		setTimeout(() => {
 			tick(true);
-		}, tickSpeed);
+		}, vars.tickSpeed);
 	}
 }
 
@@ -560,14 +583,14 @@ client.on("message", msg => {
 		id = msg.author.id;
 		c = vars.countries[id];
 		content = msg.content.toLowerCase().split(" ");
-		if (adminList.includes(msg.author.id)) {
+		if (vars.adminList.includes(msg.author.id)) {
 			// == "246589957165023232" || msg.author.id == "338914218470539266" || msg.author.id == "185975071603556352"){
 			if (content[0] == vars.call + "tick") {
 				tick(false);
 				msg.channel.send("tick forced!!! do not do this unless bugfixing!!!");
 			}
 
-			if (content[0] == call + "destroy") {
+			if (content[0] == vars.call + "destroy") {
 				target = content[1];
 				msg.channel.send(vars.countries[target].name + " got frickin' nuked");
 				for (var x in map) {
@@ -602,7 +625,9 @@ client.on("message", msg => {
 					vars.countries[target][things[3].prop][things[4].prop] = parseFloat(
 						vars.countries[target][things[3].prop][things[4].prop]
 					);
-					vars.countries[target][things[3].prop][things[4].prop] = parseFloat(value);
+					vars.countries[target][things[3].prop][things[4].prop] = parseFloat(
+						value
+					);
 				} else {
 					if (things[3] != undefined) {
 						vars.countries[target][things[3].prop] = value;
@@ -653,9 +678,9 @@ class country {
 		this.population.manpower = 0.2;
 		this.inFaction = false;
 		this.faction = "none";
-		this.capital = new location(
-			Math.round(Math.random() * width),
-			Math.round(Math.random() * height)
+		this.capital = new vars.location(
+			Math.round(Math.random() * vars.width),
+			Math.round(Math.random() * vars.height)
 		);
 		//this.capital = new location(11, 15);
 		console.log(this.capital.x, this.capital.y);
@@ -667,8 +692,8 @@ class country {
 			vars.map[this.capital.x][this.capital.y].elevation < 0
 		) {
 			this.capital = new location(
-				Math.round(Math.random() * width),
-				Math.round(Math.random() * height)
+				Math.round(Math.random() * vars.width),
+				Math.round(Math.random() * vars.height)
 			);
 		}
 
@@ -676,8 +701,8 @@ class country {
 			while (owner != "none") {
 				//&& tries < 200){
 				this.capital = new location(
-					Math.round(Math.random() * width),
-					Math.round(Math.random() * height)
+					Math.round(Math.random() * vars.width),
+					Math.round(Math.random() * vars.height)
 				);
 				try {
 					owner = vars.map[this.capital.x][this.capital.y].owner;
@@ -724,7 +749,7 @@ class country {
 			}
 
 			vars.map[this.capital.x][this.capital.y].owner = id;
-			vars.save(countries, map);
+			vars.save(vars.countries, vars.map);
 		}
 	}
 } // Country Structure
@@ -733,4 +758,4 @@ class country {
 //#            Login            #
 //###############################
 exports.country = country;
-client.login(token);
+client.login(vars.token);

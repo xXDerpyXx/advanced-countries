@@ -5,7 +5,7 @@ module.exports = class DelFactionCommand extends vars.Commando.Command {
 		super(client, {
 			name: "deletefaction",
 			group: "options",
-			memberName: "leavefaction",
+			memberName: "deletefaction",
 			description: "Leave a faction...",
 			details: vars.oneline`Leave a faction. Why would you though?`,
 			examples: ["!leavefaction"]
