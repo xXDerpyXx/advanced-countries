@@ -17,6 +17,7 @@ module.exports = class country {
 		this.allies[0] = id;
 		this.population = {};
 		this.ownedCells = 0;
+        this.color = new vars.rgb(255,255,255);
 		this.genocidePercent = 0.0;
 		this.population.size = 1000;
 		this.population.loyalty = 1;
