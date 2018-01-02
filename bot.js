@@ -19,8 +19,8 @@ const fs = require("fs");
 client
 	.setProvider(
 		sqlite
-		.open(path.join(__dirname, "settings.sqlite3"))
-		.then(db => new Commando.SQLiteProvider(db))
+			.open(path.join(__dirname, "settings.sqlite3"))
+			.then(db => new Commando.SQLiteProvider(db))
 	)
 	.catch(console.error);
 client.registry
@@ -425,7 +425,7 @@ function tick(repeat) {
 		.first()
 		.channels.find("name", "daily-news")
 		.send(report);
-/*
+	/*
 	client.guilds
 		.first()
 		.channels.find("name", "general")
