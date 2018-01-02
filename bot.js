@@ -566,5 +566,4 @@ var country = require("./struct/country.js");
 //###############################
 //#            Login            #
 //###############################
-exports.country = country;
 client.login(vars.token);

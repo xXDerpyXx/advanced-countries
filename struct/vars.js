@@ -55,11 +55,10 @@ try{
 }catch(err){
 	map        = generateMapPerlin();                // Generate if missing
 }
-//loadGuns().then(g => guns = g);
+
 guns           = require("../consts/guns.json");     // Gun Data
 var Faction    = require("./Faction.js");            // Faction Stucture
-//var factions   = require("./data/factions.json");    // Faction Data
-
+var country    = require("./country.js");            //Country Structure
 
 
 
@@ -103,5 +102,6 @@ module.exports = {
 	wars,
 	guns,
 	factions,
-	Faction
+	Faction,
+	country
 };
