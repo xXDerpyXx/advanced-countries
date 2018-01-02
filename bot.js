@@ -673,9 +673,6 @@ class country {
 		this.population.loyalty = 1;
 		this.population.sway = 0;
 		this.population.manpower = 0.2;
-		this.color.r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-		this.color.g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-		this.color.b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
 		this.inFaction = false;
 		this.faction = "none";
 		this.capital = new vars.location(
