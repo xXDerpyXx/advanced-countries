@@ -113,4 +113,8 @@ module.exports = {
 			if(err) console.log(err);
 		});
 	}
+
+	randInt: (min,max) => {
+		return Math.round((Math.random()*(max-min))+min)
+	}
 };

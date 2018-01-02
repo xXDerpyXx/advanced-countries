@@ -14,7 +14,8 @@ var {
 	recursiveWait,
 	getOwnedCells,
 	loadGuns,
-	saveImage
+	saveImage,
+	randInt
 } = require("../modules/util.js");
 var {
 	token,
