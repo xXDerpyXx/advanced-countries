@@ -4,12 +4,13 @@ module.exports = class country {
 		id,
 		name,
 		chosenEconomy = "capitalist",
-		chosenGov = "dictatorship"
+		chosenGov = "dictatorship",
+		tag
 	) {
         var vars = require("./vars.js");
 		this.id = id;
 		this.name = name;
-		this.owner = "generic ruler";
+		this.owner = tag;
 		this.allies = [];
 		this.economyType = chosenEconomy;
 		this.governmentType = chosenGov;
