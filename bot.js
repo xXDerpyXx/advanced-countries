@@ -429,7 +429,7 @@ function tick(repeat) {
 	client.guilds
 		.first()
 		.channels.find("name", "general")
-		.send("It is a new day!"); //k i think ittl work now*/
+		.send("It is a new day!");*/
 	vars.saveImage(vars.map, vars.wars, vars.countries);
 	vars.save(vars.countries, vars.map);
 	//no >:(
