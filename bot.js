@@ -521,10 +521,11 @@ function tick(repeat) {
 		.first()
 		.channels.find("name", "daily-news")
 		.send(report);
+/*
 	client.guilds
 		.first()
 		.channels.find("name", "general")
-		.send("It is a new day!"); //k i think ittl work now
+		.send("It is a new day!"); //k i think ittl work now*/
 	vars.saveImage(vars.map, vars.wars, vars.countries);
 	vars.save(vars.countries, vars.map);
 	//no >:(
