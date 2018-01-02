@@ -106,5 +106,6 @@ module.exports = {
 	factions,
 	Faction,
 	country,
-	randInt
+	randInt,
+	rgb
 };

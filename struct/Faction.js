@@ -20,4 +20,4 @@ module.exports = class Faction{
 		this.color.b = ownerColor.b;
 		*/
 	}
-}
+};
