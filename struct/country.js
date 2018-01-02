@@ -6,7 +6,7 @@ module.exports = class country {
 		chosenEconomy = "capitalist",
 		chosenGov = "dictatorship"
 	) {
-    var vars = require("./vars.js");
+        var vars = require("./vars.js");
 		this.id = id;
 		this.name = name;
 		this.owner = "generic ruler";
