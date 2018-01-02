@@ -105,5 +105,6 @@ module.exports = {
 	guns,
 	factions,
 	Faction,
-	country
+	country,
+	randInt
 };
