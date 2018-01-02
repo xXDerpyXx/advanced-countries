@@ -44,11 +44,11 @@ var cell       = require("../struct/Cell.js");       // Map Cell Structure
 var war        = require("../struct/War.js");        // War Structure
 var gun        = require("../struct/Gun.js");        // Gun Structure
 var countries  = require("../data/data.json");       // Country Data
-var factions = {};
+var factions   = {};
 try{
 	factions   = require("../data/factions.json");   // Faction Data
 }catch(err){
-	factions    = {};                                // Leave empty if missing
+	factions   = {};                                // Leave empty if missing
 }
 
 try{
