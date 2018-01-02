@@ -1,15 +1,15 @@
 
 module.exports = class country {
-    var vars = require("./vars.js");
 	constructor(
 		id,
 		name,
 		chosenEconomy = "capitalist",
 		chosenGov = "dictatorship"
 	) {
+    var vars = require("./vars.js");
 		this.id = id;
 		this.name = name;
-		this.owner = client.users.get(id).tag;
+		this.owner = "generic ruler";
 		this.allies = [];
 		this.economyType = chosenEconomy;
 		this.governmentType = chosenGov;
@@ -17,6 +17,7 @@ module.exports = class country {
 		this.allies[0] = id;
 		this.population = {};
 		this.ownedCells = 0;
+        this.color = new vars.rgb(vars.randInt(40,250),vars.randInt(40,250),vars.randInt(40,250));
 		this.genocidePercent = 0.0;
 		this.population.size = 1000;
 		this.population.loyalty = 1;

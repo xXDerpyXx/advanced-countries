@@ -14,7 +14,8 @@ var {
 	recursiveWait,
 	getOwnedCells,
 	loadGuns,
-	saveImage
+	saveImage,
+	randInt
 } = require("../modules/util.js");
 var {
 	token,
@@ -59,6 +60,7 @@ try{
 guns           = require("../consts/guns.json");     // Gun Data
 var Faction    = require("./Faction.js");            // Faction Stucture
 var country    = require("./country.js");            //Country Structure
+var rgb        = require("./rgb.js");                //RGB Structure
 
 
 
