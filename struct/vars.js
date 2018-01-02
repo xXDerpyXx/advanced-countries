@@ -1,8 +1,3 @@
-var sqlite = require("sqlite");
-var path = require("path");
-var oneline = require("common-tags").oneLine;
-var Commando = require("discord.js-commando");
-var fs = require("fs");
 var countries = {};
 var map = {};
 var wars = {};
@@ -37,13 +32,7 @@ var {
 	declareWar
 } = require("../modules/war.js");
 
-var government = require("../struct/Government.js"); // Government Structure
-var location   = require("../struct/Location.js");   // Location Structure
-var economy    = require("../struct/Economy.js");    // Economic Structure
-var cell       = require("../struct/Cell.js");       // Map Cell Structure
-var war        = require("../struct/War.js");        // War Structure
-var gun        = require("../struct/Gun.js");        // Gun Structure
-var countries  = require("../data/data.json");       // Country Data
+
 var factions   = {};
 try{
 	factions   = require("../data/factions.json");   // Faction Data
@@ -56,26 +45,7 @@ try{
 }catch(err){
 	map        = generateMapPerlin();                // Generate if missing
 }
-
-guns           = require("../consts/guns.json");     // Gun Data
-var Faction    = require("./Faction.js");            // Faction Stucture
-var country    = require("./country.js");            //Country Structure
-var rgb        = require("./rgb.js");                //RGB Structure
-
-
-
-
-
-
-
-
-
 module.exports = {
-	sqlite,
-	path,
-	oneline,
-	Commando,
-	fs,
 	formatMass,
 	save,
 	recursiveWait,
@@ -93,19 +63,24 @@ module.exports = {
 	getLocalMap,
 	makeImage,
 	declareWar,
-	government,
-	location,
-	economy,
-	cell,
-	war,
-	gun,
-	countries,
 	map,
 	wars,
-	guns,
 	factions,
-	Faction,
-	country,
 	randInt,
-	rgb
+	Faction    : require("./Faction.js"),           // Faction Stucture
+	country    : require("./country.js"),            //Country Structure
+	rgb        : require("./rgb.js"),
+	guns       : require("../consts/guns.json"),
+	government : require("../struct/Government.js"), // Government Structure
+	location   : require("../struct/Location.js"),   // Location Structure
+	economy    : require("../struct/Economy.js"),    // Economic Structure
+	cell       : require("../struct/Cell.js"),       // Map Cell Structure
+	war        : require("../struct/War.js"),        // War Structure
+	gun        : require("../struct/Gun.js"),        // Gun Structure
+	countries  : require("../data/data.json"),
+	sqlite : require("sqlite"),
+	path : require("path"),
+	oneline : require("common-tags").oneLine,
+	Commando : require("discord.js-commando"),
+	fs : require("fs")       // Country Data
 };
