@@ -19,8 +19,8 @@ const fs = require("fs");
 client
 	.setProvider(
 		sqlite
-			.open(path.join(__dirname, "settings.sqlite3"))
-			.then(db => new Commando.SQLiteProvider(db))
+		.open(path.join(__dirname, "settings.sqlite3"))
+		.then(db => new Commando.SQLiteProvider(db))
 	)
 	.catch(console.error);
 client.registry
@@ -181,8 +181,8 @@ function tick(repeat) {
 		}
 		var cMilitaryPop = Math.round(
 			vars.countries[c].population.size *
-				vars.countries[c].population.manpower /
-				100
+			vars.countries[c].population.manpower /
+			100
 		);
 		var armedPercent = 1;
 		/*if (countries.resource < countries[c].gun.cost * cMilitaryPop) {
@@ -259,7 +259,7 @@ function tick(repeat) {
 				vars.map[vars.wars[w].x][vars.wars[w].y].elevation > 0 &&
 				vars.map[vars.wars[w].x][vars.wars[w].y].elevation < 10 &&
 				vars.countries[vars.wars[w].attacker].population.manpower * 10 >
-					Math.random() * vars.map[vars.wars[w].x][vars.wars[w].y].elevation
+				Math.random() * vars.map[vars.wars[w].x][vars.wars[w].y].elevation
 			) {
 				if (vars.map[vars.wars[w].x][vars.wars[w].y].owner == "none") {
 					if (Math.random() < 0.8) {
@@ -268,14 +268,10 @@ function tick(repeat) {
 					}
 				} else {
 					for (
-						var x = parseInt(vars.wars[w].x) - 1;
-						x < parseInt(vars.wars[w].x) + 2;
-						x++
+						var x = parseInt(vars.wars[w].x) - 1; x < parseInt(vars.wars[w].x) + 2; x++
 					) {
 						for (
-							var y = parseInt(vars.wars[w].y) - 1;
-							y < parseInt(vars.wars[w].y) + 2;
-							y++
+							var y = parseInt(vars.wars[w].y) - 1; y < parseInt(vars.wars[w].y) + 2; y++
 						) {
 							try {
 								//lol
@@ -356,9 +352,9 @@ function tick(repeat) {
 						if (vars.wars[w].defender != "none") {
 							if (
 								vars.wars[w].x ==
-									vars.countries[vars.wars[w].defender].capital.x &&
+								vars.countries[vars.wars[w].defender].capital.x &&
 								vars.wars[w].y ==
-									vars.countries[vars.wars[w].defender].capital.y
+								vars.countries[vars.wars[w].defender].capital.y
 							) {
 								//client.channels.find("id","386688984845123587").send(countries[wars[w].defender].name+" HAS FALLEN!!! <@"+wars[w].defender+">");
 								for (x in vars.map) {
@@ -396,16 +392,16 @@ function tick(repeat) {
 							tempd = vars.countries[vars.wars[w].defender].name;
 						console.log(
 							vars.countries[vars.wars[w].attacker].name +
-								":" +
-								vars.wars[w].aForce +
-								" captured " +
-								vars.wars[w].x +
-								"," +
-								vars.wars[w].y +
-								" from " +
-								tempd +
-								":" +
-								vars.wars[w].dForce
+							":" +
+							vars.wars[w].aForce +
+							" captured " +
+							vars.wars[w].x +
+							"," +
+							vars.wars[w].y +
+							" from " +
+							tempd +
+							":" +
+							vars.wars[w].dForce
 						);
 					} else {
 						//client.channels.find("id","386688984845123587").send("War lost by "+countries[wars[w].attacker].name+", lost to "+wars[w].dForce+" force");
@@ -552,26 +548,26 @@ client.on("commandError", (cmd, err) => {
 	console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 });
 client.on("commandBlocked", (msg, reason) => {
-	console.log(oneLine`
+	console.log(oneLine `
 		Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ""}
 		blocked; ${reason}
 	`);
 });
 client.on("commandPrefixChange", (guild, prefix) => {
-	console.log(oneLine`
+	console.log(oneLine `
 		Prefix ${prefix === "" ? "removed" : `changed to ${prefix || "the default"}`}
 		${guild ? `in guild ${guild.name} (${guild.id})` : "globally"}.
 	`);
 });
 client.on("commandStatusChange", (guild, command, enabled) => {
-	console.log(oneLine`
+	console.log(oneLine `
 		Command ${command.groupID}:${command.memberName}
 		${enabled ? "enabled" : "disabled"}
 		${guild ? `in guild ${guild.name} (${guild.id})` : "globally"}.
 	`);
 });
 client.on("groupStatusChange", (guild, group, enabled) => {
-	console.log(oneLine`
+	console.log(oneLine `
 		Group ${group.id}
 		${enabled ? "enabled" : "disabled"}
 		${guild ? `in guild ${guild.name} (${guild.id})` : "globally"}.
@@ -676,6 +672,9 @@ class country {
 		this.population.loyalty = 1;
 		this.population.sway = 0;
 		this.population.manpower = 0.2;
+		this.color.r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+		this.color.g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+		this.color.b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
 		this.inFaction = false;
 		this.faction = "none";
 		this.capital = new vars.location(
