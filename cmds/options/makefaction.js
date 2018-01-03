@@ -30,7 +30,7 @@ module.exports = class MakeFactionCommand extends vars.Commando.Command {
 		}
 		if (!c.inFaction) {
 			vars.factions[id] = new vars.Faction(id, name);
-			c.faction = factions[id].id;
+			c.faction = vars.factions[id].id;
 			c.inFaction = true;
 			msg.channel.send(`${name} faction has been created!`);
 			vars.save(vars.countries, vars.map);
