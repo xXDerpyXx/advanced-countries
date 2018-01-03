@@ -83,5 +83,5 @@ module.exports = {
 	oneline    : require("common-tags").oneLine,
 	Commando   : require("discord.js-commando"),
 	fs         : require("fs"),
-	ai         : require("ai.js")
+	ai         : require("./ai.js")
 };
