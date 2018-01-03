@@ -67,21 +67,21 @@ module.exports = {
 	wars,
 	factions,
 	randInt,
-	Faction    : require("./Faction.js"),           // Faction Stucture
-	country    : require("./country.js"),            //Country Structure
-	rgb        : require("./rgb.js"),
-	guns       : require("../consts/guns.json"),
+	Faction    : require("./Faction.js"),            // Faction Stucture
+	country    : require("./country.js"),            // Country Structure
+	rgb        : require("./rgb.js"),                // RGB Structure
+	guns       : require("../consts/guns.json"),     // Gun Constants
 	government : require("../struct/Government.js"), // Government Structure
 	location   : require("../struct/Location.js"),   // Location Structure
 	economy    : require("../struct/Economy.js"),    // Economic Structure
 	cell       : require("../struct/Cell.js"),       // Map Cell Structure
 	war        : require("../struct/War.js"),        // War Structure
 	gun        : require("../struct/Gun.js"),        // Gun Structure
-	countries  : require("../data/data.json"),
-	sqlite     : require("sqlite"),
-	path       : require("path"),
-	oneline    : require("common-tags").oneLine,
-	Commando   : require("discord.js-commando"),
-	fs         : require("fs"),
-	ai         : require("./ai.js")
+	countries  : require("../data/data.json"),       // Country Data
+	sqlite     : require("sqlite"),                  // Sqlite
+	path       : require("path"),                    // Path
+	oneline    : require("common-tags").oneLine,     // Oneline
+	Commando   : require("discord.js-commando"),     // Commando
+	fs         : require("fs"),                      // Filesystem
+	ai         : require("./ai.js")                  // AI Structure
 };
