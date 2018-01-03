@@ -78,9 +78,10 @@ module.exports = {
 	war        : require("../struct/War.js"),        // War Structure
 	gun        : require("../struct/Gun.js"),        // Gun Structure
 	countries  : require("../data/data.json"),
-	sqlite : require("sqlite"),
-	path : require("path"),
-	oneline : require("common-tags").oneLine,
-	Commando : require("discord.js-commando"),
-	fs : require("fs")       // Country Data
+	sqlite     : require("sqlite"),
+	path       : require("path"),
+	oneline    : require("common-tags").oneLine,
+	Commando   : require("discord.js-commando"),
+	fs         : require("fs"),
+	ai         : require("ai.js")
 };
