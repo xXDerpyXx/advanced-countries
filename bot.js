@@ -376,10 +376,20 @@ function tick(repeat) {
 		f++;
 		forceList[f] = {};
 		forceList[f]["name"] = vars.countries[c].name;
+
+		var cMilitaryPop = Math.round((vars.countries[c].population.size * vars.countries[c].population.manpower) / 100);
+		var armedPercent = 1;
+		armedPercent = vars.countries[c].resource / (cMilitaryPop * vars.countries[c].gun.cost);
+		if (armedPercent > 1) {
+			armedPercent = 1;
+		}
+		var cost = Math.round(vars.countries[id].gun.cost * cMilitaryPop) * armedPercent;
+
 		forceList[f]["force"] =
 			vars.countries[c].population.size *
 			vars.countries[c].population.manpower /
-			vars.countries[c].ownedCells;
+			vars.countries[c].ownedCells *
+			armedPercent;
 	}
 
 	for (var j = 0; j < forceList.length; j++) {
