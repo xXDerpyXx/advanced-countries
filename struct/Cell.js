@@ -2,7 +2,7 @@ module.exports = class cell {
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
-		this.resource = Math.round(Math.random() * 10);
+		this.resource = Math.round(Math.random() * 100);
 		this.elevation = Math.round(Math.random() * 10);
 		/*
 		if(Math.round(Math.random()*10) > 8) {

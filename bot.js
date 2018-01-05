@@ -513,6 +513,15 @@ client.on("message", msg => {
 				msg.channel.send("you were renamed <@" + content[1] + ">");
 			}
 
+			if (content[0] == vars.call + "redoresource") {
+				for(x in vars.map){
+					for(y in vars.map[x]){
+						vars.map[x][y].resource = Math.round(Math.random() * 100);
+					}
+
+				}
+			}
+
 			if (content[0] == vars.call + "setstat") {
 				target = content[1];
 				value = content[2];
