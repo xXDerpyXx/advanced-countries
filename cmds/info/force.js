@@ -25,8 +25,7 @@ module.exports = class ForceCommand extends vars.Commando.Command {
 
 		var toSend = "";
 		if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
-		toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + (((vars.countries[id].population.size * vars.countries[id].population.manpower) / (vars.countries[id].ownedCells)) * vars.countries[id].gun.modifier) + " force on average per cell";
-		if (vars.countries[id].gun == undefined) {
+
 			vars.countries[id].gun = guns["M1"];
 		}
 		var cMilitaryPop = Math.round((vars.countries[id].population.size * vars.countries[id].population.manpower) / 100);
@@ -40,11 +39,14 @@ module.exports = class ForceCommand extends vars.Commando.Command {
 			armedPercent = 1;
 		}
 		var cost = Math.round(vars.countries[id].gun.cost * cMilitaryPop) * armedPercent;
+		toSend += `${msg.mentions.members.first() ? msg.mentions.members.first().toString() + " has " : "You have "}` + ((((vars.countries[id].population.size * vars.countries[id].population.manpower) / (vars.countries[id].ownedCells)) * vars.countries[id].gun.modifier))*armedPercent + " force on average per cell";
 		if (mention.toLowerCase() == "webint") {
 			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + vars.formatMass(Math.round(cost)) + " resource\n" + msg.author.id + "WEBINT_FORCE");
 		} else {
 			msg.channel.send(toSend + "\nYour army is armed with " + vars.countries[id].gun.name + " and you can give " + Math.round(armedPercent * 100) + "% of your " + (cMilitaryPop * 100) + " troops, this gun for the cost of " + vars.formatMass(Math.round(cost)) + " resource");
 		}
+
+
 
 	}
 };
