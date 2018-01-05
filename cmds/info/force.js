@@ -20,8 +20,8 @@ module.exports = class ForceCommand extends vars.Commando.Command {
 		});
 	}
 	run(msg, {mention}){
-		id = msg.author.id;
-		c = vars.countries[id];
+		var id = msg.author.id;
+		var c = vars.countries[id];
 
 		var toSend = "";
 		if (msg.mentions.members.first()) id = msg.mentions.members.first().id;
