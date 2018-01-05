@@ -383,7 +383,7 @@ function tick(repeat) {
 		if (armedPercent > 1) {
 			armedPercent = 1;
 		}
-		var cost = Math.round(vars.countries[id].gun.cost * cMilitaryPop) * armedPercent;
+		var cost = Math.round(vars.countries[c].gun.cost * cMilitaryPop) * armedPercent;
 
 		forceList[f]["force"] =
 			vars.countries[c].population.size *
