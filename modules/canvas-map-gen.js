@@ -63,7 +63,7 @@ exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAllia
 
 				border = false;
 				currOwner = data[x][y].owner;
-
+                //check for border
 				for (let i = parseInt(x) - 1; i < parseInt(x) + 2; i++) {
 					for (let j = parseInt(y) - 1; j < parseInt(y) + 2; j++) {
 						try {
@@ -93,9 +93,10 @@ exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAllia
 				if (c[data[x][y]["owner"]] != undefined) {
 					if (c[data[x][y]["owner"]].color == undefined) {
 
-
+                        //give them a default color if they dont have one and they are a border...? im kinda confused
 						color = border ? "rgba(" + ir + "," + ig + "," + ib + "," + 50 + ")" : colonised ? "rgba(" + r + "," + g + "," + b + "," + 50 + ")" : null;
-					} else {
+                    } else {
+                        //get their colors
 						r = c[data[x][y]["owner"]].color.r;
 						g = c[data[x][y]["owner"]].color.g;
 						b = c[data[x][y]["owner"]].color.b;
@@ -107,23 +108,27 @@ exports.makeImage =  function (data, war, sx, sy, ex, ey, c, showList, showAllia
 						if (ig < 0)
 							ig = 0;
 						if (ib < 0)
-							ib = 0;
+                            ib = 0;
+                        //set color darker if border
 						color = border ? "rgba(" + ir + "," + ig + "," + ib + "," + 0.9 + ")" : colonised ? "rgba(" + r + "," + g + "," + b + "," + 0.60 + ")" : null;
 					}
 				}
-
+                //again here for the just set color i would think... some things here are repeating. derpy was probably high.
 				color = border ? "rgba(" + ir + "," + ig + "," + ib + "," + 0.9 + ")" : colonised ? "rgba(" + r + "," + g + "," + b + "," + 0.60 + ")" : null;
 
-
+                //for country in countries
 				for (k in c) {
-					if (x == c[k].capital.x && y == c[k].capital.y) {
+                    if (x == c[k].capital.x && y == c[k].capital.y) {
+                        //if the current cell is their capital, yellow it.
 						color = "rgb(255,255,0)";
 					}
 				}
 				var m = false;
-				var w = false;
+                var w = false;
+                //war variable, checking if cell is being warred
 				if (war[x + "|" + y] != undefined) {
 					//color = "rgb(255,0,0)";
+                    //set war var to true
 					w = true;
 				}
 
@@ -275,7 +280,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 					:
 					rgbToHex(0, 0, parseInt(255 - (e * -20))); // Water
 
-	ctx.fillRect((parseInt(x) + 1) * WIDTH, (parseInt(y) + 1) * WIDTH, WIDTH, WIDTH);
+	ctx.fillRect((parseInt(x)) * WIDTH, (parseInt(y)) * WIDTH, WIDTH, WIDTH);
 
 	if (forced != null) {
 		if (forced) {
@@ -294,7 +299,7 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 
 	if (c || b) {
 		ctx.fillStyle = color;
-		ctx.fillRect(((parseInt(x) + 1) * WIDTH), ((parseInt(y) + 1) * WIDTH), WIDTH, WIDTH);
+		ctx.fillRect(((parseInt(x)) * WIDTH), ((parseInt(y)) * WIDTH), WIDTH, WIDTH);
 	}
 
 
@@ -302,13 +307,13 @@ function draw(e, x, y, c, color, b, m, w, forced) {
 		ctx.lineWidth = 2;
 		ctx.strokeStyle = "rgb(255,0,0)";
 		ctx.beginPath();
-		ctx.moveTo((x + 1) * WIDTH, (y + 1) * WIDTH);
-		ctx.lineTo((x + 2) * WIDTH, (y + 2) * WIDTH);
+		ctx.moveTo((x) * WIDTH, (y) * WIDTH);
+		ctx.lineTo((x + 1) * WIDTH, (y + 1) * WIDTH);
 		ctx.stroke();
 
 		ctx.beginPath();
-		ctx.moveTo((x + 2) * WIDTH, (y + 1) * WIDTH);
-		ctx.lineTo((x + 1) * WIDTH, (y + 2) * WIDTH);
+		ctx.moveTo((x + 1) * WIDTH, (y) * WIDTH);
+		ctx.lineTo((x) * WIDTH, (y + 1) * WIDTH);
 		ctx.stroke();
 		//ctx.fillRect(((parseInt(x) + 1) * WIDTH)+2, ((parseInt(y) + 1) * WIDTH)+2, WIDTH-4, WIDTH-4)
 	}
