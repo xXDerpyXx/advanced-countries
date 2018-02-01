@@ -266,7 +266,7 @@ function rgbToHex(r, g, b) {
 }
 
 function draw(e, x, y, c, color, b, m, w, forced) {
-    y += 1;
+    y += -1;
 	ctx.fillStyle =
 		//color // Border
 		e < 7 && e > 0 ?
