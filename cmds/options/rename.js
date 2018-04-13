@@ -21,10 +21,15 @@ module.exports = class RenameCommand extends vars.Commando.Command {
 		});
 	}
 	run(msg, {name}){
+		let reg = /^[a-z0-9]+$/i;
 		id = msg.author.id;
 		c = vars.countries[id];
-		msg.channel.send("The country of " + vars.countries[id].name + " is now " + name);
-		vars.countries[id].name = name;
-		vars.save(vars.countries, vars.map);
+		if(reg.test(name)){
+			msg.channel.send("The country of " + vars.countries[id].name + " is now " + name);
+			vars.countries[id].name = name;
+			vars.save(vars.countries, vars.map);
+		}else{
+			msg.channel.send("Please, only letters or numbers.");
+		}
 	}
 };
