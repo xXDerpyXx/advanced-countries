@@ -2,16 +2,15 @@
 var vars = require("../../struct/vars.js");
 
 module.exports = class GiveResourceCommand extends vars.Commando.Command {
-	constructor(client){
+	constructor(client) {
 		super(client, {
 			name: "giveresource",
 			group: "relations",
 			memberName: "giveresource",
 			description: "Gives another country a certain amount of resource.",
-			details: vars.oneline`Use this command to send resources, that's really all.`,
+			details: vars.oneline `Use this command to send resources, that's really all.`,
 			examples: ["!giveresource xXxTheSuperAwesomeCountryxXx 1000"],
-			args: [
-				{
+			args: [{
 					key: "sendTo",
 					label: "country",
 					prompt: "You can't send to nobody!",
@@ -26,7 +25,10 @@ module.exports = class GiveResourceCommand extends vars.Commando.Command {
 			]
 		});
 	}
-	run(msg, {sendTo, numRes}){
+	run(msg, {
+		sendTo,
+		numRes
+	}) {
 		id = msg.author.id;
 		c = vars.countries[id];
 		var found = false;
@@ -38,7 +40,9 @@ module.exports = class GiveResourceCommand extends vars.Commando.Command {
 			}
 		}
 		if (found) {
-			if (vars.countries[id].resource >= numRes) {
+			if (numRes < 0) {
+				msg.channel.send("You can't give negative resources! That would be cheating!");
+			} else if (vars.countries[id].resource >= numRes) {
 				msg.channel.send("giving " + vars.countries[c].name + " " + numRes + " resource!");
 				vars.countries[id].resource -= numRes;
 				vars.countries[c].resource += numRes;
@@ -50,6 +54,3 @@ module.exports = class GiveResourceCommand extends vars.Commando.Command {
 		}
 	}
 };
-
-
-
